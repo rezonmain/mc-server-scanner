@@ -1,0 +1,97 @@
+[
+    {
+        "ip": "82.144.223.49",
+        "players": {
+            "max": 20,
+            "online": 0
+        },
+        "version": {
+            "name": "1.16.5",
+            "protocol": 754
+        },
+        "description": {
+            "text": "A Minecraft Server"
+        }
+    },
+    {
+        "ip": "75.7.117.101",
+        "players": {
+            "max": 20,
+            "online": 0
+        },
+        "version": {
+            "name": "1.19.1",
+            "protocol": 760
+        },
+        "description": {
+            "text": "Powered by AMP"
+        }
+    },
+    {
+        "ip": "46.95.168.185",
+        "players": {
+            "max": 12,
+            "online": 0
+        },
+        "version": {
+            "name": "Spigot 1.16.5",
+            "protocol": 754
+        },
+        "description": {
+            "extra": [
+                {
+                    "bold": false,
+                    "italic": false,
+                    "underlined": false,
+                    "strikethrough": false,
+                    "obfuscated": false,
+                    "color": "dark_gray",
+                    "text": "Kemuri Craft\n"
+                },
+                {
+                    "bold": false,
+                    "italic": false,
+                    "underlined": false,
+                    "strikethrough": false,
+                    "obfuscated": false,
+                    "color": "gold",
+                    "text": "gXLg is sus!"
+                }
+            ],
+            "text": ""
+        }
+    },
+    {
+        "ip": "68.32.29.213",
+        "players": {
+            "max": 20,
+            "online": 0
+        },
+        "version": {
+            "name": "1.12.2",
+            "protocol": 340
+        },
+        "description": {
+            "text": "2.9 :)"
+        }
+    },
+    {
+        "ip": "51.38.148.38",
+        "players": {
+            "max": 60,
+            "online": 0
+        },
+        "version": {
+            "name": "Spigot 1.17.1",
+            "protocol": 756
+        },
+        "description": {
+            "extra": [
+                {
+                    "text": "A Minecraft Server"
+                }
+            ],
+            "text": ""
+        }
+    }
+]
