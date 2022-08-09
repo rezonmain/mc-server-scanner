@@ -8,7 +8,7 @@ from logger import log
 import os
 
 PORT = '25565'
-RATE = '5000'
+RATE = '25000'
 SCANNED_FILE_NAME = 'res.json'
 FOUND_FILE_NAME = 'found.json'
 ip_range = IpRange()
@@ -21,10 +21,10 @@ def main():
 
 def scan(range):
   log.send(f'Scanning range: {Color.YELLOW}{range}{Color.END} for open {PORT} port @ {RATE} kp/s', __name__)
-  command = f'sudo masscan -p{PORT} {range} --rate {RATE} --wait {1} -oJ {SCANNED_FILE_NAME}'
+  command = f'sudo masscan -p{PORT} {range} --rate {RATE} --wait {0} -oJ {SCANNED_FILE_NAME}'
   os.system(command)
   # Sleep: make sure the file is written before getting ip's
-  sleep(2)
+  sleep(1)
 
   ips = []
   try:
@@ -61,7 +61,6 @@ def write_to_db(ip, slp):
     'players': slp['players'],
     'version': slp['version'],
     'description': slp['description'],
-
   }
   foundList = ip_range._to_dict(FOUND_FILE_NAME)
   foundList.append(entry)

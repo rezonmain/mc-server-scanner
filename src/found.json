@@ -93,5 +93,524 @@
             ],
             "text": ""
         }
+    },
+    {
+        "ip": "144.24.199.26",
+        "foundAt": 1660025863363,
+        "players": {
+            "max": 10,
+            "online": 0
+        },
+        "version": {
+            "name": "1.18.2",
+            "protocol": 758
+        },
+        "description": {
+            "text": "Better Minecraft [FORGE] 1.18.2"
+        }
+    },
+    {
+        "ip": "74.77.71.49",
+        "foundAt": 1660026434269,
+        "players": {
+            "max": 64,
+            "online": 0
+        },
+        "version": {
+            "name": "Paper 1.19.2",
+            "protocol": 760
+        },
+        "description": {
+            "text": "A Minecraft Server"
+        }
+    },
+    {
+        "ip": "45.154.48.146",
+        "foundAt": 1660027389239,
+        "players": {
+            "max": 100,
+            "online": 0
+        },
+        "version": {
+            "name": "1.16.5",
+            "protocol": 754
+        },
+        "description": {
+            "text": "A Minecraft Server"
+        }
+    },
+    {
+        "ip": "45.154.48.205",
+        "foundAt": 1660027389265,
+        "players": {
+            "max": 3,
+            "online": 0
+        },
+        "version": {
+            "name": "1.18.2",
+            "protocol": 758
+        },
+        "description": {
+            "text": "Better Minecraft [FORGE] 1.18.2"
+        }
+    },
+    {
+        "ip": "85.163.1.139",
+        "foundAt": 1660027642344,
+        "players": {
+            "max": 30,
+            "online": 0,
+            "sample": [
+                {
+                    "id": "00000000-0000-0000-0000-000000000000",
+                    "name": "  \u00a76\u00a7lNarra\u00a78\u00a7lCraft \u00a7f\u00a7lInfo"
+                },
+                {
+                    "id": "00000000-0000-0000-0000-000000000000",
+                    "name": "\u00a7e------------------"
+                },
+                {
+                    "id": "00000000-0000-0000-0000-000000000000",
+                    "name": ""
+                },
+                {
+                    "id": "00000000-0000-0000-0000-000000000000",
+                    "name": "\u00a7e\u00a7l\u00bb \u00a78\u2666 \u00a7eWeb: narracraft.eu"
+                },
+                {
+                    "id": "00000000-0000-0000-0000-000000000000",
+                    "name": "\u00a7e\u00a7l\u00bb \u00a78\u2666 \u00a7eDiscord: narracraft.eu/discord"
+                },
+                {
+                    "id": "00000000-0000-0000-0000-000000000000",
+                    "name": "\u00a7e\u00a7l\u00bb \u00a78\u2666 \u00a7eTeamSpeak3: ts3.narracraft.eu"
+                },
+                {
+                    "id": "00000000-0000-0000-0000-000000000000",
+                    "name": ""
+                },
+                {
+                    "id": "00000000-0000-0000-0000-000000000000",
+                    "name": "\u00a7e------------------"
+                }
+            ]
+        },
+        "version": {
+            "name": "Paper 1.18.1",
+            "protocol": 757
+        },
+        "description": {
+            "extra": [
+                {
+                    "text": "   "
+                },
+                {
+                    "bold": true,
+                    "color": "gray",
+                    "text": "\u00bb "
+                },
+                {
+                    "bold": true,
+                    "color": "white",
+                    "text": "\u00bb "
+                },
+                {
+                    "bold": true,
+                    "color": "yellow",
+                    "text": "\u00bb "
+                },
+                {
+                    "bold": true,
+                    "color": "gold",
+                    "text": "Narra"
+                },
+                {
+                    "bold": true,
+                    "color": "dark_gray",
+                    "text": "Craft "
+                },
+                {
+                    "bold": true,
+                    "color": "yellow",
+                    "text": "\u00ab "
+                },
+                {
+                    "bold": true,
+                    "color": "white",
+                    "text": "\u00ab "
+                },
+                {
+                    "bold": true,
+                    "color": "gray",
+                    "text": "\u00ab "
+                },
+                {
+                    "color": "white",
+                    "text": "\u2666 "
+                },
+                {
+                    "color": "yellow",
+                    "text": "1.18.1\n"
+                },
+                {
+                    "bold": true,
+                    "color": "yellow",
+                    "text": "NEWS "
+                },
+                {
+                    "bold": true,
+                    "color": "dark_gray",
+                    "text": "\u00bb "
+                },
+                {
+                    "color": "yellow",
+                    "text": "Nov\u00fd server!"
+                }
+            ],
+            "text": ""
+        }
+    },
+    {
+        "ip": "24.36.186.187",
+        "foundAt": 1660028184038,
+        "players": {
+            "max": 100,
+            "online": 0
+        },
+        "version": {
+            "name": "Paper 1.19",
+            "protocol": 759
+        },
+        "description": {
+            "text": "An exploit was disabled due to"
+        }
+    },
+    {
+        "ip": "35.201.158.137",
+        "foundAt": 1660028509837,
+        "players": {
+            "max": 20,
+            "online": 0
+        },
+        "version": {
+            "name": "1.19",
+            "protocol": 759
+        },
+        "description": {
+            "text": "peanuttw Server"
+        }
+    },
+    {
+        "ip": "132.145.163.186",
+        "foundAt": 1660028792721,
+        "players": {
+            "max": 20,
+            "online": 0
+        },
+        "version": {
+            "name": "Paper 1.19",
+            "protocol": 759
+        },
+        "description": {
+            "text": "A Minecraft Server"
+        }
+    },
+    {
+        "ip": "199.168.74.5",
+        "foundAt": 1660029969473,
+        "players": {
+            "max": 20,
+            "online": 0
+        },
+        "version": {
+            "name": "BungeeCord 1.8.x-1.19.x",
+            "protocol": 759
+        },
+        "description": {
+            "extra": [
+                {
+                    "text": "New Zuishidowra"
+                }
+            ],
+            "text": ""
+        }
+    },
+    {
+        "ip": "82.72.77.192",
+        "foundAt": 1660031320673,
+        "players": {
+            "max": 2022,
+            "online": 0
+        },
+        "version": {
+            "name": "Paper 1.19",
+            "protocol": 759
+        },
+        "description": {
+            "extra": [
+                {
+                    "bold": true,
+                    "obfuscated": true,
+                    "color": "light_purple",
+                    "text": "00"
+                },
+                {
+                    "color": "aqua",
+                    "text": "Wenomechainsama "
+                },
+                {
+                    "color": "green",
+                    "text": "Tumajarbisaun"
+                },
+                {
+                    "color": "yellow",
+                    "text": " Wifenlooof"
+                },
+                {
+                    "bold": true,
+                    "obfuscated": true,
+                    "color": "light_purple",
+                    "text": "00"
+                }
+            ],
+            "text": ""
+        }
+    },
+    {
+        "ip": "198.244.181.55",
+        "foundAt": 1660032238653,
+        "players": {
+            "max": 69420,
+            "online": 0
+        },
+        "version": {
+            "name": "Paper 1.19.1",
+            "protocol": 760
+        },
+        "description": {
+            "text": "A Minecraft Server"
+        }
+    },
+    {
+        "ip": "66.177.16.67",
+        "foundAt": 1660034669391,
+        "players": {
+            "max": 20,
+            "online": 0
+        },
+        "version": {
+            "name": "Paper 1.19",
+            "protocol": 759
+        },
+        "description": {
+            "text": "Wisno"
+        }
+    },
+    {
+        "ip": "193.43.71.211",
+        "foundAt": 1660037473166,
+        "players": {
+            "max": 10,
+            "online": 0
+        },
+        "version": {
+            "name": "1.18.2",
+            "protocol": 758
+        },
+        "description": {
+            "text": "Minecraft Server by g-portal.com"
+        }
+    },
+    {
+        "ip": "209.192.169.187",
+        "foundAt": 1660038425282,
+        "players": {
+            "max": 1337,
+            "online": 0
+        },
+        "version": {
+            "name": "1.16.5",
+            "protocol": 754
+        },
+        "description": {
+            "text": "Better Minecraft [FORGE] 1.18.2"
+        }
+    },
+    {
+        "ip": "209.192.244.5",
+        "foundAt": 1660038425390,
+        "players": {
+            "max": 1337,
+            "online": 0
+        },
+        "version": {
+            "name": "1.17.1",
+            "protocol": 756
+        },
+        "description": {
+            "text": "A Minecraft Server"
+        }
+    },
+    {
+        "ip": "66.94.100.99",
+        "foundAt": 1660039085867,
+        "players": {
+            "max": 20,
+            "online": 0
+        },
+        "version": {
+            "name": "1.16.5",
+            "protocol": 754
+        },
+        "description": {
+            "text": "A Forge Minecraft Server powered by Docker"
+        }
+    },
+    {
+        "ip": "65.128.160.76",
+        "foundAt": 1660043007365,
+        "players": {
+            "max": 20,
+            "online": 0
+        },
+        "version": {
+            "name": "1.18.2",
+            "protocol": 758
+        },
+        "description": {
+            "text": "A Minecraft Server"
+        }
+    },
+    {
+        "ip": "158.101.193.210",
+        "foundAt": 1660044125225,
+        "players": {
+            "max": 10,
+            "online": 0
+        },
+        "version": {
+            "name": "1.18.2",
+            "protocol": 758
+        },
+        "description": {
+            "text": "Medieval Minecraft [FORGE] 1.18.2"
+        }
+    },
+    {
+        "ip": "95.136.41.253",
+        "foundAt": 1660045151501,
+        "players": {
+            "max": 20,
+            "online": 0
+        },
+        "version": {
+            "name": "1.18.2",
+            "protocol": 758
+        },
+        "description": {
+            "text": "Modpack pogchamp do \u00a7l\u00a79Hotel Tuga"
+        }
+    },
+    {
+        "ip": "112.74.103.86",
+        "foundAt": 1660045637432,
+        "players": {
+            "max": 20,
+            "online": 10,
+            "sample": [
+                {
+                    "id": "e23e3ad2-2a90-33d6-9d94-204200b75fe9",
+                    "name": "6"
+                },
+                {
+                    "id": "2e3d9572-7755-3616-8e92-2a2148800e41",
+                    "name": "4"
+                },
+                {
+                    "id": "7922eb10-6dae-472e-983d-b93ed3bc1db6",
+                    "name": "Furry_Duke"
+                },
+                {
+                    "id": "15468a55-d663-3077-a691-aed0be0ffacf",
+                    "name": "1"
+                },
+                {
+                    "id": "1afa3d96-02bc-348f-8ea7-bee0adb504b1",
+                    "name": "7"
+                },
+                {
+                    "id": "2bb3e52e-aa39-3e56-b9cd-19d6fd970a24",
+                    "name": "2"
+                },
+                {
+                    "id": "ec561538-f3fd-461d-aff5-086b22154bce",
+                    "name": "Alex"
+                },
+                {
+                    "id": "8a13715a-9785-33d2-8e9d-4bba1942ffc5",
+                    "name": "5"
+                },
+                {
+                    "id": "8667ba71-b85a-4004-af54-457a9734eed7",
+                    "name": "Steve"
+                },
+                {
+                    "id": "ceb3a035-ee0f-36c5-81f1-de1f75893f30",
+                    "name": "3"
+                }
+            ]
+        },
+        "version": {
+            "name": "1.19",
+            "protocol": 759
+        },
+        "description": {
+            "text": "A Minecraft Server"
+        }
+    },
+    {
+        "ip": "47.107.46.137",
+        "foundAt": 1660059582220,
+        "players": {
+            "max": 50,
+            "online": 0
+        },
+        "version": {
+            "name": "Paper 1.16.5",
+            "protocol": 754
+        },
+        "description": {
+            "text": "lightningrealm"
+        }
+    },
+    {
+        "ip": "118.27.15.213",
+        "foundAt": 1660059669774,
+        "players": {
+            "max": 20,
+            "online": 0
+        },
+        "version": {
+            "name": "1.19",
+            "protocol": 759
+        },
+        "description": {
+            "text": "A Minecraft Server"
+        }
+    },
+    {
+        "ip": "81.217.49.99",
+        "foundAt": 1660082319110,
+        "players": {
+            "max": 20,
+            "online": 0
+        },
+        "version": {
+            "name": "1.16.5",
+            "protocol": 754
+        },
+        "description": {
+            "text": "Czirny's World"
+        }
     }
 ]
