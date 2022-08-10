@@ -612,5 +612,393 @@
         "description": {
             "text": "Czirny's World"
         }
+    },
+    {
+        "ip": "72.80.252.47",
+        "foundAt": 1660082599627,
+        "players": {
+            "max": 20,
+            "online": 0
+        },
+        "version": {
+            "name": "1.17.1",
+            "protocol": 756
+        },
+        "description": {
+            "text": "A Minecraft Server"
+        }
+    },
+    {
+        "ip": "54.39.128.209",
+        "foundAt": 1660082640457,
+        "players": {
+            "max": 2,
+            "online": 0
+        },
+        "version": {
+            "name": "Spigot 1.19",
+            "protocol": 759
+        },
+        "description": {
+            "extra": [
+                {
+                    "text": "A Minecraft Server"
+                }
+            ],
+            "text": ""
+        }
+    },
+    {
+        "ip": "54.39.247.105",
+        "foundAt": 1660082656450,
+        "players": {
+            "max": 100,
+            "online": 0
+        },
+        "version": {
+            "name": "Paper 1.19",
+            "protocol": 759
+        },
+        "description": {
+            "extra": [
+                {
+                    "color": "dark_blue",
+                    "text": "Sapphyre "
+                },
+                {
+                    "color": "red",
+                    "text": "Dominion"
+                }
+            ],
+            "text": ""
+        }
+    },
+    {
+        "ip": "66.248.199.145",
+        "foundAt": 1660082701380,
+        "players": {
+            "max": 10,
+            "online": 0
+        },
+        "version": {
+            "name": "1.16.5",
+            "protocol": 754
+        },
+        "description": {
+            "text": "A Minecraft Server"
+        }
+    },
+    {
+        "ip": "204.44.126.56",
+        "foundAt": 1660082937854,
+        "players": {
+            "max": 40,
+            "online": 0
+        },
+        "version": {
+            "name": "1.19",
+            "protocol": 759
+        },
+        "description": {
+            "text": "A Minecraft Server"
+        }
+    },
+    {
+        "ip": "118.27.18.225",
+        "foundAt": 1660082939470,
+        "players": {
+            "max": 20,
+            "online": 0
+        },
+        "version": {
+            "name": "1.19",
+            "protocol": 759
+        },
+        "description": {
+            "text": "A Minecraft Server"
+        }
+    },
+    {
+        "ip": "87.147.57.135",
+        "foundAt": 1660082965094,
+        "players": {
+            "max": 4,
+            "online": 1,
+            "sample": [
+                {
+                    "id": "00000000-0000-0000-0000-000000000000",
+                    "name": "Anonymous Player"
+                }
+            ]
+        },
+        "version": {
+            "name": "1.19.1",
+            "protocol": 760
+        },
+        "description": {
+            "text": "Schnucki & Sven"
+        }
+    },
+    {
+        "ip": "118.27.1.76",
+        "foundAt": 1660083520226,
+        "players": {
+            "max": 20,
+            "online": 0
+        },
+        "version": {
+            "name": "1.18.2",
+            "protocol": 758
+        },
+        "description": {
+            "text": "A Minecraft Server"
+        }
+    },
+    {
+        "ip": "118.27.22.207",
+        "foundAt": 1660084319135,
+        "players": {
+            "max": 20,
+            "online": 0
+        },
+        "version": {
+            "name": "1.19",
+            "protocol": 759
+        },
+        "description": {
+            "text": "A Minecraft Server"
+        }
+    },
+    {
+        "ip": "118.27.16.47",
+        "foundAt": 1660085854075,
+        "players": {
+            "max": 20,
+            "online": 0
+        },
+        "version": {
+            "name": "1.19",
+            "protocol": 759
+        },
+        "description": {
+            "text": "A Minecraft Server"
+        }
+    },
+    {
+        "ip": "51.75.38.88",
+        "foundAt": 1660086301321,
+        "players": {
+            "max": 20,
+            "online": 0
+        },
+        "version": {
+            "name": "Paper 1.19.1",
+            "protocol": 760
+        },
+        "description": {
+            "text": "A Minecraft Server"
+        }
+    },
+    {
+        "ip": "72.80.229.26",
+        "foundAt": 1660086668368,
+        "players": {
+            "max": 20,
+            "online": 0
+        },
+        "version": {
+            "name": "1.19.1",
+            "protocol": 760
+        },
+        "description": {
+            "text": "A Vanilla Minecraft Server powered by Docker"
+        }
+    },
+    {
+        "ip": "73.50.153.116",
+        "foundAt": 1660087197454,
+        "players": {
+            "max": 8,
+            "online": 0
+        },
+        "version": {
+            "name": "1.19",
+            "protocol": 759
+        },
+        "description": {
+            "text": "Sufficiently Cursed."
+        }
+    },
+    {
+        "ip": "62.171.180.85",
+        "foundAt": 1660087480753,
+        "players": {
+            "max": 100,
+            "online": 0
+        },
+        "version": {
+            "name": "1.19",
+            "protocol": 759
+        },
+        "description": {
+            "text": "EmpYrePVP"
+        }
+    },
+    {
+        "ip": "51.254.31.41",
+        "foundAt": 1660088347676,
+        "players": {
+            "max": 80,
+            "online": 0
+        },
+        "version": {
+            "name": "1.18.2",
+            "protocol": 758
+        },
+        "description": {
+            "text": "A Minecraft Server"
+        }
+    },
+    {
+        "ip": "45.150.49.24",
+        "foundAt": 1660088937332,
+        "players": {
+            "max": 10,
+            "online": 0
+        },
+        "version": {
+            "name": "1.10.2",
+            "protocol": 210
+        },
+        "description": {
+            "text": "A CreeperHost Server!"
+        }
+    },
+    {
+        "ip": "2.59.236.237",
+        "foundAt": 1660089683923,
+        "players": {
+            "max": 500,
+            "online": 0
+        },
+        "version": {
+            "name": "Paper 1.19",
+            "protocol": 759
+        },
+        "description": {
+            "extra": [
+                {
+                    "color": "aqua",
+                    "text": "\u21e8\u21e8\u21e8\u21e8\u21e8\u21e8\u21e8\u21e8\u21e8"
+                },
+                {
+                    "color": "red",
+                    "text": " Survie "
+                },
+                {
+                    "color": "yellow",
+                    "text": "minecraft "
+                },
+                {
+                    "color": "green",
+                    "text": "1.19 "
+                },
+                {
+                    "color": "aqua",
+                    "text": "\u21e6\u21e6\u21e6\u21e6\u21e6\u21e6\u21e6\u21e6\u21e6"
+                }
+            ],
+            "text": ""
+        }
+    },
+    {
+        "ip": "50.46.23.147",
+        "foundAt": 1660090870336,
+        "players": {
+            "max": 20,
+            "online": 0
+        },
+        "version": {
+            "name": "Paper 1.19",
+            "protocol": 759
+        },
+        "description": {
+            "text": "A Minecraft Server"
+        }
+    },
+    {
+        "ip": "104.128.55.8",
+        "foundAt": 1660094071101,
+        "players": {
+            "max": 20,
+            "online": 2,
+            "sample": [
+                {
+                    "id": "3d2544da-e59e-4238-a15a-c4159d7cdd22",
+                    "name": "storm2runner"
+                },
+                {
+                    "id": "c8aed253-c9f5-430d-a333-fa733666deda",
+                    "name": "IsaacD2"
+                }
+            ]
+        },
+        "version": {
+            "name": "Paper 1.19",
+            "protocol": 759
+        },
+        "description": {
+            "text": "Drums in the deep"
+        }
+    },
+    {
+        "ip": "172.104.224.78",
+        "foundAt": 1660094672746,
+        "players": {
+            "max": 25,
+            "online": 0
+        },
+        "version": {
+            "name": "1.19.2",
+            "protocol": 760
+        },
+        "description": {
+            "text": ".I."
+        }
+    },
+    {
+        "ip": "164.132.222.188",
+        "foundAt": 1660095743596,
+        "players": {
+            "max": 20,
+            "online": 0
+        },
+        "version": {
+            "name": "1.19",
+            "protocol": 759
+        },
+        "description": {
+            "text": "VeryGames Server"
+        }
+    },
+    {
+        "ip": "114.115.168.94",
+        "foundAt": 1660101229681,
+        "players": {
+            "max": 20,
+            "online": 0
+        },
+        "version": {
+            "name": "forge arclight 1.18.2",
+            "protocol": 758
+        },
+        "description": {
+            "extra": [
+                {
+                    "text": "A Minecraft Server"
+                }
+            ],
+            "text": ""
+        }
     }
 ]
