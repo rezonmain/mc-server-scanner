@@ -52,6 +52,9 @@ def check_SLP(ip, count):
   except:
     log.send(f'[{count}] {Color.RED}{ip}{Color.END} is not a minecraft server I guess', __name__)
 
+# There is a bug where this function sometimes write invalid json 
+# Probably caused by multiple messages writing to found.js at the same time
+# Add check to file if its open by a process, and wait until is free
 @dramatiq.actor
 def write_to_db(ip, slp):
   ts = int(time() * 1000)

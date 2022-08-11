@@ -64,7 +64,6 @@ class IpRange:
     self._to_json(to_be_json)
     print(f'[{__name__}.py]: List written to {os.getcwd()}/{FILE_NAME}')
 
-
   def _to_json(self, dict, filename=FILE_NAME):
     with open(filename, 'w') as file:
       file.write(json.dumps(dict, indent=4))
