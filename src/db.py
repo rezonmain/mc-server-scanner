@@ -11,8 +11,8 @@ COL_NAME = getenv('COL_NAME')
 class DB: 
   def __init__(self):
     self.client = MongoClient(URI)
-    self.db = self.client.DB_NAME
-    self.coll = self.db.COL_NAME
+    self.db = self.client.scanner_db
+    self.coll = self.db.servers
 
   def read_all(self):
     cursor = self.coll.find({})
