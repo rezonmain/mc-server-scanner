@@ -12,5 +12,5 @@ Running masscan on a home network unlimited will **melt** your router, in my cas
 # Todo
 
 - [ ] Containerize application
-- [ ] Write found servers to db (Mongo)
+- [x] Write found servers to db (Mongo)
 - [ ] Create front-end to browse servers
