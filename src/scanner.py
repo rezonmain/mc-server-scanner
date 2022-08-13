@@ -5,6 +5,7 @@ from statusping import StatusPing
 from console_color import Color
 from ip_range import IpRange
 from logger import log
+from db import DB
 import os
 
 PORT = '25565'
@@ -52,9 +53,7 @@ def check_SLP(ip, count):
   except:
     log.send(f'[{count}] {Color.RED}{ip}{Color.END} is not a minecraft server I guess', __name__)
 
-# There is a bug where this function sometimes write invalid json 
-# Probably caused by multiple messages writing to found.js at the same time
-# Add check to file if its open by a process, and wait until is free
+# Write found server to mongodb
 @dramatiq.actor
 def write_to_db(ip, slp):
   ts = int(time() * 1000)
@@ -65,10 +64,13 @@ def write_to_db(ip, slp):
     'version': slp['version'],
     'description': slp['description'],
   }
-  foundList = ip_range._to_dict(FOUND_FILE_NAME)
-  foundList.append(entry)
-  ip_range._to_json(foundList, FOUND_FILE_NAME)
-  log.send(f'Added {Color.GREEN}{ip}{Color.END} to: {os.getcwd()}/{FOUND_FILE_NAME}', __name__)
+  try:
+    db = DB()
+    res = db.insert_one(entry)
+    log.send(f'Added {Color.GREEN}{ip}{Color.END} to database. DB responded: {res}', __name__)
+  except Exception as e:
+    log.send(f'{Color.RED}DB ERROR{Color.END}. Couldn\'t add {Color.RED}{ip}{Color.END} to database, Error: {e}')
+  
 
 if __name__ == '__main__':
   main()

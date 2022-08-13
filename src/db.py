@@ -1,0 +1,41 @@
+from dotenv import load_dotenv
+from os import getenv
+from pymongo import MongoClient
+import ip_range
+
+load_dotenv()
+URI = getenv('MONGO_URI')
+DB_NAME = getenv('DB_NAME')
+COL_NAME = getenv('COL_NAME')
+
+class DB: 
+  def __init__(self):
+    self.client = MongoClient(URI)
+    self.db = self.client.DB_NAME
+    self.coll = self.db.COL_NAME
+
+  def read_all(self):
+    cursor = self.coll.find({})
+    for doc in cursor:
+      print(doc)
+    self._close()
+
+  def insert_one(self, server):
+    res = self.coll.insert_one(server)
+    self._close()
+    return res
+
+  def insert_many(self, serverArr):
+    res = self.coll.insert_many(serverArr)
+    self._close()
+    return res
+
+  def _seed_db(self):
+    ip = ip_range.IpRange()
+    serverList = ip._to_dict('found.json')
+    res = self.insert_many(serverList)
+    print(res)
+
+  def _close(self):
+    self.client.close()
+
