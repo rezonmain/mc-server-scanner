@@ -57,20 +57,21 @@ def check_SLP(ip, count):
 @dramatiq.actor
 def write_to_db(ip, slp):
   ts = int(time() * 1000)
+  # Create dict from the server list ping response
   entry = {
     'ip': ip,
     'foundAt': ts,
-    'players': slp['players'],
-    'version': slp['version'],
-    'description': slp['description'],
   }
+  # Append the server list ping dict
+  entry.update(slp)
   try:
+    # New database object (starts connection with db)
     db = DB()
+    # Insert the entry to the db
     res = db.insert_one(entry)
     log.send(f'Added {Color.GREEN}{ip}{Color.END} to database. DB responded: {res}', __name__)
   except Exception as e:
     log.send(f'{Color.RED}DB ERROR{Color.END}. Couldn\'t add {Color.RED}{ip}{Color.END} to database, Error: {e}')
   
-
 if __name__ == '__main__':
   main()

@@ -5,8 +5,6 @@ import ip_range
 
 load_dotenv()
 URI = getenv('MONGO_URI')
-DB_NAME = getenv('DB_NAME')
-COL_NAME = getenv('COL_NAME')
 
 class DB: 
   def __init__(self):
