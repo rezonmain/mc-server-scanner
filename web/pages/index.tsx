@@ -2,11 +2,9 @@ import type { NextPage } from 'next';
 import { trpc } from '../lib/trpc';
 
 const Home: NextPage = () => {
-	return (
-		<div className='bg-neutral-800'>
-			<h1 className='text-2xl text-white'>{}</h1>
-		</div>
-	);
+	const servers = trpc.useQuery(['mostRecent', { limit: 10 }]);
+	const el = servers.data?.map((server) => <p key={server._id}>{server.ip}</p>);
+	return <div>{el}</div>;
 };
 
 export default Home;

@@ -1,15 +1,34 @@
 import * as trpc from '@trpc/server';
 import * as trpcNext from '@trpc/server/adapters/next';
 import { z } from 'zod';
+import DB from '../../../db/Db';
+import FoundServerModel, {
+	FoundServer,
+} from '../../../db/models/FoundServerModel';
 
-export const appRouter = trpc.router().query('greet', {
-	input: z.object({ text: z.string().nullish() }).nullish(),
-	resolve({ input }) {
-		return {
-			greeting: `Hello ${input?.text || 'world'}`,
-		};
-	},
-});
+export const appRouter = trpc
+	.router()
+	.query('greet', {
+		input: z.object({ text: z.string().nullish() }).nullish(),
+		resolve({ input }) {
+			return {
+				greeting: `Hello ${input?.text || 'world'}`,
+			};
+		},
+	})
+	.query('mostRecent', {
+		input: z.object({ limit: z.number() }).default({ limit: 5 }),
+		async resolve({ input }) {
+			const db = new DB();
+			await db.connect();
+			const res: FoundServer[] = await FoundServerModel.find({})
+				.sort({
+					foundAt: -1,
+				})
+				.limit(input?.limit);
+			return res;
+		},
+	});
 
 // Export type definition of API
 export type AppRouter = typeof appRouter;
