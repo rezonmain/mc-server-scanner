@@ -13,7 +13,6 @@
 		"@trpc/next": "^9.27.0",
 		"@trpc/react": "^9.27.0",
 		"@trpc/server": "^9.27.0",
-		"dotenv": "^16.0.1",
 		"next": "12.2.5",
 		"react": "18.2.0",
 		"react-dom": "18.2.0",
