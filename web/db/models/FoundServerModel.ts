@@ -2,8 +2,9 @@ import mongoose from 'mongoose';
 import { RawServer } from '../../lib/types';
 const { Schema } = mongoose;
 
-// Using existing database no need to define schema
-const serverSchema = new Schema<RawServer>({});
+const serverSchema = new Schema<RawServer>({
+	ip: String,
+});
 
 const FoundServerModel =
 	mongoose.models.FoundServerModel ||

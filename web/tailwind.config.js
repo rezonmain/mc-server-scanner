@@ -5,6 +5,9 @@ module.exports = {
 		'./components/**/*.{js,ts,jsx,tsx}',
 	],
 	theme: {
+		fontFamily: {
+			mono: ['"Press Start 2P"', 'cursive'],
+		},
 		extend: {},
 	},
 	plugins: [],

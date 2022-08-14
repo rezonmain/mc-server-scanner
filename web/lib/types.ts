@@ -24,7 +24,7 @@ export enum MCColor {
 
 export interface Formatting {
 	text: string;
-	color: MCColor;
+	color: string | MCColor;
 	obfuscated?: boolean;
 	bold?: boolean;
 	strikethrough?: boolean;
@@ -37,7 +37,7 @@ export interface Formatting {
 export interface RawServer extends MongoDocument {
 	ip: string;
 	foundAt: Date;
-	description: string | { text: string; extra?: [Formatting] };
+	description: string | { text: string; extra?: Formatting[] };
 	players: {
 		max: number;
 		online: number;
@@ -48,5 +48,6 @@ export interface RawServer extends MongoDocument {
 	favicon?: string;
 	enforcesSecureChat?: boolean;
 	previewsChat?: boolean;
-	modinfo?: {};
+	modinfo?: any;
+	forgeData?: any;
 }

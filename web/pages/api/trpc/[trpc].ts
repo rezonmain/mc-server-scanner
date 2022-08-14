@@ -27,6 +27,15 @@ export const appRouter = trpc
 				.limit(input?.limit);
 			return res;
 		},
+	})
+	.query('findOne', {
+		input: z.object({ ip: z.string() }),
+		async resolve({ input }) {
+			const db = new DB();
+			await db.connect();
+			const res = await FoundServerModel.findOne<RawServer>({ ip: input.ip });
+			return res;
+		},
 	});
 
 // Export type definition of API
