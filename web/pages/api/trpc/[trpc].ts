@@ -2,9 +2,8 @@ import * as trpc from '@trpc/server';
 import * as trpcNext from '@trpc/server/adapters/next';
 import { z } from 'zod';
 import DB from '../../../db/Db';
-import FoundServerModel, {
-	FoundServer,
-} from '../../../db/models/FoundServerModel';
+import FoundServerModel from '../../../db/models/FoundServerModel';
+import { RawServer } from '../../../lib/types';
 
 export const appRouter = trpc
 	.router()
@@ -21,7 +20,7 @@ export const appRouter = trpc
 		async resolve({ input }) {
 			const db = new DB();
 			await db.connect();
-			const res: FoundServer[] = await FoundServerModel.find({})
+			const res = await FoundServerModel.find<RawServer>({})
 				.sort({
 					foundAt: -1,
 				})
