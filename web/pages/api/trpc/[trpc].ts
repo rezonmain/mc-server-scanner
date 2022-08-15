@@ -8,23 +8,22 @@ import { RawServer } from '../../../lib/types';
 /* 
 	Queries the most recent entries to the db,
 	this is done by sorting by timestamp (foundAt) in a descending manner,
-	the query filters results where _id < input.lt, 
+	the query filters results where _id < cursor, 
 	this input is used for pagination, because _id's are stored
-	in a ascending manner, getting all the servers with _id < some value,
+	in a ascending manner, getting all the servers with _id < cursor
 	it means I can paginate using the last _id from the last query.
-	By default this value is the largest it can be (basically saying get all entries).
+	By default cursor is the largest value it can be (basically saying get all entries).
 	 */
 export const appRouter = trpc.router().query('mostRecent', {
 	input: z.object({
 		limit: z.number().default(5),
-		// Using default here it means I don't have to included alongside limit in query
 		cursor: z.string().nullish(),
 	}),
 	async resolve({ input }) {
 		const db = new DB();
 		await db.connect();
 
-		// Find all servers with _id less than input.lt
+		// Find all servers with _id less than cursor
 		const items = await FoundServerModel.find<RawServer>({
 			_id: { $lt: input.cursor ?? 'ffffffffffffffffffffffff' },
 		})
@@ -34,7 +33,7 @@ export const appRouter = trpc.router().query('mostRecent', {
 			.limit(input.limit);
 		let nextCursor: typeof input.cursor | undefined = undefined;
 		if (items.length >= input.limit) {
-			// Get last _id from the last item (least recent)
+			// Get last _id from the last item (least recent), use this _id as the next cursor
 			const lastId = items[items.length - 1]._id;
 			nextCursor = lastId;
 		}

@@ -28,19 +28,27 @@ class PropertyParser {
 
 	private getDescriptionElement = () => {
 		const desc = this.server.description;
+		/* Some servers have a string a description,
+		if this is the case just return it
+		(as an array to keep function type, and avoid casting). */
 		if (typeof desc === 'string') {
 			return [<span key={desc}>{desc}</span>];
 		}
+		/* The extra object contains formatting data. Also:
+		some servers do have an independent text property,
+		this text is usally displayed before the 'extra' data */
 		const { text, extra } = desc;
 		const elements =
 			extra?.map((formatObj, i) => {
 				return <FormattedWord key={formatObj.text + i} {...formatObj} />;
 			}) ?? [];
+		// Put text as first element to display it firs
 		elements.unshift(<span key='left-over'>{text}</span>);
 		return elements;
 	};
 
 	private parseTs = () => {
+		// Convert unix timestamp to locale date
 		const ts = this.server.foundAt;
 		if (!ts) return 'No data';
 		const date = new Date(ts);
