@@ -18,14 +18,15 @@ export const appRouter = trpc.router().query('mostRecent', {
 	input: z.object({
 		limit: z.number().default(5),
 		// Using default here it means I don't have to included alongside limit in query
-		cursor: z.string().default('ffffffffffffffffffffffff'),
+		cursor: z.string().nullish(),
 	}),
 	async resolve({ input }) {
 		const db = new DB();
 		await db.connect();
+
 		// Find all servers with _id less than input.lt
 		const items = await FoundServerModel.find<RawServer>({
-			_id: { $lt: input.cursor },
+			_id: { $lt: input.cursor ?? 'ffffffffffffffffffffffff' },
 		})
 			// Sort in a desceding manner (more recent entries show first)
 			.sort({ foundAt: -1 })

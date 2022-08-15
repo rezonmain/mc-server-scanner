@@ -6,7 +6,7 @@ import ServerCard from '../ServerCard/ServerCard';
 import ServerCardSkeleton from '../ServerCardSkeleton/ServerCardSkeleton';
 
 const ServerList = () => {
-	// FIX: Doesn't show every entry, probable something to do with cursor in the query definition
+	// FIX: Doesn't show every entry, probably something to do with cursor in the query definition
 	const limit = 5;
 	const { data, isLoading, fetchNextPage, hasNextPage } = trpc.useInfiniteQuery(
 		['mostRecent', { limit }],
@@ -14,10 +14,6 @@ const ServerList = () => {
 			getNextPageParam: (lastPage) => lastPage.nextCursor,
 		}
 	);
-
-	if (isLoading) {
-		return <ServerCardSkeleton amount={limit} />;
-	}
 	return (
 		<InfiniteScroll
 			loadMore={() => fetchNextPage()}
