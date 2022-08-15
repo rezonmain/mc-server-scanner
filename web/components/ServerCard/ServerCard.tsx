@@ -15,6 +15,8 @@ const ServerCard = ({
 		<ul className='py-7 bg-neutral-800 p-4 m-4'>
 			<li>
 				<Image
+					width='64'
+					height='64'
 					alt='server-favicon'
 					className='rounded-full'
 					src={favicon}
