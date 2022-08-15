@@ -1,12 +1,7 @@
 import mongoose from 'mongoose';
 
 class DB {
-	/* In development use the test database
-	in production use the scanner_db database */
-	static URI =
-		process.env.NODE_ENV === 'development' || 'preview'
-			? (process.env.MONGO_URI_TEST as string)
-			: (process.env.MONGO_URI as string);
+	static URI = process.env.MONGO_URI as string;
 
 	constructor() {}
 
