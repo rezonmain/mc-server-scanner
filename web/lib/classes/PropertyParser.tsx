@@ -31,11 +31,10 @@ class PropertyParser {
 		if (typeof desc === 'string') {
 			return [<span key={desc}>{desc}</span>];
 		}
-		// TODO: Maybe there is a better way of doing this
 		const { text, extra } = desc;
 		const elements =
-			extra?.map((formatObj) => {
-				return <FormattedWord key={formatObj.text} {...formatObj} />;
+			extra?.map((formatObj, i) => {
+				return <FormattedWord key={formatObj.text + i} {...formatObj} />;
 			}) ?? [];
 		elements.unshift(<span key='left-over'>{text}</span>);
 		return elements;
