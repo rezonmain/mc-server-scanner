@@ -51,3 +51,17 @@ export interface RawServer extends MongoDocument {
 	modinfo?: any;
 	forgeData?: any;
 }
+
+export type ParsedServer = {
+	id: string;
+	ip: string;
+	foundAt: string;
+	description: JSX.Element[];
+	players: {
+		max: number;
+		online: number;
+	};
+	version: string;
+	ping: number;
+	favicon: string;
+};

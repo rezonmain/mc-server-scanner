@@ -15,7 +15,7 @@ const FormattedWord = ({
 			? 'underline'
 			: strikethrough
 			? 'line-through'
-			: '',
+			: 'none',
 		fontWeight: bold ? 'bold' : '400',
 	};
 	return clickEvent ? (

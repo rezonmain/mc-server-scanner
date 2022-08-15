@@ -6,28 +6,35 @@ const Home: NextPage = () => {
 	const { isLoading, data } = trpc.useQuery(['mostRecent', { limit: 20 }]);
 	let el = data?.map((server) => {
 		const parser = new PropertyParser(server);
-		const desc = parser.getDescriptionElement();
-		const date = parser.parseTs();
+		const parsed = parser.getParsedServer();
 		return (
 			<ul key={server._id} className='py-7'>
 				<li>
-					<span className='text-neutral-400'>ip: </span>
-					{server.ip}
+					<img className=' rounded-full' src={parsed.favicon}></img>
 				</li>
 				<li>
-					<span className='text-neutral-400'>Description: </span> {desc}
+					<span className='text-neutral-400'>ip: </span>
+					{parsed.ip}
+				</li>
+				<li>
+					<span className='text-neutral-400'>Description: </span>
+					{parsed.description}
+				</li>
+				<li>
+					<span className='text-neutral-400'>Version: </span>
+					{parsed.version}
 				</li>
 				<li>
 					<span className='text-neutral-400'>Found at: </span>
-					{date}
+					{parsed.foundAt}
 				</li>
 				<li>
 					<span className='text-neutral-400'>Ping: </span>
-					{server.ping}
+					{parsed.ping}
 				</li>
 				<li>
 					<span className='text-neutral-400'>Players: </span>
-					{server.players.online} / {server.players.max}
+					{parsed.players.online} / {parsed.players.max}
 				</li>
 			</ul>
 		);
