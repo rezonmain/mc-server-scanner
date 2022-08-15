@@ -13,10 +13,14 @@ const ServerCard = ({
 	return (
 		<ul key={id} className='py-7 bg-neutral-800 p-4 m-4'>
 			<li>
-				<img className=' rounded-full' src={favicon}></img>
+				<img className='rounded-full' src={favicon}></img>
 			</li>
 			<li>
-				<span className='text-neutral-400'>ip: </span>
+				<span className='text-neutral-400'>ID: </span>
+				{id}
+			</li>
+			<li>
+				<span className='text-neutral-400'>IP: </span>
 				{ip}
 			</li>
 			<li>

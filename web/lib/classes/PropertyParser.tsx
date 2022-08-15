@@ -1,4 +1,4 @@
-import FormattedWord from '../../component/FormattedWord/FormattedWord';
+import FormattedWord from '../../components/FormattedWord/FormattedWord';
 import { MCColor, ParsedServer, RawServer } from '../types';
 
 class PropertyParser {
