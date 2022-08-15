@@ -8,13 +8,10 @@ class DB {
 			? (process.env.MONGO_URI_TEST as string)
 			: (process.env.MONOG_URI as string);
 
-	constructor() {
-		console.log(DB.URI);
-	}
+	constructor() {}
 
 	connect = async () => {
 		mongoose.connect(DB.URI);
-		console.log('CONNECTED!');
 		return mongoose.connection;
 	};
 }
