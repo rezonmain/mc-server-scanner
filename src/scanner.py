@@ -9,7 +9,7 @@ from db import DB
 import os
 
 PORT = '25565'
-RATE = '25000'
+RATE = '75000'
 SCANNED_FILE_NAME = 'res.json'
 FOUND_FILE_NAME = 'found.json'
 ip_range = IpRange()
@@ -22,7 +22,7 @@ def main():
 
 def scan(range):
   log.send(f'Scanning range: {Color.YELLOW}{range}{Color.END} for open {PORT} port @ {RATE} kp/s', __name__)
-  command = f'sudo masscan -p{PORT} {range} --rate {RATE} --wait {0} -oJ {SCANNED_FILE_NAME}'
+  command = f'sudo masscan -p{PORT} {range} --rate {RATE} --wait {3} -oJ {SCANNED_FILE_NAME}'
   os.system(command)
   # Sleep: make sure the file is written before getting ip's
   sleep(1)
