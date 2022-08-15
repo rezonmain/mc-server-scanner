@@ -20,10 +20,14 @@ class PropertyParser {
 		}
 		const { text, extra } = desc;
 		const descriptionElArr = extra?.map((formatObj) => {
-			formatObj.color = this.getMCColor(formatObj.color);
 			return <FormattedWord {...formatObj} />;
-		}) ?? <span>{text}</span>;
-		return <div>{descriptionElArr}</div>;
+		});
+		return (
+			<>
+				{<span>{text}</span>}
+				{descriptionElArr}
+			</>
+		);
 	};
 
 	parseTs = () => {
@@ -41,7 +45,7 @@ class PropertyParser {
 		return date.toLocaleDateString(undefined, options);
 	};
 
-	private getMCColor = (color: string) => {
+	static getMCColor = (color: string) => {
 		switch (color) {
 			case 'black':
 				return MCColor.black;
