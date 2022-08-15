@@ -11,7 +11,6 @@ class PropertyParser {
 	getParsedServer(): ParsedServer {
 		// Default values for ParsedServer:
 		const def = new ParsedServer();
-
 		// If value not found in rawserver, return the default value as not crash the front-end
 		return {
 			id: this.server._id || def.id,
@@ -26,10 +25,10 @@ class PropertyParser {
 						online: this.server.players.online ?? -1,
 				  }
 				: def.players,
-			version: this.server.version?.name ?? def.version,
+			version: this.server.version?.name || def.version,
 			ping: this.server.ping ?? def.ping,
 			hasCustomFavicon: !!this.server.favicon,
-			favicon: this.server.favicon ?? def.favicon,
+			favicon: this.server.favicon || def.favicon,
 		};
 	}
 
@@ -50,7 +49,7 @@ class PropertyParser {
 				return <FormattedWord key={formatObj.text + i} {...formatObj} />;
 			}) ?? [];
 		// Put text as first element to display it first
-		elements.unshift(<span key='left-over'>{text}</span>);
+		elements.unshift(<span key='leftover'>{text}</span>);
 		return elements;
 	};
 

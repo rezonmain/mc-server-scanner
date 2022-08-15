@@ -15,6 +15,13 @@ a {
 	box-sizing: border-box;
 }
 
+.centered {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+}
+
 @media (prefers-color-scheme: dark) {
 	html {
 		color-scheme: dark;
