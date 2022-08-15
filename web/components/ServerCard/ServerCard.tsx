@@ -11,7 +11,7 @@ const ServerCard = ({
 	players,
 }: ParsedServer) => {
 	return (
-		<ul key={id} className='py-7 bg-neutral-800 p-4 m-4'>
+		<ul className='py-7 bg-neutral-800 p-4 m-4'>
 			<li>
 				<img className='rounded-full' src={favicon}></img>
 			</li>

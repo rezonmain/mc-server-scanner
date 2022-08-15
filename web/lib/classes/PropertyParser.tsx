@@ -29,15 +29,15 @@ class PropertyParser {
 	private getDescriptionElement = () => {
 		const desc = this.server.description;
 		if (typeof desc === 'string') {
-			return [<span>{desc}</span>];
+			return [<span key={desc}>{desc}</span>];
 		}
 		// TODO: Maybe there is a better way of doing this
 		const { text, extra } = desc;
 		const elements =
 			extra?.map((formatObj) => {
-				return <FormattedWord {...formatObj} />;
+				return <FormattedWord key={formatObj.text} {...formatObj} />;
 			}) ?? [];
-		elements.unshift(<span>{text}</span>);
+		elements.unshift(<span key='left-over'>{text}</span>);
 		return elements;
 	};
 

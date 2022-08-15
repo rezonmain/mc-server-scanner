@@ -18,7 +18,7 @@ const ServerList = () => {
 		<InfiniteScroll
 			loadMore={() => fetchNextPage()}
 			hasMore={hasNextPage}
-			loader={<ServerCardSkeleton amount={limit} />}
+			loader={<ServerCardSkeleton key={data?.pages.length} amount={limit} />}
 		>
 			<div>
 				<ul>
@@ -27,7 +27,7 @@ const ServerList = () => {
 							{group.items.map((server) => {
 								const p = new PropertyParser(server);
 								const parsedServer = p.getParsedServer();
-								return <ServerCard {...parsedServer} />;
+								return <ServerCard key={parsedServer.id} {...parsedServer} />;
 							})}
 						</React.Fragment>
 					))}
