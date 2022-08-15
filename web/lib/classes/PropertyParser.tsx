@@ -15,12 +15,13 @@ class PropertyParser {
 			id: this.server._id,
 			foundAt: this.parseTs(),
 			description: this.getDescriptionElement(),
-			players: {
-				max: this.server.players.max,
-				online: this.server.players.online,
-			},
-			version: this.server.version.name,
-			ping: this.server.ping,
+			players:
+				{
+					max: this.server.players.max,
+					online: this.server.players.online,
+				} ?? 'No data',
+			version: this.server.version.name ?? 'No data',
+			ping: this.server.ping ?? 'No data',
 			favicon: this.server.favicon || PropertyParser.PACK_DEFUALT,
 		};
 	}

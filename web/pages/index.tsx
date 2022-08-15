@@ -3,12 +3,12 @@ import PropertyParser from '../lib/classes/PropertyParser';
 import { trpc } from '../lib/trpc';
 
 const Home: NextPage = () => {
-	const { isLoading, data } = trpc.useQuery(['mostRecent', { limit: 20 }]);
+	const { isLoading, data } = trpc.useQuery(['mostRecent', { limit: 5 }]);
 	let el = data?.map((server) => {
 		const parser = new PropertyParser(server);
 		const parsed = parser.getParsedServer();
 		return (
-			<ul key={server._id} className='py-7'>
+			<ul key={server._id} className='py-7 bg-neutral-800 p-4 m-4'>
 				<li>
 					<img className=' rounded-full' src={parsed.favicon}></img>
 				</li>
@@ -43,7 +43,11 @@ const Home: NextPage = () => {
 	if (isLoading) {
 		return <h1 className=''>Fetching data...</h1>;
 	}
-	return <ol className='list-decimal px-7'>{el}</ol>;
+	return (
+		<div className='w-[80vw] mx-auto bg-black'>
+			<ol className='list-decimal px-7'>{el}</ol>
+		</div>
+	);
 };
 
 export default Home;

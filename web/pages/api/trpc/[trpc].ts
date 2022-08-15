@@ -15,16 +15,37 @@ export const appRouter = trpc
 			};
 		},
 	})
+	/* 
+	Queries the most recent entries to the db,
+	this is done by sorting by timestamp (foundAt) in a descending manner,
+	the query filters results where _id < input.lt, 
+	this input is used for pagination, because _id's are stored
+	in a ascending manner, getting all the servers with _id < some value,
+	it means I can paginate using the last _id from the last query.
+	By default this value is the largest it can be (basically saying get all entries).
+	 */
 	.query('mostRecent', {
-		input: z.object({ limit: z.number() }).default({ limit: 5 }),
+		input: z
+			.object({
+				limit: z.number(),
+				// Using default here it means I don't have to included alongside limit in query
+				lt: z.string().default('ffffffffffffffffffffffff'),
+			})
+			.default({
+				limit: 5,
+				lt: 'ffffffffffffffffffffffff',
+			}),
 		async resolve({ input }) {
 			const db = new DB();
 			await db.connect();
-			const res = await FoundServerModel.find<RawServer>({})
-				.sort({
-					foundAt: -1,
-				})
-				.limit(input?.limit);
+			// Find all servers with _id less than input.lt
+			const res = await FoundServerModel.find<RawServer>({
+				_id: { $lt: input.lt },
+			})
+				// Sort in a desceding manner (more recent entries show first)
+				.sort({ foundAt: -1 })
+				// Limit the number of entries
+				.limit(input.limit);
 			return res;
 		},
 	})
