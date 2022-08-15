@@ -4,6 +4,7 @@ import { ParsedServer } from '../../lib/types';
 const ServerCard = ({
 	id,
 	favicon,
+	hasCustomFavicon,
 	ip,
 	description,
 	version,
@@ -22,6 +23,7 @@ const ServerCard = ({
 					src={favicon}
 				></Image>
 			</li>
+			<li>{hasCustomFavicon.toString()}</li>
 			<li>
 				<span className='text-neutral-400'>ID: </span>
 				{id}

@@ -63,5 +63,6 @@ export type ParsedServer = {
 	};
 	version: string;
 	ping: number;
+	hasCustomFavicon: boolean;
 	favicon: string;
 };
