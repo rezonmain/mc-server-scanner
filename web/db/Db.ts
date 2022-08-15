@@ -6,7 +6,7 @@ class DB {
 	static URI =
 		process.env.NODE_ENV === 'development' || 'preview'
 			? (process.env.MONGO_URI_TEST as string)
-			: (process.env.MONOG_URI as string);
+			: (process.env.MONGO_URI as string);
 
 	constructor() {}
 
