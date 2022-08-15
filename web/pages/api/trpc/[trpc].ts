@@ -27,7 +27,7 @@ export const appRouter = trpc.router().query('mostRecent', {
 		const items = await FoundServerModel.find<RawServer>({
 			_id: { $lt: input.cursor ?? 'ffffffffffffffffffffffff' },
 		})
-			// Sort in a desceding manner (more recent entries show first)
+			// Sort in a descending manner (more recent entries show first)
 			.sort({ foundAt: -1 })
 			// Limit the number of entries
 			.limit(input.limit);

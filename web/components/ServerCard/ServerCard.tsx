@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import { ParsedServer } from '../../lib/types';
 
 const ServerCard = ({
@@ -13,7 +14,11 @@ const ServerCard = ({
 	return (
 		<ul className='py-7 bg-neutral-800 p-4 m-4'>
 			<li>
-				<img className='rounded-full' src={favicon}></img>
+				<Image
+					alt='server-favicon'
+					className='rounded-full'
+					src={favicon}
+				></Image>
 			</li>
 			<li>
 				<span className='text-neutral-400'>ID: </span>

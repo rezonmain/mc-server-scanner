@@ -28,7 +28,7 @@ class PropertyParser {
 
 	private getDescriptionElement = () => {
 		const desc = this.server.description;
-		/* Some servers have a string a description,
+		/* Some servers have a string as description,
 		if this is the case just return it
 		(as an array to keep function type, and avoid casting). */
 		if (typeof desc === 'string') {
@@ -42,7 +42,7 @@ class PropertyParser {
 			extra?.map((formatObj, i) => {
 				return <FormattedWord key={formatObj.text + i} {...formatObj} />;
 			}) ?? [];
-		// Put text as first element to display it firs
+		// Put text as first element to display it first
 		elements.unshift(<span key='left-over'>{text}</span>);
 		return elements;
 	};

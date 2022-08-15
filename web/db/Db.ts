@@ -5,7 +5,7 @@ class DB {
 	in production use the scanner_db database */
 	static URI =
 		process.env.NODE_ENV === 'development'
-			? (process.env.MONGO_URI_TEST as string)
+			? (process.env.MONGO_URI as string)
 			: (process.env.MONGO_URI as string);
 
 	constructor() {}
