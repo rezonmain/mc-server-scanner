@@ -1,6 +1,9 @@
 import json
 import os
 import random
+import dramatiq
+from logger import log
+from console_color import Color
 
 
 FILE_NAME = 'ipranges.json'
@@ -17,11 +20,16 @@ class IpRange:
     else: 
       raise ValueError(f'CIDR range must be 16 or 8, got {self.range}')
 
+  @dramatiq.actor
   def set_as_scanned(self, range):
-    d = self._to_dict(FILE_NAME)
-    d[range]['scanned'] = True
-    self._to_json(d)
-    print(f'[{__name__}.py]: Range: {range} set as scanned')
+    try:
+      d = self._to_dict(FILE_NAME)
+      d[range]['scanned'] = True
+      self._to_json(d)
+      log.send(f'Range: {range} set as scanned', __name__)
+    except Exception as e:
+      log.send(f'{Color.RED}Error: {e}{Color.END} while trying to set {range} as scanned', __name__)
+
 
   def get_random_range(self):
     range_dict = self._to_dict(FILE_NAME)

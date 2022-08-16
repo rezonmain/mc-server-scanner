@@ -18,7 +18,8 @@ def main():
   while True:
     range = ip_range.get_random_range()
     scan(range)
-    ip_range.set_as_scanned(range)
+    ip_range.set_as_scanned.send(range)
+    
 
 def scan(range):
   log.send(f'Scanning range: {Color.YELLOW}{range}{Color.END} for open {PORT} port @ {RATE} kp/s', __name__)
@@ -72,6 +73,6 @@ def write_to_db(ip, slp):
     log.send(f'Added {Color.GREEN}{ip}{Color.END} to database. DB responded: {res}', __name__)
   except Exception as e:
     log.send(f'{Color.RED}DB ERROR{Color.END}. Couldn\'t add {Color.RED}{ip}{Color.END} to database, Error: {e}')
-  
+
 if __name__ == '__main__':
   main()
