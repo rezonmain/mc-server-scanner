@@ -13,6 +13,7 @@ a {
 
 * {
 	box-sizing: border-box;
+	-webkit-tap-highlight-color: transparent;
 }
 
 .centered {
@@ -22,14 +23,12 @@ a {
 	transform: translate(-50%, -50%);
 }
 
-@media (prefers-color-scheme: dark) {
-	html {
-		color-scheme: dark;
-	}
-	body {
-		color: white;
-		background: black;
-	}
+html {
+	color-scheme: dark;
+}
+body {
+	color: white;
+	background: black;
 }
 
 @tailwind base;

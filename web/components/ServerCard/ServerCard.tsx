@@ -14,7 +14,7 @@ const ServerCard = ({
 	players,
 }: ParsedServer) => {
 	return (
-		<ul className='py-7 bg-neutral-800 p-4 m-4'>
+		<ul className='py-7 bg-neutral-800 p-4 my-4 break-words max-w-[750px] mx-auto'>
 			<li>
 				<ServerFavicon favicon={favicon} hasCustomFavicon={hasCustomFavicon} />
 			</li>
