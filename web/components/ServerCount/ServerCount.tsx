@@ -2,9 +2,7 @@ import { trpc } from '../../utils/trpc';
 import Waiting from '../Waiting/Waiting';
 
 const ServerCount = () => {
-	const { isLoading, data } = trpc.useQuery(['count'], {
-		refetchInterval: 1000 * 1,
-	});
+	const { isLoading, data } = trpc.useQuery(['count']);
 	return (
 		<div>
 			<span>Total servers: </span>

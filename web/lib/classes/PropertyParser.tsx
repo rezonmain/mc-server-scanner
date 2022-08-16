@@ -1,5 +1,4 @@
-import FormattedWord from '../../components/FormattedWord/FormattedWord';
-import { MCColor, RawServer } from '../types';
+import { Formatting, MCColor, RawServer } from '../types';
 import ParsedServer from './ParsedServer';
 
 class PropertyParser {
@@ -46,7 +45,7 @@ class PropertyParser {
 		const { text, extra } = desc;
 		const elements =
 			extra?.map((formatObj, i) => {
-				return <FormattedWord key={formatObj.text + i} {...formatObj} />;
+				return <this.FormattedWord key={formatObj.text + i} {...formatObj} />;
 			}) ?? [];
 		// Put text as first element to display it first
 		elements.unshift(<span key='leftover'>{text}</span>);
@@ -69,39 +68,83 @@ class PropertyParser {
 		return date.toLocaleDateString(undefined, options);
 	};
 
-	static getMCColor = (color: string) => {
+	private parseDescriptionText(text: string) {}
+
+	private FormattedWord = ({
+		bold,
+		underline,
+		strikethrough,
+		color,
+		text,
+		clickEvent,
+	}: Formatting) => {
+		const style = {
+			color: this.getMCColor(color) as string,
+			textDecoration: underline
+				? 'underline'
+				: strikethrough
+				? 'line-through'
+				: 'none',
+			fontWeight: bold ? 'bold' : '400',
+		};
+		return clickEvent ? (
+			<a href={text} style={style}>
+				{text}
+			</a>
+		) : (
+			<span style={style}>{text}</span>
+		);
+	};
+
+	private getMCColor = (color: string) => {
 		switch (color) {
 			case 'black':
+			case '§0':
 				return MCColor.black;
 			case 'dark_blue':
+			case '§1':
 				return MCColor.dark_blue;
 			case 'dark_green':
+			case '§2':
 				return MCColor.dark_green;
 			case 'dark_aqua':
+			case '§3':
 				return MCColor.dark_aqua;
 			case 'dark_red':
+			case '§4':
 				return MCColor.dark_red;
 			case 'dark_purple':
+			case '§5':
 				return MCColor.dark_purple;
 			case 'gold':
+			case '§6':
 				return MCColor.gold;
 			case 'gray':
+			case '§7':
 				return MCColor.gray;
 			case 'dark_gray':
+			case '§8':
 				return MCColor.dark_gray;
 			case 'blue':
+			case '§9':
 				return MCColor.blue;
 			case 'green':
+			case '§a':
 				return MCColor.green;
 			case 'aqua':
+			case '§b':
 				return MCColor.aqua;
 			case 'red':
+			case '§c':
 				return MCColor.red;
 			case 'light_purple':
+			case '§d':
 				return MCColor.light_purple;
 			case 'yellow':
+			case '§e':
 				return MCColor.yellow;
 			case 'white':
+			case '§f':
 				return MCColor.white;
 			case 'minecoin_gold':
 				return MCColor.minecoin_gold;
