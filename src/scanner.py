@@ -18,9 +18,8 @@ def main():
   while True:
     range = ip_range.get_random_range()
     scan(range)
-    ip_range.set_as_scanned.send(range)
+    set_range_as_scanned.send(range)
     
-
 def scan(range):
   log.send(f'Scanning range: {Color.YELLOW}{range}{Color.END} for open {PORT} port @ {RATE} kp/s', __name__)
   command = f'sudo masscan -p{PORT} {range} --rate {RATE} --wait {3} -oJ {SCANNED_FILE_NAME}'
@@ -73,6 +72,14 @@ def write_to_db(ip, slp):
     log.send(f'Added {Color.GREEN}{ip}{Color.END} to database. DB responded: {res}', __name__)
   except Exception as e:
     log.send(f'{Color.RED}DB ERROR{Color.END}. Couldn\'t add {Color.RED}{ip}{Color.END} to database, Error: {e}')
+
+@dramatiq.actor
+def set_range_as_scanned(range):
+  try:
+    ip_range.set_as_scanned(range)
+    log.send(f'Range: {range} set as scanned', __name__)
+  except Exception as e:
+    log.send(f'{Color.RED}Error: {e}{Color.END} while trying to set {range} as scanned', __name__)
 
 if __name__ == '__main__':
   main()
