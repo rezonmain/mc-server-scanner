@@ -50,7 +50,10 @@ export const appRouter = trpc
 		async resolve() {
 			const db = new DB();
 			await db.connect();
-			return await FoundServerModel.count({});
+			const totalCount = await FoundServerModel.countDocuments({});
+			const uniqueCount = (await FoundServerModel.distinct('ip')).length;
+
+			return { totalCount, uniqueCount };
 		},
 	});
 
