@@ -83,11 +83,11 @@ class PropertyParser {
 		 this also cathces id 'text' is an empty string */
 		if (typeof Object.values(desc)[0] === 'string') {
 			//@ts-ignore
-			return [<span>{Object.values(desc)[0]}</span>];
+			return [<span key={'leftover'}>{Object.values(desc)[0]}</span>];
 		}
 
 		// If everything fails just return empty element
-		return [<span></span>];
+		return [<span key='empty'></span>];
 	};
 
 	private getFormattedVersion = () => {
@@ -169,7 +169,7 @@ class PropertyParser {
 				? 'line-through'
 				: 'none',
 			fontWeight: bold ? 'bold' : '400',
-			fontStyle: italic ? 'italic' : '',
+			fontStyle: italic ? 'italic' : 'none',
 			// Respect newline chars
 			whiteSpace: 'pre-line',
 		};
