@@ -1,5 +1,6 @@
 import { ParsedServer } from '../../lib/types';
 import ServerFavicon from '../ServerFavicon/ServerFavicon';
+import { HiOutlinePencilAlt } from 'react-icons/hi';
 
 const ServerCard = ({
 	id,
@@ -13,18 +14,27 @@ const ServerCard = ({
 	ping,
 	players,
 }: ParsedServer) => {
+	const handleIPClick = () => navigator.clipboard.writeText(ip);
+
 	return (
-		<ul className='py-7 bg-neutral-800 p-4 my-4 break-words max-w-[750px] mx-auto'>
+		<ul className='py-7 bg-neutral-800 p-4 my-4 break-words '>
 			<li>
 				<ServerFavicon favicon={favicon} hasCustomFavicon={hasCustomFavicon} />
 			</li>
-			<li>
+			<li className='flex flex-row items-center gap-2'>
 				<span className='text-neutral-400'>IP: </span>
-				{id}
-			</li>
-			<li>
-				<span className='text-neutral-400'>IP: </span>
-				{ip}
+				<span
+					onClick={() => handleIPClick()}
+					className='underline cursor-pointer active:no-underline'
+				>
+					{ip}
+				</span>
+				<HiOutlinePencilAlt
+					onClick={() => handleIPClick()}
+					title='Copy ip address to clipboard'
+					size={21}
+					className='inline-block cursor-pointer active:scale-110 transition-transform'
+				/>
 			</li>
 			<li>
 				<span className='text-neutral-400'>Description: </span>

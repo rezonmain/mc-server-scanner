@@ -5,7 +5,7 @@ import { trpc } from '../../utils/trpc';
 import ServerCard from '../ServerCard/ServerCard';
 import ServerCardSkeleton from '../ServerCardSkeleton/ServerCardSkeleton';
 
-const ServerList = () => {
+const ListByMostRecent = () => {
 	// FIX: Doesn't show every entry, probably something to do with cursor in the query definition
 	const limit = 5;
 	const { data, isLoading, fetchNextPage, hasNextPage } = trpc.useInfiniteQuery(
@@ -37,4 +37,4 @@ const ServerList = () => {
 		</InfiniteScroll>
 	);
 };
-export default ServerList;
+export default ListByMostRecent;

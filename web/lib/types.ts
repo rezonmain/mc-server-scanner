@@ -69,3 +69,5 @@ export type ParsedServer = {
 	hasCustomFavicon: boolean;
 	favicon: string;
 };
+
+export type AllowedUserQuery = 'mostRecent' | 'findByIp';

@@ -4,6 +4,7 @@ import { z } from 'zod';
 import DB from '../../../db/Db';
 import FoundServerModel from '../../../db/models/FoundServerModel';
 import { RawServer } from '../../../lib/types';
+import { IP_REGEX } from '../../../utils/regex';
 
 /* 
 	Queries the most recent entries to the db,
@@ -37,7 +38,6 @@ export const appRouter = trpc
 				// Get last timestamp(foundAt) from the last item (least recent), use this ts as the next cursor
 				const lastTs = items[items.length - 1].foundAt;
 				nextCursor = lastTs;
-				console.log(new Date(lastTs).toISOString());
 			}
 			return {
 				items,
@@ -53,6 +53,19 @@ export const appRouter = trpc
 			const uniqueCount = (await FoundServerModel.distinct('ip')).length;
 
 			return { totalCount, uniqueCount };
+		},
+	})
+	.query('findByIp', {
+		input: z.object({
+			ip: z.string().regex(IP_REGEX),
+		}),
+		async resolve({ input }) {
+			const db = new DB();
+			await db.connect();
+			const items = await FoundServerModel.find<RawServer>({ ip: input.ip });
+			return {
+				items,
+			};
 		},
 	});
 
