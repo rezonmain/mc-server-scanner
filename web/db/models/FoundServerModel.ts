@@ -5,6 +5,7 @@ const { Schema } = mongoose;
 // Include types that are used in queries, otherwise the find query fails
 const serverSchema = new Schema<RawServer>({
 	ip: String,
+	foundAt: Number,
 });
 
 const FoundServerModel =

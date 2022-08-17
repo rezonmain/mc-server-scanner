@@ -20,6 +20,10 @@ const ServerCard = ({
 			</li>
 			<li>
 				<span className='text-neutral-400'>IP: </span>
+				{id}
+			</li>
+			<li>
+				<span className='text-neutral-400'>IP: </span>
 				{ip}
 			</li>
 			<li>

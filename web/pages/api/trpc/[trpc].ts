@@ -1,6 +1,5 @@
 import * as trpc from '@trpc/server';
 import * as trpcNext from '@trpc/server/adapters/next';
-import { resolve } from 'path';
 import { z } from 'zod';
 import DB from '../../../db/Db';
 import FoundServerModel from '../../../db/models/FoundServerModel';
@@ -9,10 +8,8 @@ import { RawServer } from '../../../lib/types';
 /* 
 	Queries the most recent entries to the db,
 	this is done by sorting by timestamp (foundAt) in a descending manner,
-	the query filters results where _id < cursor, 
-	this input is used for pagination, because _id's are stored
-	in a ascending manner, getting all the servers with _id < cursor
-	it means I can paginate using the last _id from the last query.
+	the query filters results where foundAt < cursor, 
+	it means I can paginate using the last foundAt from the last query.
 	By default cursor is the largest value it can be (basically saying get all entries).
 	 */
 export const appRouter = trpc
@@ -20,15 +17,16 @@ export const appRouter = trpc
 	.query('mostRecent', {
 		input: z.object({
 			limit: z.number().default(5),
-			cursor: z.string().nullish(),
+			cursor: z.number().nullish(),
 		}),
 		async resolve({ input }) {
 			const db = new DB();
 			await db.connect();
 
-			// Find all servers with _id less than cursor
+			// Find all servers with foundAt less than cursor
+			// If no cursor was provided use a big ass number
 			const items = await FoundServerModel.find<RawServer>({
-				_id: { $lt: input.cursor ?? 'ffffffffffffffffffffffff' },
+				foundAt: { $lt: input.cursor ?? 0xffffffffffff },
 			})
 				// Sort in a descending manner (more recent entries show first)
 				.sort({ foundAt: -1 })
@@ -36,9 +34,10 @@ export const appRouter = trpc
 				.limit(input.limit);
 			let nextCursor: typeof input.cursor | undefined = undefined;
 			if (items.length >= input.limit) {
-				// Get last _id from the last item (least recent), use this _id as the next cursor
-				const lastId = items[items.length - 1]._id;
-				nextCursor = lastId;
+				// Get last timestamp(foundAt) from the last item (least recent), use this ts as the next cursor
+				const lastTs = items[items.length - 1].foundAt;
+				nextCursor = lastTs;
+				console.log(new Date(lastTs).toISOString());
 			}
 			return {
 				items,
