@@ -49,7 +49,8 @@ class PropertyParser {
 		If this is the case this function translates the old formatting to the newer one
 		this is to have a consistent way of formatting the description component */
 
-		//TODO: for whatever f reason servers have also nested 'extra' see 202.61.227.56
+		/*TODO: for whatever f reason servers have also nested 'extra' see 202.61.227.56
+		or 175.178.108.122*/
 
 		if (typeof desc === 'string') {
 			const formatStrings = this.getFormatStrings(desc);
@@ -62,17 +63,17 @@ class PropertyParser {
 		if (desc.text && !desc.extra) {
 			const formatStrings = this.getFormatStrings(desc.text);
 			const elements = formatStrings.map((format, i) => {
-				format.color = desc.color ? desc.color : format.color;
+				format.color = desc.color ? this.getMCColor(desc.color) : format.color;
 				return <this.FormattedWord key={format.text + i} {...format} />;
 			});
 			return elements;
 		}
 
 		if (desc.extra) {
-			const elements = desc.extra.map((format, i) => (
-				// Check if they are using the old formatting EVEN with the 'extra' prop
-				<this.FormattedWord key={format.text + i} {...format} />
-			));
+			const elements = desc.extra.map((format, i) => {
+				format.color = this.getMCColor(format.color);
+				return <this.FormattedWord key={format.text + i} {...format} />;
+			});
 			// If desc.text is not an empty string append it to the elements array
 			!desc.text || elements.unshift(<span>{desc.text}</span>);
 			return elements;
