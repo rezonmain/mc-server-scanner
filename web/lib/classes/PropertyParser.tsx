@@ -1,3 +1,5 @@
+import { defaultMaxListeners } from 'events';
+import { CSSProperties } from 'react';
 import { FormatString, MCColor, RawServer } from '../types';
 import ParsedServer from './ParsedServer';
 
@@ -16,7 +18,7 @@ class PropertyParser {
 			ip: this.server.ip || def.ip,
 			foundAt: this.server.foundAt ? this.parseTs() : def.foundAt,
 			description: this.server.description
-				? this.getDescriptionElement()
+				? this.getFormattedDescription()
 				: def.description,
 			players: this.server.players
 				? {
@@ -24,7 +26,9 @@ class PropertyParser {
 						online: this.server.players.online ?? -1,
 				  }
 				: def.players,
-			version: this.server.version?.name || def.version,
+			version: this.server.version?.name
+				? this.getFormattedVersion()
+				: def.version,
 			ping: this.server.ping ?? def.ping,
 			hasCustomFavicon: !!this.server.favicon,
 			favicon: this.server.favicon || def.favicon,
@@ -32,18 +36,20 @@ class PropertyParser {
 		};
 	}
 
-	// TODO: going to have to re write this
-	private getDescriptionElement = () => {
+	private getFormattedDescription = () => {
 		const desc = this.server.description;
-		/* Servers handle descriptions in 3 different ways:
+		/* Servers handle descriptions in 4 different ways:
 		1. The description prop is type string
 		2. The description prop is an object containing only 1 member named 'text'
-		3. The description prop is an object containing 2 members named 'text' and 'extra'
+		3. The descriptionp prop is an object containing 2 member names 'color' and 'text'
+		4. The description prop is an object containing 2 members named 'text' and 'extra'
 		The 'extra' member is a newer way of formatting using json (see type FormatString)
 		But if the 'extra' member is non existing it means server may be using the old
 		way of formatting (using formatting chars like §a or §f)
 		If this is the case this function translates the old formatting to the newer one
 		this is to have a consistent way of formatting the description component */
+
+		//TODO: for whatever f reason servers have also nested 'extra' see 202.61.227.56
 
 		if (typeof desc === 'string') {
 			const formatStrings = this.getFormatStrings(desc);
@@ -53,13 +59,42 @@ class PropertyParser {
 			return elements;
 		}
 
-		if (desc.text || !desc.extra) {
+		if (desc.text && !desc.extra) {
 			const formatStrings = this.getFormatStrings(desc.text);
-			const elements = formatStrings.map((format, i) => (
-				<this.FormattedWord key={format.text + i} {...format} />
-			));
+			const elements = formatStrings.map((format, i) => {
+				format.color = desc.color ? desc.color : format.color;
+				return <this.FormattedWord key={format.text + i} {...format} />;
+			});
 			return elements;
 		}
+
+		if (desc.extra) {
+			const elements = desc.extra.map((format, i) => (
+				// Check if they are using the old formatting EVEN with the 'extra' prop
+				<this.FormattedWord key={format.text + i} {...format} />
+			));
+			// If desc.text is not an empty string append it to the elements array
+			!desc.text || elements.unshift(<span>{desc.text}</span>);
+			return elements;
+		}
+
+		/* In the case the server description does not uses 'text' as member
+		 return whatever string is in its first member,
+		 this also cathces id 'text' is an empty string */
+		if (typeof Object.values(desc)[0] === 'string') {
+			//@ts-ignore
+			return [<span>{Object.values(desc)[0]}</span>];
+		}
+
+		// If everything fails just return empty element
+		return [<span></span>];
+	};
+
+	private getFormattedVersion = () => {
+		const formatStrings = this.getFormatStrings(this.server.version.name);
+		return formatStrings.map((format, i) => (
+			<this.FormattedWord key={format.text + i} {...format} />
+		));
 	};
 
 	private parseTs = () => {
@@ -85,7 +120,7 @@ class PropertyParser {
 		const isColor = (str: string) => /§[a-f0-9]/.test(str);
 		const isFormat = (str: string) => /§[k-r]/.test(str);
 
-		let currentColor: MCColor = MCColor.white;
+		let currentColor: MCColor | string = MCColor.white;
 		let currentFormats: ReturnType<typeof this.getMCFormatting>[] = [];
 		let formatStrings: FormatString[] = [];
 
@@ -117,16 +152,16 @@ class PropertyParser {
 		return formatStrings;
 	}
 
-	/* TODO: italic, obfuscated, support all types of lines!! */
+	/* TODO: obfuscated, support all types of lines!! */
 	private FormattedWord = ({
 		bold,
 		underline,
 		strikethrough,
 		color,
+		italic,
 		text,
-		clickEvent,
 	}: FormatString) => {
-		const style = {
+		const style: CSSProperties = {
 			color,
 			textDecoration: underline
 				? 'underline'
@@ -134,14 +169,11 @@ class PropertyParser {
 				? 'line-through'
 				: 'none',
 			fontWeight: bold ? 'bold' : '400',
+			fontStyle: italic ? 'italic' : '',
+			// Respect newline chars
+			whiteSpace: 'pre-line',
 		};
-		return clickEvent ? (
-			<a href={text} style={style}>
-				{text}
-			</a>
-		) : (
-			<span style={style}>{text}</span>
-		);
+		return <span style={style}>{text}</span>;
 	};
 
 	private getMCColor = (color: string) => {
@@ -197,7 +229,8 @@ class PropertyParser {
 			case 'minecoin_gold':
 				return MCColor.minecoin_gold;
 			default:
-				return MCColor.white;
+				// Sometimes the server send a hex string
+				return color;
 		}
 	};
 

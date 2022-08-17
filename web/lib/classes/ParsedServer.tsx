@@ -4,10 +4,11 @@ class ParsedServer {
 	foundAt: string;
 	description: JSX.Element[];
 	players: { max: number; online: number };
-	version: string;
+	version: string | JSX.Element[];
 	ping: number;
 	hasCustomFavicon: boolean;
 	favicon: string;
+	rawDescription: string;
 	// Create a new ParsedServer with default values
 	constructor() {
 		this.id = '';
@@ -23,6 +24,7 @@ class ParsedServer {
 		this.ping = -1;
 		this.hasCustomFavicon = false;
 		this.favicon = ParsedServer.PACK_DEFUALT;
+		this.rawDescription = '';
 		return {
 			...this,
 		};
