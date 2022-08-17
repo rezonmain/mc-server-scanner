@@ -1,4 +1,3 @@
-import Image from 'next/image';
 import { ParsedServer } from '../../lib/types';
 import ServerFavicon from '../ServerFavicon/ServerFavicon';
 
@@ -8,6 +7,7 @@ const ServerCard = ({
 	hasCustomFavicon,
 	ip,
 	description,
+	rawDescription,
 	version,
 	foundAt,
 	ping,
@@ -25,6 +25,10 @@ const ServerCard = ({
 			<li>
 				<span className='text-neutral-400'>Description: </span>
 				{description}
+			</li>
+			<li>
+				<span className='text-neutral-400'>Unformatted: </span>
+				{rawDescription}
 			</li>
 			<li>
 				<span className='text-neutral-400'>Version: </span>

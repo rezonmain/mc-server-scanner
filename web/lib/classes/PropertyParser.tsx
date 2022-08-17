@@ -1,4 +1,4 @@
-import { Formatting, MCColor, RawServer } from '../types';
+import { FormatString, MCColor, RawServer } from '../types';
 import ParsedServer from './ParsedServer';
 
 class PropertyParser {
@@ -28,28 +28,38 @@ class PropertyParser {
 			ping: this.server.ping ?? def.ping,
 			hasCustomFavicon: !!this.server.favicon,
 			favicon: this.server.favicon || def.favicon,
+			rawDescription: JSON.stringify(this.server.description),
 		};
 	}
 
+	// TODO: going to have to re write this
 	private getDescriptionElement = () => {
 		const desc = this.server.description;
-		/* Some servers have a string as description,
-		if this is the case just return it
-		(as an array to keep function type, and avoid casting). */
+		/* Servers handle descriptions in 3 different ways:
+		1. The description prop is type string
+		2. The description prop is an object containing only 1 member named 'text'
+		3. The description prop is an object containing 2 members named 'text' and 'extra'
+		The 'extra' member is a newer way of formatting using json (see type FormatString)
+		But if the 'extra' member is non existing it means server may be using the old
+		way of formatting (using formatting chars like §a or §f)
+		If this is the case this function translates the old formatting to the newer one
+		this is to have a consistent way of formatting the description component */
+
 		if (typeof desc === 'string') {
-			return [<span key={desc}>{desc}</span>];
+			const formatStrings = this.getFormatStrings(desc);
+			const elements = formatStrings.map((format, i) => (
+				<this.FormattedWord key={format.text + i} {...format} />
+			));
+			return elements;
 		}
-		/* The extra object contains formatting data. Also:
-		some servers do have an independent text property,
-		this text is usally displayed before the 'extra' data */
-		const { text, extra } = desc;
-		const elements =
-			extra?.map((formatObj, i) => {
-				return <this.FormattedWord key={formatObj.text + i} {...formatObj} />;
-			}) ?? [];
-		// Put text as first element to display it first
-		elements.unshift(<span key='leftover'>{text}</span>);
-		return elements;
+
+		if (desc.text || !desc.extra) {
+			const formatStrings = this.getFormatStrings(desc.text);
+			const elements = formatStrings.map((format, i) => (
+				<this.FormattedWord key={format.text + i} {...format} />
+			));
+			return elements;
+		}
 	};
 
 	private parseTs = () => {
@@ -68,8 +78,46 @@ class PropertyParser {
 		return date.toLocaleDateString(undefined, options);
 	};
 
-	private parseDescriptionText(text: string) {}
+	private getFormatStrings(text: string) {
+		// Split newlines or formatting chars (§x) && remove empty chars
+		const splitted = text.split(/(\n)|(§[a-fk-r0-9])/g).filter((word) => word);
 
+		const isColor = (str: string) => /§[a-f0-9]/.test(str);
+		const isFormat = (str: string) => /§[k-r]/.test(str);
+
+		let currentColor: MCColor = MCColor.white;
+		let currentFormats: ReturnType<typeof this.getMCFormatting>[] = [];
+		let formatStrings: FormatString[] = [];
+
+		/* Go through each string in splitted, if string is a color format 
+		string, set the current color. Formats stack, so if string is format
+		save it to currentFormat array, if string is a normal text string
+		create a format string object and append it to the formatStrings array */
+		splitted.forEach((str) => {
+			if (isColor(str)) {
+				currentColor = this.getMCColor(str);
+			} else if (isFormat(str)) {
+				currentFormats.push(this.getMCFormatting(str));
+			} else {
+				formatStrings.push({
+					text: str,
+					color: currentColor,
+					obfuscated: currentFormats.includes('obfuscated'),
+					bold: currentFormats.includes('bold'),
+					strikethrough: currentFormats.includes('strikethrough'),
+					italic: currentFormats.includes('italic'),
+					reset: currentFormats.includes('reset'),
+					underline: currentFormats.includes('underline'),
+				});
+				// Reset formattings for next word
+				currentColor = MCColor.white;
+				currentFormats = [];
+			}
+		});
+		return formatStrings;
+	}
+
+	/* TODO: italic, obfuscated, support all types of lines!! */
 	private FormattedWord = ({
 		bold,
 		underline,
@@ -77,9 +125,9 @@ class PropertyParser {
 		color,
 		text,
 		clickEvent,
-	}: Formatting) => {
+	}: FormatString) => {
 		const style = {
-			color: this.getMCColor(color) as string,
+			color,
 			textDecoration: underline
 				? 'underline'
 				: strikethrough
@@ -152,6 +200,25 @@ class PropertyParser {
 				return MCColor.white;
 		}
 	};
+
+	private getMCFormatting(char: string) {
+		switch (char) {
+			case '§k':
+				return 'obfuscated';
+			case '§l':
+				return 'bold';
+			case '§m':
+				return 'strikethrough';
+			case '§n':
+				return 'underline';
+			case '§o':
+				return 'italic';
+			case '§r':
+				return 'reset';
+			default:
+				return '';
+		}
+	}
 }
 
 export default PropertyParser;

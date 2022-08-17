@@ -22,9 +22,9 @@ export enum MCColor {
 	minecoin_gold = '#DDD605',
 }
 
-export interface Formatting {
+export interface FormatString {
 	text: string;
-	color: string | MCColor;
+	color: string;
 	obfuscated?: boolean;
 	bold?: boolean;
 	strikethrough?: boolean;
@@ -37,7 +37,7 @@ export interface Formatting {
 export interface RawServer extends MongoDocument {
 	ip: string;
 	foundAt: Date;
-	description: string | { text: string; extra?: Formatting[] };
+	description: string | { text: string; extra?: FormatString[] };
 	players: {
 		max: number;
 		online: number;
@@ -57,6 +57,7 @@ export type ParsedServer = {
 	ip: string;
 	foundAt: string;
 	description: JSX.Element[];
+	rawDescription?: string;
 	players: {
 		max: number;
 		online: number;
