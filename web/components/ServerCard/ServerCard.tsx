@@ -27,10 +27,6 @@ const ServerCard = ({
 				{description}
 			</li>
 			<li>
-				<span className='text-neutral-400'>Unformatted: </span>
-				{rawDescription}
-			</li>
-			<li>
 				<span className='text-neutral-400'>Version: </span>
 				{version}
 			</li>

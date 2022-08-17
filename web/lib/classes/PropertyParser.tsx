@@ -1,4 +1,3 @@
-import { defaultMaxListeners } from 'events';
 import { CSSProperties } from 'react';
 import { FormatString, MCColor, RawServer } from '../types';
 import ParsedServer from './ParsedServer';
