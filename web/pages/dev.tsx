@@ -1,18 +1,11 @@
 import type { NextPage } from 'next';
 import ServerCard from '../components/ServerCard/ServerCard';
+import Waiting from '../components/Waiting/Waiting';
 import PropertyParser from '../lib/classes/PropertyParser';
 import { trpc } from '../utils/trpc';
 
 const Dev: NextPage = () => {
-	const { data } = trpc.useQuery(['search', { term: 'live' }]);
-
-	const el = data?.items.map((server) => {
-		const p = new PropertyParser(server);
-		const parsed = p.getParsedServer();
-		return <ServerCard key={server._id} {...parsed} />;
-	});
-
-	return <ul>{el}</ul>;
+	return <Waiting amount={1} />;
 };
 
 export default Dev;

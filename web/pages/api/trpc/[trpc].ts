@@ -1,6 +1,5 @@
 import * as trpc from '@trpc/server';
 import * as trpcNext from '@trpc/server/adapters/next';
-import { resolve } from 'path';
 import { z } from 'zod';
 import DB from '../../../db/Db';
 import FoundServerModel from '../../../db/models/FoundServerModel';
@@ -113,7 +112,10 @@ export const appRouter = trpc
 					{ 'description.text': { $regex: input.term, $options: 'i' } },
 					{ 'description.extra.text': { $regex: input.term, $options: 'i' } },
 				],
-			}).limit(input.limit);
+				foundAt: { $lt: input.cursor ?? 0xffffffffffff },
+			})
+				.sort({ foundAt: -1 })
+				.limit(input.limit);
 			let nextCursor: typeof input.cursor | undefined = undefined;
 			if (items.length >= input.limit) {
 				const lastTs = items[items.length - 1].foundAt;

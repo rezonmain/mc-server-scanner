@@ -1,29 +1,28 @@
 import React, { ChangeEvent, useState } from 'react';
 import _ from 'lodash';
-import ListByFoundAt from '../ListByFoundAt/ListByFoundAt';
+import InfiniteList from '../InfiniteList/InfiniteList';
 
-const listingOpts = ['mostRecent', 'history'] as const;
-export type ListingOpts = typeof listingOpts[number];
+const showOpts = ['mostRecent', 'history'] as const;
 
 const ServerList = () => {
-	const [showing, setShowing] = useState<ListingOpts>('mostRecent');
+	const [showing, setShowing] = useState<typeof showOpts[number]>('mostRecent');
 	const onChange = (e: ChangeEvent<HTMLSelectElement>) => {
 		e.preventDefault();
-		setShowing(e.target.value as ListingOpts);
+		setShowing(e.target.value as typeof showOpts[number]);
 	};
 	return (
 		<>
 			<form>
 				<label htmlFor='showing'>Showing:</label>
 				<select name='showing' value={showing} onChange={onChange}>
-					{listingOpts.map((opt) => (
+					{showOpts.map((opt) => (
 						<option key={opt} value={opt}>
 							{_.startCase(opt)}
 						</option>
 					))}
 				</select>
 			</form>
-			<ListByFoundAt queryKey={showing}></ListByFoundAt>
+			<InfiniteList queryKey={showing}></InfiniteList>
 		</>
 	);
 };
