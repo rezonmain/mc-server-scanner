@@ -1,5 +1,3 @@
-import { useState } from 'react';
-import { AllowedUserQuery, QuerySelection } from '../../lib/types';
 import ScrollTop from '../ScrollTop/ScrollTop';
 import ServerCount from '../ServerCount/ServerCount';
 import ServerList from '../ServerList/ServerList';

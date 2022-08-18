@@ -3,12 +3,10 @@ import ServerFavicon from '../ServerFavicon/ServerFavicon';
 import { HiOutlinePencilAlt } from 'react-icons/hi';
 
 const ServerCard = ({
-	id,
 	favicon,
 	hasCustomFavicon,
 	ip,
 	description,
-	rawDescription,
 	version,
 	foundAt,
 	ping,

@@ -1,5 +1,6 @@
 import * as trpc from '@trpc/server';
 import * as trpcNext from '@trpc/server/adapters/next';
+import { resolve } from 'path';
 import { z } from 'zod';
 import DB from '../../../db/Db';
 import FoundServerModel from '../../../db/models/FoundServerModel';
@@ -94,6 +95,33 @@ export const appRouter = trpc
 			const items = await FoundServerModel.find<RawServer>({ ip: input.ip });
 			return {
 				items,
+			};
+		},
+	})
+	.query('search', {
+		input: z.object({
+			term: z.string(),
+			limit: z.number().positive().default(5),
+			cursor: z.number().nullish(),
+		}),
+		async resolve({ input }) {
+			const db = new DB();
+			await db.connect();
+			const items = await FoundServerModel.find<RawServer>({
+				$or: [
+					{ 'players.sample.name': { $regex: input.term, $options: 'i' } },
+					{ 'description.text': { $regex: input.term, $options: 'i' } },
+					{ 'description.extra.text': { $regex: input.term, $options: 'i' } },
+				],
+			}).limit(input.limit);
+			let nextCursor: typeof input.cursor | undefined = undefined;
+			if (items.length >= input.limit) {
+				const lastTs = items[items.length - 1].foundAt;
+				nextCursor = lastTs;
+			}
+			return {
+				items,
+				nextCursor,
 			};
 		},
 	});

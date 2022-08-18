@@ -1,4 +1,4 @@
-import mongoose from 'mongoose';
+import mongoose, { SchemaType } from 'mongoose';
 import { RawServer } from '../../lib/types';
 const { Schema } = mongoose;
 
@@ -6,6 +6,19 @@ const { Schema } = mongoose;
 const serverSchema = new Schema<RawServer>({
 	ip: String,
 	foundAt: Number,
+	description: Schema.Types.Mixed,
+	players: {
+		max: Number,
+		online: Number,
+		sample: { type: [{ name: String, id: String }], required: false },
+	},
+	version: { name: String, protocol: Number },
+	ping: Number,
+	favicon: { type: String, required: false },
+	enforcesSecureChat: { type: Boolean, required: false },
+	previewsChat: { type: Boolean, required: false },
+	modinfo: { type: Schema.Types.Mixed, requires: false },
+	forgeData: { type: Schema.Types.Mixed, requires: false },
 });
 
 const FoundServerModel =
