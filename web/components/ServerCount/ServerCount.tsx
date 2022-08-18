@@ -8,7 +8,7 @@ const ServerCount = () => {
 			<div>
 				<span>Total entries: </span>
 				{isLoading ? (
-					<Waiting className='w-10 h-[1.2ch] bg-neutral-600' />
+					<span>...</span>
 				) : (
 					<span>{data?.totalCount.toLocaleString()}</span>
 				)}
@@ -16,7 +16,7 @@ const ServerCount = () => {
 			<div>
 				<span>Unique servers: </span>
 				{isLoading ? (
-					<Waiting className='w-10 h-[1.2ch] bg-neutral-600' />
+					<span>...</span>
 				) : (
 					<span>{data?.uniqueCount.toLocaleString()}</span>
 				)}

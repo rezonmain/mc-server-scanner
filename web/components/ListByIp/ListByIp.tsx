@@ -19,7 +19,7 @@ const ListByIp = ({
 	]);
 
 	if (isLoading) {
-		return <Waiting className='w-10 h-5 bg-neutral-600' />;
+		return <Waiting amount={5} />;
 	}
 
 	// Something went wrong server side

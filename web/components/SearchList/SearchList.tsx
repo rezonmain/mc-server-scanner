@@ -2,7 +2,7 @@ import InfiniteList from '../InfiniteList/InfiniteList';
 
 const SearchList = () => {
 	const input = {
-		term: 'overflow',
+		term: 'live',
 	};
 
 	return (
