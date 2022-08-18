@@ -17,7 +17,7 @@ export const appRouter = trpc
 	.router()
 	.query('mostRecent', {
 		input: z.object({
-			limit: z.number().default(5),
+			limit: z.number().positive().default(5),
 			cursor: z.number().nullish(),
 		}),
 		async resolve({ input }) {
@@ -31,6 +31,35 @@ export const appRouter = trpc
 			})
 				// Sort in a descending manner (more recent entries show first)
 				.sort({ foundAt: -1 })
+				// Limit the number of entries
+				.limit(input.limit);
+			let nextCursor: typeof input.cursor | undefined = undefined;
+			if (items.length >= input.limit) {
+				// Get last timestamp(foundAt) from the last item (least recent), use this ts as the next cursor
+				const lastTs = items[items.length - 1].foundAt;
+				nextCursor = lastTs;
+			}
+			return {
+				items,
+				nextCursor,
+			};
+		},
+	})
+	// Show oldest entries first
+	.query('history', {
+		input: z.object({
+			limit: z.number().positive().default(5),
+			cursor: z.number().nullish(),
+		}),
+		async resolve({ input }) {
+			const db = new DB();
+			await db.connect();
+
+			const items = await FoundServerModel.find<RawServer>({
+				foundAt: { $gt: input.cursor ?? 0x0 },
+			})
+				// Sort in a ascending manner (oldest firs)
+				.sort({ foundAt: 1 })
 				// Limit the number of entries
 				.limit(input.limit);
 			let nextCursor: typeof input.cursor | undefined = undefined;

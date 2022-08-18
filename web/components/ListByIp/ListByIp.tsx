@@ -14,7 +14,7 @@ const ListByIp = ({
 	validationError: boolean | string;
 }) => {
 	const { data, isLoading, isError, error } = trpc.useQuery([
-		'findByIp',
+		type,
 		{ ...input },
 	]);
 

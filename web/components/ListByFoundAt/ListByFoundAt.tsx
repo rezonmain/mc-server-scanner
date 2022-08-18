@@ -4,12 +4,13 @@ import PropertyParser from '../../lib/classes/PropertyParser';
 import { trpc } from '../../utils/trpc';
 import ServerCard from '../ServerCard/ServerCard';
 import ServerCardSkeleton from '../ServerCardSkeleton/ServerCardSkeleton';
+import { ListingOpts } from '../ServerList/ServerList';
 
-const ListByMostRecent = () => {
+const ListByFoundAt = ({ queryKey }: { queryKey: ListingOpts }) => {
 	// FIX: Doesn't show every entry, probably something to do with cursor in the query definition
 	const limit = 5;
 	const { data, isLoading, fetchNextPage, hasNextPage } = trpc.useInfiniteQuery(
-		['mostRecent', { limit }],
+		[queryKey, { limit }],
 		{
 			getNextPageParam: (lastPage) => lastPage.nextCursor,
 		}
@@ -37,4 +38,4 @@ const ListByMostRecent = () => {
 		</InfiniteScroll>
 	);
 };
-export default ListByMostRecent;
+export default ListByFoundAt;

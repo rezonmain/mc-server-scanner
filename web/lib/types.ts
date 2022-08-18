@@ -71,3 +71,9 @@ export type ParsedServer = {
 };
 
 export type AllowedUserQuery = 'mostRecent' | 'findByIp';
+
+export type QuerySelection = {
+	type: AllowedUserQuery;
+	input: { ip?: string; limit?: string; playerName?: string; text?: string };
+	validationError: boolean | string;
+};
