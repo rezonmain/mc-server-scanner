@@ -12,7 +12,7 @@ const ScrollTop = () => {
 		<button
 			onClick={(e) => onClick(e)}
 			title='Scroll to top'
-			className='fixed w-12 aspect-square border border-white bg-neutral-900 rounded-full top-[90vh] left-[80vw] opacity-75 hover:opacity-100 active:opacity-100 transition-opacity'
+			className='fixed w-12 aspect-square border border-white bg-neutral-900 rounded-full top-[90vh] left-[80vw] opacity-75 hover:opacity-100 active:opacity-100 transition-opacity z-20'
 		>
 			<BsChevronUp className='centered' fill='white' />
 		</button>
