@@ -31,10 +31,10 @@ const InfiniteList = ({
 	});
 
 	const mostRecentTs = data?.pages[0].items[0].foundAt;
-	const { data: newData } = trpc.useQuery([
-		'countNewData',
-		{ cursor: mostRecentTs },
-	]);
+	const { data: newData } = trpc.useQuery(
+		['countNewData', { cursor: mostRecentTs }],
+		{ refetchInterval: 1000 * 30 }
+	);
 
 	if (isLoading) {
 		return <Waiting key={1} amount={5} />;
