@@ -36,7 +36,7 @@ const NewEntriesButton = ({
 					</svg>
 				)}
 
-				<button className='bg-black ring-2 ring-neutral-600 text-sm text-neutral-300 font-semibold rounded-md py-1 px-2'>{`${count} new ${
+				<button className='bg-black ring-2 ring-neutral-600 text-sm text-neutral-300 font-semibold rounded-md py-1 px-2 hover:bg-neutral-800 active:bg-neutral-800 transition-colors'>{`${count} new ${
 					count > 1 ? 'entries' : 'entry'
 				}`}</button>
 				<span className='flex absolute h-[0.6rem] w-[0.6rem] top-0 right-0 -mt-1 -mr-1'>
