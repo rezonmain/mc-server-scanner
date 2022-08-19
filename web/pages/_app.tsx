@@ -2,9 +2,15 @@ import '../styles/globals.css';
 import type { AppProps } from 'next/app';
 import { withTRPC } from '@trpc/next';
 import { AppRouter } from './api/trpc/[trpc]';
+import NextNProgress from 'nextjs-progressbar';
 
 function MyApp({ Component, pageProps }: AppProps) {
-	return <Component {...pageProps} />;
+	return (
+		<>
+			<Component {...pageProps} />
+			<NextNProgress height={1} startPosition={0} color={'white'} />
+		</>
+	);
 }
 
 function getBaseUrl() {

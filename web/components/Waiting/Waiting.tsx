@@ -28,7 +28,7 @@ const SkeletonLine = ({ width }: { width: number }) => {
 	return (
 		<div
 			style={{ width: `${width}%` }}
-			className={`animate-pulse bg-neutral-700 rounded-md h-[1.7ch]`}
+			className={`animate-pulse bg-neutral-700 rounded-md h-[1.2ch]`}
 		></div>
 	);
 };
