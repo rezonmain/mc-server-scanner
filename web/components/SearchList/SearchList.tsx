@@ -8,8 +8,6 @@ const SearchList = ({ query }: { query: SearchQuery }) => {
 		descr: query.description ?? '.*',
 	};
 
-	console.log(input);
-
 	return (
 		<>
 			<InfiniteList queryKey='search' input={input}></InfiniteList>

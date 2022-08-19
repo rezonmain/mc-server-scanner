@@ -25,7 +25,6 @@ const InfiniteList = ({
 	}
 
 	if (isError) {
-		console.log('loading');
 		return <Crash message={error.message} />;
 	}
 
