@@ -24,6 +24,7 @@ const InfiniteList = ({
 		isError,
 		error,
 		refetch,
+		isFetching,
 	} = trpc.useInfiniteQuery([queryKey, { ...input }], {
 		getNextPageParam: (lastPage) => lastPage.nextCursor,
 		refetchOnWindowFocus: false,
@@ -46,7 +47,11 @@ const InfiniteList = ({
 	return (
 		<div className='flex flex-col'>
 			{queryKey === 'mostRecent' && newData && (
-				<NewEntriesButton count={newData.count} onClick={() => refetch()} />
+				<NewEntriesButton
+					count={newData.count}
+					onClick={() => refetch()}
+					isFetching={isFetching}
+				/>
 			)}
 			<InfiniteScroll
 				loadMore={() => fetchNextPage()}
