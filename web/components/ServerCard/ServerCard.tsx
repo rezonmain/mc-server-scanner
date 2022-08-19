@@ -2,6 +2,7 @@ import { ParsedServer } from '../../lib/types';
 import ServerFavicon from '../ServerFavicon/ServerFavicon';
 import { HiOutlinePencilAlt } from 'react-icons/hi';
 import { useRouter } from 'next/router';
+import Link from 'next/link';
 
 const ServerCard = ({
 	favicon,
@@ -14,8 +15,6 @@ const ServerCard = ({
 	players,
 }: ParsedServer) => {
 	const router = useRouter();
-	const handleIPClick = () =>
-		router.push({ pathname: '/search', query: { ip } });
 	const handleCopyClick = () => navigator.clipboard.writeText(ip);
 
 	return (
@@ -26,11 +25,12 @@ const ServerCard = ({
 			<li className='flex flex-row items-center gap-2'>
 				<span className='text-neutral-400'>IP: </span>
 				<span
-					onClick={() => handleIPClick()}
+					onClick={() => router.push({ pathname: '/search', query: { ip } })}
 					className='underline cursor-pointer active:no-underline'
 				>
 					{ip}
 				</span>
+
 				<HiOutlinePencilAlt
 					onClick={() => handleCopyClick()}
 					title='Copy ip address to clipboard'

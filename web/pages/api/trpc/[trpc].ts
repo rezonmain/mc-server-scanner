@@ -118,7 +118,7 @@ export const appRouter = trpc
 			const db = new DB();
 			await db.connect();
 			const items = await FoundServerModel.find<RawServer>({
-				ip: { $regex: input.ip ?? '.*' },
+				ip: { $regex: input.ip ? `^${input.ip}$` : '.*' },
 				foundAt: { $lt: input.cursor ?? 0xffffffffffff },
 				$or: [
 					{ description: { $regex: input.descr, $options: 'i' } },

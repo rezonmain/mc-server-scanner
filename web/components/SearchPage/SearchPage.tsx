@@ -19,6 +19,7 @@ const SearchPage = ({ query }: { query: SearchQuery }) => {
 		description: z.string().nullish(),
 	});
 	const res = searchSchema.parse(query);
+
 	return (
 		<div className='p-4 max-w-[750px] mx-auto'>
 			<div

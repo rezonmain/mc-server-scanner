@@ -8,7 +8,7 @@ function MyApp({ Component, pageProps }: AppProps) {
 	return (
 		<>
 			<Component {...pageProps} />
-			<NextNProgress height={1} startPosition={0} color={'white'} />
+			<NextNProgress height={0.5} startPosition={0} color={'white'} />
 		</>
 	);
 }
