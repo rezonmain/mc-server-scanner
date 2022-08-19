@@ -27,6 +27,7 @@ const InfiniteList = ({
 		isFetching,
 	} = trpc.useInfiniteQuery([queryKey, { ...input }], {
 		getNextPageParam: (lastPage) => lastPage.nextCursor,
+		refetchOnMount: false,
 		refetchOnWindowFocus: false,
 	});
 
