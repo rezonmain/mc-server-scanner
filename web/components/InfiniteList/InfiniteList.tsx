@@ -29,12 +29,11 @@ const InfiniteList = ({
 		refetchOnWindowFocus: false,
 	});
 
-	let newData;
 	const mostRecentTs = data?.pages[0].items[0].foundAt;
-	if (queryKey === 'mostRecent') {
-		const { data } = trpc.useQuery(['countNewData', { cursor: mostRecentTs }]);
-		newData = data;
-	}
+	const { data: newData } = trpc.useQuery([
+		'countNewData',
+		{ cursor: mostRecentTs },
+	]);
 
 	if (isLoading) {
 		return <Waiting key={1} amount={5} />;
@@ -46,7 +45,7 @@ const InfiniteList = ({
 
 	return (
 		<div className='flex flex-col'>
-			{newData && (
+			{queryKey === 'mostRecent' && newData && (
 				<NewEntriesButton count={newData.count} onClick={() => refetch()} />
 			)}
 			<InfiniteScroll
