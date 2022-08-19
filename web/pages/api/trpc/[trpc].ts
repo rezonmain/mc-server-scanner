@@ -87,19 +87,30 @@ export const appRouter = trpc
 	.query('findByIp', {
 		input: z.object({
 			ip: z.string().regex(IP_REGEX),
+			limit: z.number().positive().default(5),
+			cursor: z.number().nullish(),
 		}),
 		async resolve({ input }) {
 			const db = new DB();
 			await db.connect();
-			const items = await FoundServerModel.find<RawServer>({ ip: input.ip });
+			const items = await FoundServerModel.find<RawServer>({ ip: input.ip })
+				.limit(input.limit)
+				.sort({ foundAt: -1 });
+			let nextCursor: typeof input.cursor | undefined = undefined;
+			if (items.length >= input.limit) {
+				const lastTs = items[items.length - 1].foundAt;
+				nextCursor = lastTs;
+			}
 			return {
 				items,
+				nextCursor,
 			};
 		},
 	})
 	.query('search', {
 		input: z.object({
-			term: z.string(),
+			ip: z.string().regex(IP_REGEX).nullish(),
+			descr: z.string().nullish(),
 			limit: z.number().positive().default(5),
 			cursor: z.number().nullish(),
 		}),
@@ -107,12 +118,16 @@ export const appRouter = trpc
 			const db = new DB();
 			await db.connect();
 			const items = await FoundServerModel.find<RawServer>({
-				$or: [
-					{ 'players.sample.name': { $regex: input.term, $options: 'i' } },
-					{ 'description.text': { $regex: input.term, $options: 'i' } },
-					{ 'description.extra.text': { $regex: input.term, $options: 'i' } },
-				],
+				ip: { $regex: input.ip ?? '.*' },
 				foundAt: { $lt: input.cursor ?? 0xffffffffffff },
+				$or: [
+					{ description: { $regex: input.descr, $options: 'i' } },
+					{ 'description.text': { $regex: input.descr, $options: 'i' } },
+					{
+						'description.extra.text': { $regex: input.descr, $options: 'i' },
+					},
+					{ 'description.translate': { $regex: input.descr, $options: 'i' } },
+				],
 			})
 				.sort({ foundAt: -1 })
 				.limit(input.limit);

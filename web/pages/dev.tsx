@@ -5,7 +5,7 @@ import PropertyParser from '../lib/classes/PropertyParser';
 import { trpc } from '../utils/trpc';
 
 const Dev: NextPage = () => {
-	return <Waiting amount={1} />;
+	return <Waiting amount={5} />;
 };
 
 export default Dev;

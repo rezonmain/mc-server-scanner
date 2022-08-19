@@ -1,13 +1,17 @@
 import InfiniteList from '../InfiniteList/InfiniteList';
+import { SearchQuery } from '../SearchPage/SearchPage';
 
-const SearchList = () => {
+const SearchList = ({ query }: { query: SearchQuery }) => {
 	const input = {
-		term: 'live',
+		ip: query.ip,
+		playerName: query.playerName ?? '.*',
+		descr: query.description ?? '.*',
 	};
+
+	console.log(input);
 
 	return (
 		<>
-			<span>Showing results for {input.term}</span>
 			<InfiniteList queryKey='search' input={input}></InfiniteList>
 		</>
 	);

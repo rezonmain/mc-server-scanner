@@ -1,6 +1,7 @@
 import { ParsedServer } from '../../lib/types';
 import ServerFavicon from '../ServerFavicon/ServerFavicon';
 import { HiOutlinePencilAlt } from 'react-icons/hi';
+import { useRouter } from 'next/router';
 
 const ServerCard = ({
 	favicon,
@@ -12,7 +13,10 @@ const ServerCard = ({
 	ping,
 	players,
 }: ParsedServer) => {
-	const handleIPClick = () => navigator.clipboard.writeText(ip);
+	const router = useRouter();
+	const handleIPClick = () =>
+		router.push({ pathname: '/search', query: { ip } });
+	const handleCopyClick = () => navigator.clipboard.writeText(ip);
 
 	return (
 		<ul className='py-7 bg-neutral-800 p-4 my-4 break-words rounded-md'>
@@ -28,7 +32,7 @@ const ServerCard = ({
 					{ip}
 				</span>
 				<HiOutlinePencilAlt
-					onClick={() => handleIPClick()}
+					onClick={() => handleCopyClick()}
 					title='Copy ip address to clipboard'
 					size={21}
 					className='inline-block cursor-pointer active:scale-110 transition-transform'

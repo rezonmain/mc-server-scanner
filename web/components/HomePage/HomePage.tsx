@@ -1,13 +1,13 @@
 import ScrollTop from '../ScrollTop/ScrollTop';
 import ServerCount from '../ServerCount/ServerCount';
-import ServerList from '../ServerList/ServerList';
+import HomeList from '../HomeList/HomeList';
 
 const HomePage = () => {
 	return (
 		<div className='p-4 max-w-[750px] mx-auto'>
 			<ServerCount />
 			<ScrollTop />
-			<ServerList />
+			<HomeList />
 		</div>
 	);
 };

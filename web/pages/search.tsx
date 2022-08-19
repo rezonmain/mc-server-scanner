@@ -1,12 +1,10 @@
 import type { NextPage } from 'next';
-import SearchList from '../components/SearchList/SearchList';
+import { useRouter } from 'next/router';
+import SearchPage from '../components/SearchPage/SearchPage';
 
 const Search: NextPage = () => {
-	return (
-		<div className='p-4 max-w-[750px] mx-auto'>
-			<SearchList />
-		</div>
-	);
+	const { query } = useRouter();
+	return <SearchPage query={query} />;
 };
 
 export default Search;

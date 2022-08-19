@@ -4,7 +4,7 @@ import InfiniteList from '../InfiniteList/InfiniteList';
 
 const showOpts = ['mostRecent', 'history'] as const;
 
-const ServerList = () => {
+const HomeList = () => {
 	const [showing, setShowing] = useState<typeof showOpts[number]>('mostRecent');
 	const onChange = (e: ChangeEvent<HTMLSelectElement>) => {
 		e.preventDefault();
@@ -27,4 +27,4 @@ const ServerList = () => {
 	);
 };
 
-export default ServerList;
+export default HomeList;

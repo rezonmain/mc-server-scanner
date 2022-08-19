@@ -2,6 +2,7 @@ import React from 'react';
 import InfiniteScroll from 'react-infinite-scroller';
 import PropertyParser from '../../lib/classes/PropertyParser';
 import { trpc } from '../../utils/trpc';
+import Crash from '../Crash/Crash';
 import ServerCard from '../ServerCard/ServerCard';
 import Waiting from '../Waiting/Waiting';
 
@@ -14,23 +15,25 @@ const InfiniteList = ({
 	queryKey: InfiniteQueries;
 	input?: any;
 }) => {
-	const limit = 5;
-	const { data, isLoading, fetchNextPage, hasNextPage } = trpc.useInfiniteQuery(
-		[queryKey, { ...input }],
-		{
+	const { data, isLoading, fetchNextPage, hasNextPage, isError, error } =
+		trpc.useInfiniteQuery([queryKey, { ...input }], {
 			getNextPageParam: (lastPage) => lastPage.nextCursor,
-		}
-	);
+		});
 
 	if (isLoading) {
-		return <Waiting amount={5} />;
+		return <Waiting key={1} amount={5} />;
+	}
+
+	if (isError) {
+		console.log('loading');
+		return <Crash message={error.message} />;
 	}
 
 	return (
 		<InfiniteScroll
 			loadMore={() => fetchNextPage()}
 			hasMore={hasNextPage}
-			loader={<Waiting amount={1} />}
+			loader={<Waiting key={2} amount={1} />}
 		>
 			<div>
 				{data?.pages.map((group, i) => (
