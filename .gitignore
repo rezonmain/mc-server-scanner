@@ -6,3 +6,4 @@ src/ipranges.json
 src/res.json
 paused.conf
 .env
+.DS_Store
