@@ -21,7 +21,7 @@ const NewEntriesButton = ({
 			</span>
 		);
 	}
-	return <div className='h-[1.75rem]'></div>;
+	return null;
 };
 
 export default NewEntriesButton;
