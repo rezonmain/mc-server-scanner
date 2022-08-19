@@ -141,6 +141,21 @@ export const appRouter = trpc
 				nextCursor,
 			};
 		},
+	})
+	.query('countNewData', {
+		input: z.object({
+			cursor: z.number().positive().default(0xfffffffffffff),
+		}),
+		async resolve({ input }) {
+			const db = new DB();
+			await db.connect();
+			const count = await FoundServerModel.countDocuments({
+				foundAt: { $gt: input.cursor },
+			});
+			return {
+				count,
+			};
+		},
 	});
 
 // Export type definition of API
