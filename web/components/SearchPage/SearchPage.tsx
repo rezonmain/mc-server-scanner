@@ -21,7 +21,7 @@ const SearchPage = ({ query }: { query: SearchQuery }) => {
 	const res = searchSchema.parse(query);
 
 	return (
-		<div className='p-4 max-w-[750px] mx-auto'>
+		<div className='p-4 md:max-w-[750px] xl:max-w-[990px] mx-auto'>
 			<div
 				onClick={() => router.back()}
 				className='cursor-pointer w-fit h-git p-1 rounded-full hover:bg-neutral-700 transition-colors'

@@ -4,7 +4,7 @@ import HomeList from '../HomeList/HomeList';
 
 const HomePage = () => {
 	return (
-		<div className='p-4 max-w-[750px] mx-auto'>
+		<div className='p-4 md:max-w-[750px] xl:max-w-[990px] mx-auto'>
 			<ServerCount />
 			<ScrollTop />
 			<HomeList />
