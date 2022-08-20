@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { useState } from 'react';
+import { FormEvent, useState } from 'react';
 import { BsGithub } from 'react-icons/bs';
 import { FiSearch } from 'react-icons/fi';
 import { IP_REGEX } from '../../utils/regex';
@@ -9,7 +9,8 @@ const Header = () => {
 	const [inputFocus, setInputFocus] = useState(false);
 	const [searchText, setSearchText] = useState<string>('');
 	const router = useRouter();
-	const onSubmit = () => {
+	const onSubmit = (e?: FormEvent<HTMLFormElement>) => {
+		e && e.preventDefault();
 		if (searchText.trim().length <= 0) return;
 		const ip = searchText.match(IP_REGEX);
 		const query = {
@@ -39,18 +40,19 @@ const Header = () => {
 						} transition-all `}
 					>
 						<FiSearch size={18} />
-						<input
-							onKeyDown={(e) => e.code === 'Enter' && onSubmit()}
-							value={searchText}
-							onChange={(e) => setSearchText(e.target.value)}
-							onFocus={() => setInputFocus(true)}
-							onBlur={() => setInputFocus(false)}
-							type='search'
-							placeholder={inputFocus ? ' Keyword or IP...' : 'Search...'}
-							className={`bg-neutral-700 outline-none h-[2rem] max-w-[40vw] md:max-w-none md:w-[15rem] ${
-								inputFocus ? 'text-white' : 'text-neutral-400'
-							} transition-colors `}
-						/>
+						<form onSubmit={(e) => onSubmit(e)}>
+							<input
+								value={searchText}
+								onChange={(e) => setSearchText(e.target.value)}
+								onFocus={() => setInputFocus(true)}
+								onBlur={() => setInputFocus(false)}
+								type='search'
+								placeholder={inputFocus ? ' Keyword or IP...' : 'Search...'}
+								className={`bg-neutral-700 outline-none h-[2rem] max-w-[40vw] md:max-w-none md:w-[15rem] ${
+									inputFocus ? 'text-white' : 'text-neutral-400'
+								} transition-colors `}
+							/>
+						</form>
 					</div>
 					<button
 						onClick={() => onSubmit()}
