@@ -12,7 +12,7 @@ const Cube = ({ position }: { position: Vector3 }) => {
 	});
 
 	return (
-		<mesh position={position} ref={ref} scale='2.2'>
+		<mesh position={position} ref={ref} scale={2.2}>
 			<boxGeometry />
 			<meshBasicMaterial wireframe={true} />
 		</mesh>
