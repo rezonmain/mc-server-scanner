@@ -1,5 +1,4 @@
 import { Canvas } from '@react-three/fiber';
-import { RefObject, useRef } from 'react';
 import Cube from './Cube';
 
 const CubeWidget = () => {

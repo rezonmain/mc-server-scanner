@@ -2,7 +2,6 @@ import { ParsedServer } from '../../lib/types';
 import ServerFavicon from '../ServerFavicon/ServerFavicon';
 import { HiOutlinePencilAlt } from 'react-icons/hi';
 import { useRouter } from 'next/router';
-import Link from 'next/link';
 
 const ServerCard = ({
 	favicon,

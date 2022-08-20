@@ -1,4 +1,5 @@
 import { CSSProperties } from 'react';
+import { FAV_REGEX } from '../../utils/regex';
 import { FormatString, MCColor, RawServer } from '../types';
 import ParsedServer from './ParsedServer';
 
@@ -30,7 +31,9 @@ class PropertyParser {
 				: def.version,
 			ping: this.server.ping ?? def.ping,
 			hasCustomFavicon: !!this.server.favicon,
-			favicon: this.server.favicon || def.favicon,
+			favicon: this.server.favicon?.match(FAV_REGEX)
+				? this.server.favicon
+				: def.favicon,
 			rawDescription: JSON.stringify(this.server.description),
 		};
 	}

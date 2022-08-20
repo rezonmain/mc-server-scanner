@@ -1,8 +1,12 @@
 import type { NextPage } from 'next';
-import Crash from '../components/Crash/Crash';
+import CubeWidget from '../components/Cube/CubeWidget';
 
 const Dev: NextPage = () => {
-	return <Crash message='error' />;
+	return (
+		<div className='text-center'>
+			<CubeWidget />
+		</div>
+	);
 };
 
 export default Dev;
