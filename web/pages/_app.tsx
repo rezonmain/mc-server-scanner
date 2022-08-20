@@ -3,16 +3,14 @@ import type { AppProps } from 'next/app';
 import { withTRPC } from '@trpc/next';
 import { AppRouter } from './api/trpc/[trpc]';
 import NextNProgress from 'nextjs-progressbar';
-import Header from '../components/Header/Header';
-import Footer from '../components/Footer/Footer';
+import useStickyHeader from '../lib/hooks/useStickyHeader';
 
 function MyApp({ Component, pageProps }: AppProps) {
+	useStickyHeader();
 	return (
 		<>
-			<Header />
 			<Component {...pageProps} />
 			<NextNProgress height={0.5} startPosition={0} color={'white'} />
-			<Footer />
 		</>
 	);
 }

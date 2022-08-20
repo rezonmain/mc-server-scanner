@@ -1,4 +1,4 @@
-import mongoose, { SchemaType } from 'mongoose';
+import mongoose from 'mongoose';
 import { RawServer } from '../../lib/types';
 const { Schema } = mongoose;
 

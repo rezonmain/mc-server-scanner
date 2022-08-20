@@ -27,7 +27,7 @@ const Header = () => {
 	};
 
 	return (
-		<header className='bg-black sticky w-screen z-10'>
+		<header className='bg-black sticky z-10'>
 			<div className='mx-auto flex justify-between p-4  md:max-w-[750px] xl:max-w-[990px]'>
 				<div id='link+search' className='flex flex-row gap-4 items-center'>
 					<Link href={'/'}>

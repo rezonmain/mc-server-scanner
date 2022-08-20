@@ -1,5 +1,4 @@
 import _ from 'lodash';
-import { useEffect, useRef, useState } from 'react';
 
 const lines = 6;
 const Waiting = ({ amount }: { amount: number }) => {

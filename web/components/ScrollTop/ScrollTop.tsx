@@ -1,4 +1,5 @@
 import { BsChevronUp } from 'react-icons/bs';
+
 const ScrollTop = () => {
 	const onClick = (e: React.MouseEvent) => {
 		e.preventDefault();

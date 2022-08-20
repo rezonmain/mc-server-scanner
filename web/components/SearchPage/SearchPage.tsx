@@ -1,5 +1,4 @@
 import { z } from 'zod';
-import { IP_REGEX } from '../../utils/regex';
 import SearchList from '../SearchList/SearchList';
 import { BiArrowBack } from 'react-icons/bi';
 import { useRouter } from 'next/router';

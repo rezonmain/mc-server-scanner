@@ -2,7 +2,7 @@ import Link from 'next/link';
 
 const Footer = () => {
 	return (
-		<footer className='w-screen h-20 mt-10'>
+		<footer className='h-20 mt-10'>
 			<div className='flex flex-col justify-center items-center mx-auto w-fit gap-2'>
 				<small>&copy; 2022 made with 💝 by rezonmain</small>
 				<small>

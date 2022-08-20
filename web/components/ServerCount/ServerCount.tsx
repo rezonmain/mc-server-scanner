@@ -1,5 +1,4 @@
 import { trpc } from '../../utils/trpc';
-import Waiting from '../Waiting/Waiting';
 
 const ServerCount = () => {
 	const { isLoading, data } = trpc.useQuery(['count']);
