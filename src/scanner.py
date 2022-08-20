@@ -37,23 +37,24 @@ def scan(range):
     log.send(f'No servers found in range {Color.RED}{range}{Color.END}', __name__)
 
   count = 0
+  total = len(ips)
   for ip in ips:
     count += 1
-    check_SLP.send(ip, count)
+    check_SLP.send(ip, count, total)
 
 def should_retry_SLP(retries_so_far, exception):
   return retries_so_far < 3
 
 @dramatiq.actor(retry_when=should_retry_SLP)
-def check_SLP(ip, count):
-  log.send(f'[{count}] Checking server list ping of {Color.YELLOW}{ip}{Color.END}', __name__)
+def check_SLP(ip, count, total):
+  log.send(f'[{count}/{total}] Checking server list ping of {Color.YELLOW}{ip}{Color.END}', __name__)
   try:
     status = StatusPing(ip)
     res = status.get_status()
-    log.send(f'[{count}] {Color.GREEN}Succesfully{Color.END} pinged {Color.YELLOW}{ip}{Color.END}, saving to db.', __name__)
+    log.send(f'[{count}/{total}] {Color.GREEN}Succesfully{Color.END} pinged {Color.YELLOW}{ip}{Color.END}, saving to db.', __name__)
     write_to_db.send(ip, res)
   except:
-    log.send(f'[{count}] {Color.RED}{ip}{Color.END} is not a minecraft server I guess', __name__)
+    log.send(f'[{count}/{total}] {Color.RED}{ip}{Color.END} is not a minecraft server I guess', __name__)
 
 # Write found server to mongodb
 @dramatiq.actor
