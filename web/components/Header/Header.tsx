@@ -3,6 +3,7 @@ import { useRouter } from 'next/router';
 import { FormEvent, RefObject, useRef, useState } from 'react';
 import { BsGithub } from 'react-icons/bs';
 import { FiSearch } from 'react-icons/fi';
+import useStickyHeader from '../../lib/hooks/useStickyHeader';
 import { IP_REGEX } from '../../utils/regex';
 
 const Header = () => {
@@ -10,6 +11,7 @@ const Header = () => {
 	const [searchText, setSearchText] = useState<string>('');
 	const inputRef = useRef() as RefObject<HTMLInputElement>;
 	const router = useRouter();
+	useStickyHeader();
 	const onSubmit = (e?: FormEvent<HTMLFormElement>) => {
 		e && e.preventDefault();
 		if (searchText.trim().length <= 0) return;

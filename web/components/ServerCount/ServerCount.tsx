@@ -6,19 +6,27 @@ const ServerCount = () => {
 	return (
 		<>
 			<div>
-				<span>Total entries: </span>
+				<span className='font-semibold'>
+					Total: <br></br>{' '}
+				</span>
 				{isLoading ? (
-					<span>...</span>
+					<span className='text-neutral-300'>...</span>
 				) : (
-					<span>{data?.totalCount.toLocaleString()}</span>
+					<span className='text-neutral-300'>
+						{data?.totalCount.toLocaleString()}
+					</span>
 				)}
 			</div>
 			<div>
-				<span>Unique servers: </span>
+				<span className='font-semibold'>
+					Unique: <br></br>
+				</span>
 				{isLoading ? (
-					<span>...</span>
+					<span className='text-neutral-300'>...</span>
 				) : (
-					<span>{data?.uniqueCount.toLocaleString()}</span>
+					<span className='text-neutral-300'>
+						{data?.uniqueCount.toLocaleString()}
+					</span>
 				)}
 			</div>
 		</>

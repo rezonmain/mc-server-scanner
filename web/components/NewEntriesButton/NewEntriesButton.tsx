@@ -7,7 +7,7 @@ const NewEntriesButton = ({
 	onClick: () => void;
 	isFetching: boolean;
 }) => {
-	if (count > 0) {
+	if (count >= 0) {
 		return (
 			<span
 				onClick={() => onClick()}
