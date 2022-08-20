@@ -22,7 +22,7 @@ const HomeView = ({
 						<label className='font-semibold'>
 							Showing: <br></br>
 							<select
-								className='p-[0.2rem] rounded-lg text-neutral-300'
+								className='p-[0.2rem] rounded-lg text-neutral-300 bg-neutral-800'
 								name='showing'
 								value={showing}
 								onChange={onChange}
