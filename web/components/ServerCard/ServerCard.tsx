@@ -18,7 +18,7 @@ const ServerCard = ({
 	const handleCopyClick = () => navigator.clipboard.writeText(ip);
 
 	return (
-		<ul className='py-7 bg-neutral-800 p-4 my-4 break-words rounded-lg'>
+		<ul className='py-7 bg-neutral-800 p-4 mb-4 break-words rounded-lg'>
 			<li>
 				<ServerFavicon favicon={favicon} hasCustomFavicon={hasCustomFavicon} />
 			</li>

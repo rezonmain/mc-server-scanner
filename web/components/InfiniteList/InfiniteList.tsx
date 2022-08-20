@@ -52,7 +52,7 @@ const InfiniteList = ({
 	}
 
 	return (
-		<div className='flex flex-col'>
+		<section id='infinite-list' className='flex flex-col'>
 			{queryKey === 'mostRecent' && newData && (
 				<NewEntriesButton
 					count={newData.count}
@@ -78,7 +78,7 @@ const InfiniteList = ({
 					{!isLoading && !hasNextPage && <div>Nothing more to show</div>}
 				</div>
 			</InfiniteScroll>
-		</div>
+		</section>
 	);
 };
 export default InfiniteList;

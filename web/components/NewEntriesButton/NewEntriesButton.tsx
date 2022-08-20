@@ -7,11 +7,11 @@ const NewEntriesButton = ({
 	onClick: () => void;
 	isFetching: boolean;
 }) => {
-	if (count >= 0) {
+	if (count > 0) {
 		return (
 			<span
 				onClick={() => onClick()}
-				className='relative inline-flex justify-end items-center'
+				className='relative inline-flex justify-end items-center mb-4'
 			>
 				{isFetching && (
 					<svg
