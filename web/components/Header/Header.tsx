@@ -5,6 +5,7 @@ import { BsGithub } from 'react-icons/bs';
 import { FiSearch } from 'react-icons/fi';
 import useStickyHeader from '../../lib/hooks/useStickyHeader';
 import { IP_REGEX } from '../../utils/regex';
+import CubeWidget from '../Cube/CubeWidget';
 
 const Header = () => {
 	const [inputFocus, setInputFocus] = useState(false);
@@ -31,8 +32,8 @@ const Header = () => {
 			<div className='mx-auto flex justify-between p-4  md:max-w-[750px] xl:max-w-[990px]'>
 				<div id='link+search' className='flex flex-row gap-4 items-center'>
 					<Link href={'/'}>
-						<div id='home-link' className='cursor-pointer'>
-							<span className=' text-xl font-bold'>MSC</span>
+						<div id='home-link' className='cursor-pointer w-9 h-9'>
+							<CubeWidget />
 						</div>
 					</Link>
 
