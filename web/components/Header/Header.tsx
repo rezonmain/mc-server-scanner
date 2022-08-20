@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { FormEvent, useState } from 'react';
+import { FormEvent, RefObject, useRef, useState } from 'react';
 import { BsGithub } from 'react-icons/bs';
 import { FiSearch } from 'react-icons/fi';
 import { IP_REGEX } from '../../utils/regex';
@@ -8,6 +8,7 @@ import { IP_REGEX } from '../../utils/regex';
 const Header = () => {
 	const [inputFocus, setInputFocus] = useState(false);
 	const [searchText, setSearchText] = useState<string>('');
+	const inputRef = useRef() as RefObject<HTMLInputElement>;
 	const router = useRouter();
 	const onSubmit = (e?: FormEvent<HTMLFormElement>) => {
 		e && e.preventDefault();
@@ -21,6 +22,7 @@ const Header = () => {
 		if (!ip) delete query.ip;
 		console.log(query);
 		router.push({ pathname: '/search', query });
+		inputRef.current?.blur();
 	};
 
 	return (
@@ -42,6 +44,8 @@ const Header = () => {
 						<FiSearch size={18} />
 						<form onSubmit={(e) => onSubmit(e)}>
 							<input
+								ref={inputRef}
+								autoCapitalize='off'
 								value={searchText}
 								onChange={(e) => setSearchText(e.target.value)}
 								onFocus={() => setInputFocus(true)}
