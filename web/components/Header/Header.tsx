@@ -20,7 +20,6 @@ const Header = () => {
 		};
 
 		if (!ip) delete query.ip;
-		console.log(query);
 		router.push({ pathname: '/search', query });
 		inputRef.current?.blur();
 	};
