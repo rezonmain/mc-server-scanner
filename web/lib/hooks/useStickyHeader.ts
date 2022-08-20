@@ -1,5 +1,9 @@
 import { useEffect, useRef } from 'react';
-
+/* 
+FIX:
+This code makes me cringe, but it works, so not refactoring it right now
+maybe later
+*/
 const useStickyHeader = () => {
 	const scrollRef = useRef({ amount: 0, dir: 0, offset: 0 });
 	useEffect(() => {
@@ -34,6 +38,7 @@ const useStickyHeader = () => {
 
 		const handleScroll = () => {
 			dir();
+			const opacity = scrollRef.current.amount / 64;
 			if (scrollRef.current.dir === 1) {
 				header?.setAttribute('style', `top:${-scrollRef.current.amount}px`);
 			}
