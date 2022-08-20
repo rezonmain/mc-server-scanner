@@ -31,7 +31,9 @@ const InfiniteList = ({
 		refetchOnWindowFocus: false,
 	});
 
-	const mostRecentTs = data?.pages[0].items[0].foundAt;
+	const mostRecentTs = data?.pages[0].items[0]
+		? data?.pages[0].items[0].foundAt
+		: undefined;
 	const { data: newData } = trpc.useQuery(
 		['countNewData', { cursor: mostRecentTs }],
 		{ refetchInterval: 1000 * 30 }
@@ -43,6 +45,10 @@ const InfiniteList = ({
 
 	if (isError) {
 		return <Crash message={error.message} />;
+	}
+
+	if (!data?.pages[0].items[0]) {
+		return <span>No results found</span>;
 	}
 
 	return (

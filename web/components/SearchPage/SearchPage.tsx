@@ -14,9 +14,9 @@ export type SearchQuery = {
 const SearchPage = ({ query }: { query: SearchQuery }) => {
 	const router = useRouter();
 	const searchSchema = z.object({
-		ip: z.string().regex(IP_REGEX).nullish(),
-		playerName: z.string().nullish(),
-		description: z.string().nullish(),
+		ip: z.string().nullish(),
+		playerName: z.string().trim().nullish(),
+		description: z.string().trim().nullish(),
 	});
 	const res = searchSchema.parse(query);
 
