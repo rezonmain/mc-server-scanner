@@ -19,7 +19,7 @@ const Header = () => {
 		const ip = searchText.match(IP_REGEX);
 		const query = {
 			ip: ip ? ip[0] : undefined,
-			description: ip ? undefined : searchText.trim(),
+			keyword: ip ? undefined : searchText.trim(),
 		};
 
 		if (!ip) delete query.ip;
@@ -53,7 +53,9 @@ const Header = () => {
 								onFocus={() => setInputFocus(true)}
 								onBlur={() => setInputFocus(false)}
 								type='search'
-								placeholder={inputFocus ? ' Keyword or IP...' : 'Search...'}
+								placeholder={
+									inputFocus ? 'Keyword, player, ip...' : 'Search...'
+								}
 								className={`bg-neutral-700 outline-none h-[2rem] max-w-[40vw] md:max-w-none md:w-[15rem] ${
 									inputFocus ? 'text-white' : 'text-neutral-400'
 								} transition-colors `}

@@ -110,7 +110,7 @@ export const appRouter = trpc
 	.query('search', {
 		input: z.object({
 			ip: z.string().regex(IP_REGEX).nullish(),
-			descr: z.string().nullish(),
+			keyword: z.string().nullish(),
 			limit: z.number().positive().default(5),
 			cursor: z.number().nullish(),
 		}),
@@ -121,13 +121,13 @@ export const appRouter = trpc
 				ip: { $regex: input.ip ? `^${input.ip}$` : '.*' },
 				foundAt: { $lt: input.cursor ?? 0xffffffffffff },
 				$or: [
-					{ description: { $regex: input.descr, $options: 'i' } },
-					{ 'description.text': { $regex: input.descr, $options: 'i' } },
+					{ description: { $regex: input.keyword, $options: 'i' } },
+					{ 'description.text': { $regex: input.keyword, $options: 'i' } },
 					{
-						'description.extra.text': { $regex: input.descr, $options: 'i' },
+						'description.extra.text': { $regex: input.keyword, $options: 'i' },
 					},
-					{ 'description.translate': { $regex: input.descr, $options: 'i' } },
-					// { 'players.sample.name': { $regex: input.descr, $options: 'i' } },
+					{ 'description.translate': { $regex: input.keyword, $options: 'i' } },
+					{ 'players.sample.name': { $regex: input.keyword, $options: 'i' } },
 				],
 			})
 				.sort({ foundAt: -1 })

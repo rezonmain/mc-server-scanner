@@ -5,8 +5,6 @@ import { useRouter } from 'next/router';
 
 export type SearchQuery = {
 	ip?: string | undefined | null;
-	playerName?: string | undefined | null;
-	description?: string | undefined | null;
 	keyword?: string | undefined | null;
 };
 
@@ -14,8 +12,7 @@ const SearchPage = ({ query }: { query: SearchQuery }) => {
 	const router = useRouter();
 	const searchSchema = z.object({
 		ip: z.string().nullish(),
-		playerName: z.string().trim().nullish(),
-		description: z.string().trim().nullish(),
+		keyword: z.string().trim().nullish(),
 	});
 	const res = searchSchema.parse(query);
 

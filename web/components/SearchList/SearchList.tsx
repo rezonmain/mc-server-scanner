@@ -4,8 +4,7 @@ import { SearchQuery } from '../SearchPage/SearchPage';
 const SearchList = ({ query }: { query: SearchQuery }) => {
 	const input = {
 		ip: query.ip,
-		playerName: query.playerName ?? '.*',
-		descr: query.description ?? '.*',
+		keyword: query.keyword ?? '.*',
 	};
 
 	return (
