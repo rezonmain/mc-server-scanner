@@ -61,7 +61,9 @@ const ServerCard = ({
 			<li>
 				<div
 					onClick={() => setShowPlayers((prev) => !prev)}
-					className='flex flex-row gap-1 items-center w-fit cursor-pointer select-none'
+					className={`flex flex-row gap-1 items-center w-fit select-none ${
+						players.sample && players.sample?.length > 0 ? 'cursor-pointer' : ''
+					}`}
 				>
 					<span className='text-neutral-400'>Players: </span>
 					{players.online} / {players.max}
