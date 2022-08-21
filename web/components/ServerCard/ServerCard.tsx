@@ -22,8 +22,8 @@ const ServerCard = ({
 	const handleCopyClick = () => navigator.clipboard.writeText(ip);
 
 	return (
-		<ul className='py-7 bg-neutral-800 p-4 mb-4 break-words rounded-lg leading-7'>
-			<li>
+		<ul className='p-5 bg-neutral-800 mb-4 break-words rounded-lg leading-7'>
+			<li className='mb-2'>
 				<ServerFavicon favicon={favicon} hasCustomFavicon={hasCustomFavicon} />
 			</li>
 			<li className='flex flex-row items-center gap-2'>
@@ -61,7 +61,7 @@ const ServerCard = ({
 			<li>
 				<div
 					onClick={() => setShowPlayers((prev) => !prev)}
-					className='flex flex-row gap-1 items-center w-fit'
+					className='flex flex-row gap-1 items-center w-fit cursor-pointer select-none'
 				>
 					<span className='text-neutral-400'>Players: </span>
 					{players.online} / {players.max}
