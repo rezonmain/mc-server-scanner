@@ -23,8 +23,11 @@ const Header = () => {
 		};
 
 		if (!ip) delete query.ip;
+		if (!query.keyword) delete query.keyword;
+		if (Object.keys(query).length === 0) return;
 		router.push({ pathname: '/search', query });
 		inputRef.current?.blur();
+		setSearchText('');
 	};
 
 	return (

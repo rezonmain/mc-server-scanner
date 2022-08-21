@@ -1,7 +1,9 @@
 import { motion } from 'framer-motion';
+import { useRouter } from 'next/router';
 import ParsedServer from '../../lib/classes/ParsedServer';
 
 const PlayerList = ({ players }: { players: ParsedServer['players'] }) => {
+	const router = useRouter();
 	if (players.sample && players.sample?.length <= 0) return null;
 
 	const list = {
@@ -40,7 +42,15 @@ const PlayerList = ({ players }: { players: ParsedServer['players'] }) => {
 			>
 				{players.sample?.map((sample) => (
 					<motion.li key={sample.id} variants={item} exit={{ display: 'none' }}>
-						<span className='text-white underline cursor-pointer'>
+						<span
+							onClick={() =>
+								router.push({
+									pathname: '/search',
+									query: { keyword: sample.name },
+								})
+							}
+							className='text-white underline cursor-pointer'
+						>
 							{sample.name}
 						</span>
 					</motion.li>
