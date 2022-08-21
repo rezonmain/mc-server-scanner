@@ -3,6 +3,7 @@ import ParsedServer from '../../lib/classes/ParsedServer';
 
 const PlayerList = ({ players }: { players: ParsedServer['players'] }) => {
 	if (players.sample && players.sample?.length <= 0) return null;
+
 	const list = {
 		visible: {
 			opacity: 1,

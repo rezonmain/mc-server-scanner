@@ -24,7 +24,11 @@ class PropertyParser {
 				? {
 						max: this.server.players.max ?? -1,
 						online: this.server.players.online ?? -1,
-						sample: this.server.players.sample ?? def.players.sample,
+						sample:
+							// Filter empty player names
+							this.server.players.sample?.filter(
+								(sample) => sample.name.length > 0
+							) ?? def.players.sample,
 				  }
 				: def.players,
 			version: this.server.version?.name
