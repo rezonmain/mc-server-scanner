@@ -1,11 +1,13 @@
 import type { NextPage } from 'next';
 import CubeWidget from '../components/Cube/CubeWidget';
+import Waiting from '../components/Waiting/Waiting';
 
 const Dev: NextPage = () => {
 	return (
-		<div className='text-center'>
-			<CubeWidget />
-		</div>
+		<Waiting amount={5} />
+		// <div className='text-center'>
+		// 	<CubeWidget />
+		// </div>
 	);
 };
 
