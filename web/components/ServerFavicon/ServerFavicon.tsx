@@ -15,7 +15,7 @@ const ServerFavicon = ({
 
 	if (!hasCustomFavicon) {
 		return (
-			<div className='w-[64px] h-[64px] rounded-full border-2 border-white'>
+			<div className='w-[64px] h-[64px] rounded-full border-2 border-white select-none'>
 				<Image
 					width='64'
 					height='64'

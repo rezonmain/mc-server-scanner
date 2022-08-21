@@ -63,6 +63,7 @@ export type ParsedServer = {
 	players: {
 		max: number;
 		online: number;
+		sample?: { id: string; name: string }[];
 	};
 	version: string | JSX.Element[];
 	ping: number;

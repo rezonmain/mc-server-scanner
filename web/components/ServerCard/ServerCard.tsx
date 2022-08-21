@@ -1,7 +1,11 @@
 import { ParsedServer } from '../../lib/types';
 import ServerFavicon from '../ServerFavicon/ServerFavicon';
 import { HiOutlinePencilAlt } from 'react-icons/hi';
+import { FiChevronDown } from 'react-icons/fi';
 import { useRouter } from 'next/router';
+import { useState } from 'react';
+import PlayerList from '../PlayerList/PlayerList';
+import { motion, AnimatePresence } from 'framer-motion';
 
 const ServerCard = ({
 	favicon,
@@ -13,11 +17,12 @@ const ServerCard = ({
 	ping,
 	players,
 }: ParsedServer) => {
+	const [showPlayers, setShowPlayers] = useState(false);
 	const router = useRouter();
 	const handleCopyClick = () => navigator.clipboard.writeText(ip);
 
 	return (
-		<ul className='py-7 bg-neutral-800 p-4 mb-4 break-words rounded-lg'>
+		<ul className='py-7 bg-neutral-800 p-4 mb-4 break-words rounded-lg leading-7'>
 			<li>
 				<ServerFavicon favicon={favicon} hasCustomFavicon={hasCustomFavicon} />
 			</li>
@@ -54,8 +59,27 @@ const ServerCard = ({
 				{ping}
 			</li>
 			<li>
-				<span className='text-neutral-400'>Players: </span>
-				{players.online} / {players.max}
+				<div
+					onClick={() => setShowPlayers((prev) => !prev)}
+					className='flex flex-row gap-1 items-center w-fit'
+				>
+					<span className='text-neutral-400'>Players: </span>
+					{players.online} / {players.max}
+					{players.sample && players.sample?.length > 0 ? (
+						<motion.div
+							id='dropdown-button'
+							animate={{ rotate: showPlayers ? '-180deg' : '0deg' }}
+							className='active:bg-neutral-600 hover:bg-neutral-600 w-fit h-fit p-[0.1rem] rounded-full transition-colors'
+						>
+							<FiChevronDown size='18px' />
+						</motion.div>
+					) : null}
+				</div>
+			</li>
+			<li>
+				<AnimatePresence>
+					{showPlayers ? <PlayerList players={players} /> : null}
+				</AnimatePresence>
 			</li>
 		</ul>
 	);

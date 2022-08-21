@@ -3,7 +3,11 @@ class ParsedServer {
 	ip: string;
 	foundAt: string;
 	description: JSX.Element[];
-	players: { max: number; online: number };
+	players: {
+		max: number;
+		online: number;
+		sample?: { id: string; name: string }[];
+	};
 	version: string | JSX.Element[];
 	ping: number;
 	hasCustomFavicon: boolean;
@@ -19,7 +23,7 @@ class ParsedServer {
 				<i>No description data</i>
 			</span>,
 		];
-		this.players = { max: -1, online: -1 };
+		this.players = { max: -1, online: -1, sample: [] };
 		this.version = 'No data';
 		this.ping = -1;
 		this.hasCustomFavicon = false;

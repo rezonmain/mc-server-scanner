@@ -127,6 +127,7 @@ export const appRouter = trpc
 						'description.extra.text': { $regex: input.descr, $options: 'i' },
 					},
 					{ 'description.translate': { $regex: input.descr, $options: 'i' } },
+					// { 'players.sample.name': { $regex: input.descr, $options: 'i' } },
 				],
 			})
 				.sort({ foundAt: -1 })
