@@ -1,23 +1,25 @@
+import Link from 'next/link';
 import { useRouter } from 'next/router';
 
 const Crash = ({ message }: { message: string }) => {
 	const router = useRouter();
 	return (
-		<div
-			onClick={() => router.push('/')}
-			className='w-screen h-screen cursor-pointer'
-		>
-			<div className='centered w-full text-center flex flex-col gap-10'>
+		<div className='w-full h-[99vw] cursor-pointer flex items-center justify-center'>
+			<div className='w-full text-center flex flex-col gap-4'>
 				<div>
-					<h1 className='font-semibold text-5xl'>
+					<h1 className='font-semibold text-2xl'>
 						Ooops... Something went wrong 🥴
 					</h1>
 				</div>
 				<div>
-					<h3 className='text-xl font-bold'>ERORR: {message}</h3>
+					<h3 className='text-xl font-bold'>Error: {message}</h3>
 				</div>
 				<div>
-					<p>Click anywhere to go to home page.</p>
+					<Link href='/'>
+						<p className='hover:underline active:underline cursor-pointer'>
+							Click here to go to home page.
+						</p>
+					</Link>
 				</div>
 			</div>
 		</div>

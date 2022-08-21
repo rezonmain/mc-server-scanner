@@ -2,6 +2,7 @@ import { z } from 'zod';
 import SearchList from '../SearchList/SearchList';
 import { BiArrowBack } from 'react-icons/bi';
 import { useRouter } from 'next/router';
+import Crash from '../Crash/Crash';
 
 export type SearchQuery = {
 	ip?: string | undefined | null;
@@ -10,6 +11,11 @@ export type SearchQuery = {
 
 const SearchPage = ({ query }: { query: SearchQuery }) => {
 	const router = useRouter();
+
+	if (Object.keys(query).length <= 0) {
+		return <Crash message='No search query was given' />;
+	}
+
 	const searchSchema = z.object({
 		ip: z.string().nullish(),
 		keyword: z.string().trim().nullish(),

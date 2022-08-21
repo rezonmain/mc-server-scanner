@@ -48,7 +48,7 @@ const InfiniteList = ({
 	}
 
 	if (!data?.pages[0].items[0]) {
-		return <span>No results found</span>;
+		return <span className='block'>No results found</span>;
 	}
 
 	return (
