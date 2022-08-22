@@ -4,6 +4,7 @@ const useShyHeader = (ref: RefObject<HTMLElement>) => {
 	const s = useRef({ prev: globalThis.scrollY, mag: 0 });
 
 	const constrain = (scroll: number) => {
+		// Constrain scroll (-refheight to 0)
 		if (ref.current) {
 			return scroll < -ref.current.clientHeight
 				? -ref.current.clientHeight
@@ -14,7 +15,6 @@ const useShyHeader = (ref: RefObject<HTMLElement>) => {
 			return 0;
 		}
 	};
-
 	useEffect(() => {
 		const onScroll = () => {
 			const d = globalThis.scrollY;
@@ -28,12 +28,11 @@ const useShyHeader = (ref: RefObject<HTMLElement>) => {
 				// Increment mag by amount scrolled
 				s.current.mag += s.current.prev - d;
 			}
-			// Constrain scroll (-refheight to 0)
 			s.current.mag = constrain(s.current.mag);
-			// Set prev to compare it at next scrolling event
-			s.current.prev = d;
 			// Set element top property
 			ref.current?.setAttribute('style', `top: ${s.current.mag}px`);
+			// Set prev to compare it at next scrolling event
+			s.current.prev = d;
 		};
 		globalThis.addEventListener('scroll', onScroll);
 		return () => globalThis.removeEventListener('scroll', onScroll);

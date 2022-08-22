@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react';
 /* 
-FIX:
+~FIX~
+Fixed: see useShyHeader
 This code makes me cringe, but it works, so not refactoring it right now
 maybe later
 */
