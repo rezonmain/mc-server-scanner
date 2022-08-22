@@ -30,9 +30,8 @@ const useShyHeader = (ref: RefObject<HTMLElement>) => {
 			}
 			// Constrain scroll (-refheight to 0)
 			s.current.mag = constrain(s.current.mag);
-			// Set to prev to compare it next scrolling event trigger
+			// Set prev to compare it at next scrolling event
 			s.current.prev = d;
-
 			// Set element top property
 			ref.current?.setAttribute('style', `top: ${s.current.mag}px`);
 		};
