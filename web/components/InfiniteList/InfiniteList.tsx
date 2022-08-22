@@ -68,7 +68,7 @@ const InfiniteList = ({
 				<div>
 					{data?.pages.map((group, i) => (
 						<React.Fragment key={i}>
-							{group.items.map((server) => {
+							{group.items.map((server, i) => {
 								const p = new PropertyParser(server);
 								const parsedServer = p.getParsedServer();
 								return <ServerCard key={parsedServer.id} {...parsedServer} />;

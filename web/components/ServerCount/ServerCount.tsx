@@ -1,7 +1,16 @@
+import { useEffect, useState } from 'react';
 import { trpc } from '../../utils/trpc';
 
 const ServerCount = () => {
+	/* Locale strings trigger hydration errors when server and client,
+	are in different locals, so all locale code should render only on client side 
+	to avoid the mention errors.
+	*/
 	const { isLoading, data } = trpc.useQuery(['count']);
+	const [rendered, setRendered] = useState(false);
+	useEffect(() => {
+		setRendered(true);
+	}, []);
 	return (
 		<>
 			<div>
@@ -12,7 +21,7 @@ const ServerCount = () => {
 					<span className='text-neutral-300'>...</span>
 				) : (
 					<span className='text-neutral-300'>
-						{data?.totalCount.toLocaleString()}
+						{rendered && data?.totalCount.toLocaleString()}
 					</span>
 				)}
 			</div>
@@ -24,7 +33,7 @@ const ServerCount = () => {
 					<span className='text-neutral-300'>...</span>
 				) : (
 					<span className='text-neutral-300'>
-						{data?.uniqueCount.toLocaleString()}
+						{rendered && data?.uniqueCount.toLocaleString()}
 					</span>
 				)}
 			</div>

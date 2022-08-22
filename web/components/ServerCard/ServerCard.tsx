@@ -6,6 +6,7 @@ import { useRouter } from 'next/router';
 import { useState } from 'react';
 import PlayerList from '../PlayerList/PlayerList';
 import { motion, AnimatePresence } from 'framer-motion';
+import React from 'react';
 
 const ServerCard = ({
 	favicon,
@@ -87,4 +88,4 @@ const ServerCard = ({
 	);
 };
 
-export default ServerCard;
+export default React.memo(ServerCard);

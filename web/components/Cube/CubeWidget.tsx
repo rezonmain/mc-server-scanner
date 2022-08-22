@@ -1,4 +1,5 @@
 import { Canvas } from '@react-three/fiber';
+import React from 'react';
 import Cube from './Cube';
 
 const CubeWidget = () => {
@@ -9,4 +10,4 @@ const CubeWidget = () => {
 	);
 };
 
-export default CubeWidget;
+export default React.memo(CubeWidget);

@@ -1,3 +1,4 @@
+import { nanoid } from 'nanoid';
 import { CSSProperties } from 'react';
 import { FAV_REGEX } from '../../utils/regex';
 import { FormatString, MCColor, RawServer } from '../types';
@@ -82,7 +83,7 @@ class PropertyParser {
 				return <this.FormattedWord key={format.text + i} {...format} />;
 			});
 			// If desc.text is not an empty string append it to the elements array
-			!desc.text || elements.unshift(<span>{desc.text}</span>);
+			!desc.text || elements.unshift(<span key={nanoid()}>{desc.text}</span>);
 			return elements;
 		}
 
@@ -91,11 +92,11 @@ class PropertyParser {
 		 this also cathces id 'text' is an empty string */
 		if (typeof Object.values(desc)[0] === 'string') {
 			//@ts-ignore
-			return [<span key={'leftover'}>{Object.values(desc)[0]}</span>];
+			return [<span key={desc[0]}>{Object.values(desc)[0]}</span>];
 		}
 
 		// If everything fails just return empty element
-		return [<span key='empty'></span>];
+		return [<span key={nanoid()}></span>];
 	};
 
 	private getFormattedVersion = () => {
@@ -119,7 +120,7 @@ class PropertyParser {
 			second: '2-digit',
 			hour12: false,
 		};
-		return date.toLocaleDateString(undefined, options);
+		return date.toLocaleDateString('en-US', options);
 	};
 
 	private getFormatStrings(text: string) {
