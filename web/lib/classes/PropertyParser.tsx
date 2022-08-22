@@ -17,7 +17,7 @@ class PropertyParser {
 		return {
 			id: this.server._id || def.id,
 			ip: this.server.ip || def.ip,
-			foundAt: this.server.foundAt ? this.parseTs() : def.foundAt,
+			foundAt: this.server.foundAt.toString(), // ? this.parseTs() : def.foundAt,
 			description: this.server.description
 				? this.getFormattedDescription()
 				: def.description,
