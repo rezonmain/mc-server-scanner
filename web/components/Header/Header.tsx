@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 import { FormEvent, RefObject, useRef, useState } from 'react';
 import { BsGithub } from 'react-icons/bs';
 import { FiSearch } from 'react-icons/fi';
-import useStickyHeader from '../../lib/hooks/useStickyHeader';
+import useShyHeader from '../../lib/hooks/useShyHeader';
 import { IP_REGEX } from '../../utils/regex';
 import CubeWidget from '../Cube/CubeWidget';
 
@@ -11,8 +11,10 @@ const Header = () => {
 	const [inputFocus, setInputFocus] = useState(false);
 	const [searchText, setSearchText] = useState<string>('');
 	const inputRef = useRef() as RefObject<HTMLInputElement>;
+	const headerRef = useRef() as RefObject<HTMLElement>;
 	const router = useRouter();
-	useStickyHeader();
+	useShyHeader(headerRef);
+
 	const onSubmit = (e?: FormEvent<HTMLFormElement>) => {
 		e && e.preventDefault();
 		if (searchText.trim().length <= 0) return;
@@ -21,7 +23,6 @@ const Header = () => {
 			ip: ip ? ip[0] : undefined,
 			keyword: ip ? undefined : searchText.trim(),
 		};
-
 		if (!ip) delete query.ip;
 		if (!query.keyword) delete query.keyword;
 		if (Object.keys(query).length === 0) return;
@@ -29,9 +30,8 @@ const Header = () => {
 		inputRef.current?.blur();
 		setSearchText('');
 	};
-
 	return (
-		<header className='bg-black sticky z-10'>
+		<header ref={headerRef} className='bg-black sticky z-10'>
 			<div className='mx-auto flex justify-between p-4  md:max-w-[750px] xl:max-w-[990px]'>
 				<div id='link+search' className='flex flex-row gap-4 items-center'>
 					<Link href={'/'}>

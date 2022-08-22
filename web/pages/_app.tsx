@@ -3,11 +3,9 @@ import type { AppProps } from 'next/app';
 import { withTRPC } from '@trpc/next';
 import { AppRouter } from './api/trpc/[trpc]';
 import NextNProgress from 'nextjs-progressbar';
-import useStickyHeader from '../lib/hooks/useStickyHeader';
 import Header from '../components/Header/Header';
 
 function MyApp({ Component, pageProps }: AppProps) {
-	useStickyHeader();
 	return (
 		<>
 			<Header />

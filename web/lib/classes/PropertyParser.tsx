@@ -107,12 +107,7 @@ class PropertyParser {
 	};
 
 	private parseTs = () => {
-		// TODO:
 		// Convert unix timestamp to locale date
-		/* This function triggers a hydration error
-		when client and server are at different timezones
-		so for the time being just return the utc string
-		that should match server and client */
 		const ts = this.server.foundAt;
 		if (!ts) return 'No data';
 		const date = new Date(ts);
