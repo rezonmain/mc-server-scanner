@@ -125,7 +125,7 @@ class PropertyParser {
 			second: '2-digit',
 			hour12: false,
 		};
-		return date.toUTCString();
+		return date.toLocaleDateString('en-US', options);
 	};
 
 	private getFormatStrings(text: string) {

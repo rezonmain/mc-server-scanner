@@ -13,7 +13,7 @@ const useStickyHeader = () => {
 		const dir = () => {
 			const delta = window.scrollY;
 			if (delta > scrollRef.current.offset) {
-				if (scrollRef.current.dir === -1) {
+				if (scrollRef.current.dir === -1 && scrollRef.current.amount) {
 					scrollRef.current.amount = 0;
 				} else {
 					scrollRef.current.amount += delta - scrollRef.current.offset;

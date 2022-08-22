@@ -3,7 +3,7 @@ import ServerFavicon from '../ServerFavicon/ServerFavicon';
 import { HiOutlinePencilAlt } from 'react-icons/hi';
 import { FiChevronDown } from 'react-icons/fi';
 import { useRouter } from 'next/router';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import PlayerList from '../PlayerList/PlayerList';
 import { motion, AnimatePresence } from 'framer-motion';
 import React from 'react';
@@ -18,9 +18,14 @@ const ServerCard = ({
 	ping,
 	players,
 }: ParsedServer) => {
+	const [rendered, setRendered] = useState(false);
 	const [showPlayers, setShowPlayers] = useState(false);
 	const router = useRouter();
 	const handleCopyClick = () => navigator.clipboard.writeText(ip);
+
+	useEffect(() => {
+		setRendered(true);
+	}, []);
 
 	return (
 		<ul className='p-5 bg-neutral-800 mb-4 break-words rounded-lg leading-7'>
@@ -53,7 +58,7 @@ const ServerCard = ({
 			</li>
 			<li>
 				<span className='text-neutral-400'>Found at: </span>
-				{foundAt}
+				{rendered && foundAt}
 			</li>
 			<li>
 				<span className='text-neutral-400'>Ping: </span>
