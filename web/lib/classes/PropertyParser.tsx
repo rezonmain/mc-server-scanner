@@ -17,7 +17,7 @@ class PropertyParser {
 		return {
 			id: this.server._id || def.id,
 			ip: this.server.ip || def.ip,
-			foundAt: this.server.foundAt.toString(), // ? this.parseTs() : def.foundAt,
+			foundAt: this.server.foundAt.toString() ? this.parseTs() : def.foundAt,
 			description: this.server.description
 				? this.getFormattedDescription()
 				: def.description,
@@ -107,7 +107,12 @@ class PropertyParser {
 	};
 
 	private parseTs = () => {
+		// TODO:
 		// Convert unix timestamp to locale date
+		/* This function triggers a hydration error
+		when client and server are at different timezones
+		so for the time being just return the utc string
+		that should match server and client */
 		const ts = this.server.foundAt;
 		if (!ts) return 'No data';
 		const date = new Date(ts);
@@ -120,7 +125,7 @@ class PropertyParser {
 			second: '2-digit',
 			hour12: false,
 		};
-		return date.toLocaleDateString('en-US', options);
+		return date.toUTCString();
 	};
 
 	private getFormatStrings(text: string) {
