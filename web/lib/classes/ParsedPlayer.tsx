@@ -2,12 +2,16 @@ class ParsedPlayer {
 	name;
 	uuid;
 	servers: string[];
-	skinURL: string;
+	mojangName: string | undefined;
+	skinURL: string | undefined;
+	modelType: 'slim' | 'classic' | undefined;
 	constructor() {
 		this.name = '';
 		this.uuid = '';
 		this.servers = [];
-		this.skinURL = '';
+		this.skinURL = undefined;
+		this.modelType = undefined;
+		this.mojangName = undefined;
 	}
 }
 

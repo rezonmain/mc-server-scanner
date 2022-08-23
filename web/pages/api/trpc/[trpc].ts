@@ -179,16 +179,29 @@ export const appRouter = trpc
 					},
 				},
 			]);
-			const mojangRes = await fetch(mojangURL);
-			const mojangJson = await mojangRes.json();
-			const skinURL = getSkingUrl(mojangJson);
-			// get player skin linkß
+			let mojangName, url, modelType: string | undefined;
+			try {
+				const mojangRes = await fetch(mojangURL);
+				const mojangJson = await mojangRes.json();
+				const res = getSkingUrl(mojangJson);
+				url = res.url;
+				modelType = res.modelType;
+				mojangName = res.mojangName;
+			} catch {
+				url = undefined;
+				modelType = undefined;
+				mojangName = undefined;
+			}
+
+			// get player skin link
 			return {
 				player: {
 					uuid: player[0]._id as string,
 					name: player[0].name as string,
 					servers: player[0].servers as string[],
-					skinURL,
+					mojangName,
+					skinURL: url,
+					modelType: modelType,
 				} as ParsedPlayer,
 			};
 		},

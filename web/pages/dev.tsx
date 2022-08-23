@@ -1,10 +1,10 @@
 import type { NextPage } from 'next';
-import Viewer from '../components/Viewer/Viewer';
+import SkinViewer from '../components/SkinViewer/SkinViewer';
 
 const Dev: NextPage = () => {
 	return (
 		<div className='h-[500px] w-[50vw] mx-auto'>
-			<Viewer />
+			<SkinViewer type='classic' skin='' />
 		</div>
 	);
 };

@@ -11,14 +11,19 @@ type TexturesRes = {
 	textures: { SKIN: { url: string; metadata: { model: string } } };
 };
 
-const getSkingUrl = (response: MojangRes) => {
+const parseMojangResponse = (response: MojangRes) => {
+	const mojangName = response.name;
 	const textureEncoded = response.properties.find(
 		(props) => props.name === 'textures'
 	)?.value;
 	const buff = textureEncoded && Buffer.from(textureEncoded, 'base64');
 	const textureDecoded = buff?.toString('utf-8');
 	const texture: TexturesRes = textureDecoded ? JSON.parse(textureDecoded) : {};
-	return texture.textures.SKIN.url;
+	const url = texture.textures.SKIN.url;
+	const modelType = texture.textures.SKIN.metadata
+		? texture.textures.SKIN.metadata.model
+		: 'classic';
+	return { mojangName, url, modelType };
 };
 
-export default getSkingUrl;
+export default parseMojangResponse;

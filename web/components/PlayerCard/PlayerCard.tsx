@@ -1,29 +1,42 @@
 import { FiChevronDown } from 'react-icons/fi';
-import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import React from 'react';
 import ParsedPlayer from '../../lib/classes/ParsedPlayer';
 import ServerList from '../ServerList/ServerList';
 import { AnimatePresence, motion } from 'framer-motion';
-import PlayerHead from '../PlayerHead/PlayerHead';
 
-const ServerCard = ({ name, uuid, servers, skinURL }: ParsedPlayer) => {
+const ServerCard = ({
+	name,
+	uuid,
+	servers,
+	mojangName,
+	skinURL,
+	modelType,
+}: ParsedPlayer) => {
 	const [showServers, setShowServers] = useState(false);
-	console.log(skinURL);
+	const isAuthorized = !!mojangName;
 
 	return (
 		<ul className='p-5 bg-neutral-800 mb-4 break-words rounded-lg leading-7'>
 			<li>
-				<PlayerHead src={skinURL} />
-			</li>
-			<li>
 				<span className='text-neutral-400'>Name: </span>
 				<span>{name}</span>
 			</li>
+			{isAuthorized && (
+				<li>
+					<span className='text-neutral-400'>Mojang name: </span>
+					<span>{mojangName}</span>
+				</li>
+			)}
+
 			<li>
 				<span className='text-neutral-400'>UUID: </span>
 				<span>{uuid}</span>
 			</li>
+			{/* If either skinURL or modelType are undefined show that player is not authorized */}
+			{isAuthorized ? null : (
+				<small className='italic'>Player not authorized by Mojang</small>
+			)}
 			<li>
 				<div
 					onClick={() => setShowServers((prev) => !prev)}
@@ -39,6 +52,7 @@ const ServerCard = ({ name, uuid, servers, skinURL }: ParsedPlayer) => {
 					</motion.div>
 				</div>
 			</li>
+
 			<li>
 				<AnimatePresence>
 					{showServers ? <ServerList servers={servers} /> : null}
