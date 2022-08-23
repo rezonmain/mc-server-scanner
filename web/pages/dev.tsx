@@ -1,13 +1,15 @@
 import type { NextPage } from 'next';
-import CubeWidget from '../components/Cube/CubeWidget';
-import Waiting from '../components/Waiting/Waiting';
+import { trpc } from '../utils/trpc';
 
 const Dev: NextPage = () => {
+	const { data } = trpc.useQuery([
+		'player',
+		{ uuid: '5f8eb73b-25be-4c5a-a50f-d27d65e30ca0' },
+	]);
 	return (
-		<Waiting amount={5} />
-		// <div className='text-center'>
-		// 	<CubeWidget />
-		// </div>
+		<>
+			<span>{JSON.stringify(data)}</span>
+		</>
 	);
 };
 

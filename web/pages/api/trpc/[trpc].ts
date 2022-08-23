@@ -3,7 +3,9 @@ import * as trpcNext from '@trpc/server/adapters/next';
 import { z } from 'zod';
 import DB from '../../../db/Db';
 import FoundServerModel from '../../../db/models/FoundServerModel';
+import ParsedPlayer from '../../../lib/classes/ParsedPlayer';
 import { RawServer } from '../../../lib/types';
+import getSkingUrl from '../../../utils/getSkinUrl';
 import { IP_REGEX } from '../../../utils/regex';
 
 /* 
@@ -155,6 +157,39 @@ export const appRouter = trpc
 			});
 			return {
 				count,
+			};
+		},
+	})
+	.query('player', {
+		input: z.object({
+			uuid: z.string(),
+		}),
+		async resolve({ input }) {
+			const mojangURL = `https://sessionserver.mojang.com/session/minecraft/profile/${input.uuid}`;
+			const db = new DB();
+			await db.connect();
+
+			const player = await FoundServerModel.aggregate([
+				{ $unwind: '$players.sample' },
+				{ $match: { 'players.sample.id': input.uuid } },
+				{
+					$group: {
+						_id: input.uuid,
+						name: { $first: '$players.sample.name' },
+						servers: { $addToSet: '$ip' },
+					},
+				},
+			]);
+			const playerMojang = await fetch(mojangURL);
+			const res = await playerMojang.json();
+			const skinURL = getSkingUrl(res);
+			// get player skin linkß
+			return {
+				player: {
+					uuid: player[0]._id as string,
+					name: player[0].name as string,
+					servers: player[0].servers as string[],
+				},
 			};
 		},
 	});

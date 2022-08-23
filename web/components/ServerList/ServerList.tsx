@@ -1,10 +1,8 @@
 import { motion } from 'framer-motion';
 import { useRouter } from 'next/router';
-import ParsedServer from '../../lib/classes/ParsedServer';
 
-const PlayerList = ({ players }: { players: ParsedServer['players'] }) => {
+const ServerList = ({ servers }: { servers: string[] }) => {
 	const router = useRouter();
-	if (players.sample && players.sample?.length <= 0) return null;
 
 	const list = {
 		visible: {
@@ -40,18 +38,18 @@ const PlayerList = ({ players }: { players: ParsedServer['players'] }) => {
 				exit='hidden'
 				className='list-decimal pl-8 text-neutral-400'
 			>
-				{players.sample?.map((sample) => (
-					<motion.li key={sample.id} variants={item} exit={{ display: 'none' }}>
+				{servers.map((server) => (
+					<motion.li key={server} variants={item} exit={{ display: 'none' }}>
 						<span
 							onClick={() =>
 								router.push({
-									pathname: '/player',
-									query: { uuid: sample.id },
+									pathname: '/search',
+									query: { ip: server },
 								})
 							}
 							className='text-white underline cursor-pointer'
 						>
-							{sample.name}
+							{server}
 						</span>
 					</motion.li>
 				))}
@@ -60,4 +58,4 @@ const PlayerList = ({ players }: { players: ParsedServer['players'] }) => {
 	);
 };
 
-export default PlayerList;
+export default ServerList;

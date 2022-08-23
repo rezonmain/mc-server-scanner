@@ -1,5 +1,6 @@
 import { nanoid } from 'nanoid';
 import { CSSProperties } from 'react';
+import PlayerList from '../../components/PlayerList/PlayerList';
 import { FAV_REGEX } from '../../utils/regex';
 import { FormatString, MCColor, RawServer } from '../types';
 import ParsedServer from './ParsedServer';
@@ -25,11 +26,7 @@ class PropertyParser {
 				? {
 						max: this.server.players.max ?? -1,
 						online: this.server.players.online ?? -1,
-						sample:
-							// Filter empty player names
-							this.server.players.sample?.filter(
-								(sample) => sample.name.length > 0
-							) ?? def.players.sample,
+						sample: this.filterPlayers(this.server.players),
 				  }
 				: def.players,
 			version: this.server.version?.name
@@ -104,6 +101,19 @@ class PropertyParser {
 		return formatStrings.map((format, i) => (
 			<this.FormattedWord key={format.text + i} {...format} />
 		));
+	};
+
+	private filterPlayers = (players: ParsedServer['players']) => {
+		const def = new ParsedServer();
+		if (!players.sample || players.sample.length <= 0)
+			return def.players.sample;
+
+		return players.sample.filter((player) => {
+			return (
+				player.name.trim().length >= 0 &&
+				player.id != '00000000-0000-0000-0000-000000000000'
+			);
+		});
 	};
 
 	private parseTs = () => {
