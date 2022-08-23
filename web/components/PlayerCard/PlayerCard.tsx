@@ -5,12 +5,17 @@ import React from 'react';
 import ParsedPlayer from '../../lib/classes/ParsedPlayer';
 import ServerList from '../ServerList/ServerList';
 import { AnimatePresence, motion } from 'framer-motion';
+import PlayerHead from '../PlayerHead/PlayerHead';
 
-const ServerCard = ({ name, uuid, servers }: ParsedPlayer) => {
+const ServerCard = ({ name, uuid, servers, skinURL }: ParsedPlayer) => {
 	const [showServers, setShowServers] = useState(false);
+	console.log(skinURL);
 
 	return (
 		<ul className='p-5 bg-neutral-800 mb-4 break-words rounded-lg leading-7'>
+			<li>
+				<PlayerHead src={skinURL} />
+			</li>
 			<li>
 				<span className='text-neutral-400'>Name: </span>
 				<span>{name}</span>

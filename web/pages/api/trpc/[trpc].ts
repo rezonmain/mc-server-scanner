@@ -168,7 +168,6 @@ export const appRouter = trpc
 			const mojangURL = `https://sessionserver.mojang.com/session/minecraft/profile/${input.uuid}`;
 			const db = new DB();
 			await db.connect();
-
 			const player = await FoundServerModel.aggregate([
 				{ $unwind: '$players.sample' },
 				{ $match: { 'players.sample.id': input.uuid } },
@@ -180,16 +179,17 @@ export const appRouter = trpc
 					},
 				},
 			]);
-			const playerMojang = await fetch(mojangURL);
-			const res = await playerMojang.json();
-			const skinURL = getSkingUrl(res);
+			const mojangRes = await fetch(mojangURL);
+			const mojangJson = await mojangRes.json();
+			const skinURL = getSkingUrl(mojangJson);
 			// get player skin linkß
 			return {
 				player: {
 					uuid: player[0]._id as string,
 					name: player[0].name as string,
 					servers: player[0].servers as string[],
-				},
+					skinURL,
+				} as ParsedPlayer,
 			};
 		},
 	});
