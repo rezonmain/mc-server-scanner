@@ -12,7 +12,6 @@ const Viewer = ({ skin }: { skin: string | undefined }) => {
 			animation: new IdleAnimation(),
 		});
 		(async () => {
-			console.log('ran');
 			// If skin is undefined use default steve skin
 			const playerSkin = skin ?? ParsedPlayer.STEVE;
 			// Convert base64 back to blob and get URL to pass to skinviewer
