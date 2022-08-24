@@ -1,17 +1,29 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Image from 'next/image';
 
 const ServerFavicon = ({
+	id,
 	hasCustomFavicon,
 	favicon,
 }: {
+	id: string;
 	hasCustomFavicon: boolean;
 	favicon: string;
 }) => {
 	const [show, setShow] = useState(!hasCustomFavicon);
-	const onClick = () => {
+
+	const onClick = (show: boolean) => {
+		// Remember the show state across pages
+		show = !show;
+		sessionStorage.setItem(id, show.toString());
 		hasCustomFavicon && setShow((prev) => !prev);
 	};
+
+	useEffect(() => {
+		// Get show state if exists in sessionstorage
+		const initialState = sessionStorage.getItem(id);
+		initialState && setShow(initialState === 'true');
+	});
 
 	if (!hasCustomFavicon) {
 		return (
@@ -31,7 +43,7 @@ const ServerFavicon = ({
 
 	return (
 		<div
-			onClick={() => onClick()}
+			onClick={() => onClick(show)}
 			className={`relative w-[64px] h-[64px] rounded-full border-2 border-white ${
 				hasCustomFavicon ? 'cursor-pointer' : ''
 			}`}

@@ -22,6 +22,10 @@ const ServerCard = ({
 	const [rendered, setRendered] = useState(false);
 	const [showPlayers, setShowPlayers] = useState(false);
 	const [animating, setAnimating] = useState(false);
+	/* A little id for the favicon derived from the component key (id)
+	used to remember the showFavicon state across page transitions */
+	const favId = 'fav' + id;
+
 	const router = useRouter();
 	const handleCopyClick = () => navigator.clipboard.writeText(ip);
 
@@ -43,7 +47,11 @@ const ServerCard = ({
 	return (
 		<ul className='p-5 bg-neutral-800 mb-4 break-words rounded-lg leading-7'>
 			<li className='mb-2'>
-				<ServerFavicon favicon={favicon} hasCustomFavicon={hasCustomFavicon} />
+				<ServerFavicon
+					id={favId}
+					favicon={favicon}
+					hasCustomFavicon={hasCustomFavicon}
+				/>
 			</li>
 			<li className='flex flex-row items-center gap-2'>
 				<span className='text-neutral-400'>IP: </span>
