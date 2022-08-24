@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useState } from 'react';
+import React, { ChangeEvent, useEffect, useState } from 'react';
 import _ from 'lodash';
 import InfiniteList from '../InfiniteList/InfiniteList';
 import HomeView from '../HomeView/HomeView';
@@ -9,7 +9,12 @@ const HomeList = () => {
 	const onChange = (e: ChangeEvent<HTMLSelectElement>) => {
 		e.preventDefault();
 		setShowing(e.target.value as typeof showOpts[number]);
+		sessionStorage.setItem('showing', e.target.value);
 	};
+	useEffect(() => {
+		const savedShowing = sessionStorage.getItem('showing');
+		savedShowing && setShowing(savedShowing as typeof showOpts[number]);
+	}, []);
 	return (
 		<>
 			<HomeView onChange={onChange} showing={showing} />
