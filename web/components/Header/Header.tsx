@@ -37,10 +37,10 @@ const Header = () => {
 	};
 	return (
 		<header ref={headerRef} className='bg-black sticky z-10'>
-			<div className='mx-auto flex justify-between p-4  md:max-w-[750px] xl:max-w-[990px]'>
-				<div id='link+search' className='flex flex-row gap-4 items-center'>
+			<div className='mx-auto flex justify-between py-4 px-3  md:max-w-[750px] xl:max-w-[990px]'>
+				<div id='link+search' className='flex flex-row gap-2 items-center'>
 					<Link href={'/'}>
-						<div id='home-link' className='cursor-pointer w-9 h-9'>
+						<div id='home-link' className='cursor-pointer w-10 h-10'>
 							<CubeWidget />
 						</div>
 					</Link>
@@ -78,7 +78,7 @@ const Header = () => {
 				</div>
 				<div className='flex flex-row items-center gap-4'>
 					<Link href={'/about'}>
-						<div className='hidden md:block select-none cursor-pointer bg-black ring-2 ring-neutral-600 text-md font-semibold rounded-md h-[2rem] py-1 px-2 hover:bg-neutral-800 active:bg-neutral-800 transition-colors'>
+						<div className='block select-none cursor-pointer bg-black ring-2 ring-neutral-600 text-md font-semibold rounded-md h-[2rem] py-1 px-2 hover:bg-neutral-800 active:bg-neutral-800 transition-colors'>
 							<span>FAQ</span>
 						</div>
 					</Link>

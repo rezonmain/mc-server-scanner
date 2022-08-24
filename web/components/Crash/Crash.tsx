@@ -4,7 +4,7 @@ import { useRouter } from 'next/router';
 const Crash = ({ message }: { message: string }) => {
 	const router = useRouter();
 	return (
-		<div className='w-full h-[99vw] cursor-pointer flex items-center justify-center'>
+		<div className='w-full cursor-pointer flex items-center justify-center'>
 			<div className='w-full text-center flex flex-col gap-4'>
 				<div>
 					<h1 className='font-semibold text-2xl'>

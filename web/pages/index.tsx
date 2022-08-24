@@ -6,7 +6,7 @@ const Home: NextPage = () => {
 	return (
 		<>
 			<Head>
-				<title>Minecraft Scanned Servers</title>
+				<title>Minecraft Server Browser</title>
 			</Head>
 			<HomePage />
 		</>
