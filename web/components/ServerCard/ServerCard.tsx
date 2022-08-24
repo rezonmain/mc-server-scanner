@@ -107,7 +107,11 @@ const ServerCard = ({
 					) : null}
 				</div>
 			</li>
-			<li>{showPlayers ? <PlayerList players={players} /> : null}</li>
+			<li>
+				<AnimatePresence onExitComplete={() => setAnimating(false)}>
+					{showPlayers ? <PlayerList players={players} /> : null}
+				</AnimatePresence>
+			</li>
 		</ul>
 	);
 };

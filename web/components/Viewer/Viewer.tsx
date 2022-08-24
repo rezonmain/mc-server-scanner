@@ -1,11 +1,11 @@
-import { memo, useEffect, useRef } from 'react';
+import { memo, useEffect, useRef, useState } from 'react';
 import { IdleAnimation, SkinViewer } from 'skinview3d';
 import ParsedPlayer from '../../lib/classes/ParsedPlayer';
 
 const Viewer = ({ skin }: { skin: string | undefined }) => {
-	console.log('rendered');
 	const ref = useRef<HTMLCanvasElement>(null);
 	useEffect(() => {
+		let skinViewer: SkinViewer | undefined;
 		(async () => {
 			// If skin is undefined use default steve skin
 			const playerSkin = skin ?? ParsedPlayer.STEVE;
@@ -13,7 +13,7 @@ const Viewer = ({ skin }: { skin: string | undefined }) => {
 			const blob = await (await fetch(playerSkin)).blob();
 			const url = URL.createObjectURL(blob);
 			// Create the skin viewer
-			const skinViewer = new SkinViewer({
+			skinViewer = new SkinViewer({
 				canvas: ref.current as HTMLCanvasElement,
 				width: 150,
 				height: 300,
@@ -21,6 +21,13 @@ const Viewer = ({ skin }: { skin: string | undefined }) => {
 				animation: new IdleAnimation(),
 			});
 		})();
+		return () => {
+			/* Clean up, I have to do this to avoid build up of webgl contexts
+			Also commented out the "context lost" log from three/build/three.module.js */
+			skinViewer?.renderer.dispose();
+			skinViewer?.renderer.forceContextLoss();
+			skinViewer?.dispose();
+		};
 	}, [skin]);
 	return (
 		<div id='canvas-container' className='w-fit mx-auto'>

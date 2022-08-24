@@ -3,7 +3,7 @@ import { useState } from 'react';
 import React from 'react';
 import ParsedPlayer from '../../lib/classes/ParsedPlayer';
 import ServerList from '../ServerList/ServerList';
-import { motion } from 'framer-motion';
+import { AnimatePresence, motion } from 'framer-motion';
 import Viewer from '../Viewer/Viewer';
 
 const PlayerCard = ({
@@ -41,9 +41,10 @@ const PlayerCard = ({
 					<span className='text-neutral-400'>UUID: </span>
 					<span>{uuid}</span>
 				</li>
-				{/* If either skinURL or modelType are undefined show that player is not authorized */}
 				{isAuthorized ? null : (
-					<small className='italic'>Player not authorized by Mojang</small>
+					<small className='italic'>
+						Player not authenticated by Mojang/Microsoft
+					</small>
 				)}
 				<li>
 					<div
@@ -63,7 +64,11 @@ const PlayerCard = ({
 					</div>
 				</li>
 
-				<li>{showServers ? <ServerList servers={servers} /> : null}</li>
+				<li>
+					<AnimatePresence onExitComplete={() => setAnimating(false)}>
+						{showServers ? <ServerList servers={servers} /> : null}
+					</AnimatePresence>
+				</li>
 			</div>
 		</ul>
 	);

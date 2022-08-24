@@ -60,7 +60,7 @@ class PropertyParser {
 		if (typeof desc === 'string') {
 			const formatStrings = this.getFormatStrings(desc);
 			const elements = formatStrings.map((format, i) => (
-				<this.FormattedWord key={format.text + i} {...format} />
+				<this.FormattedWord key={nanoid()} {...format} />
 			));
 			return elements;
 		}
@@ -89,10 +89,11 @@ class PropertyParser {
 		 this also cathces id 'text' is an empty string */
 		if (typeof Object.values(desc)[0] === 'string') {
 			//@ts-ignore
-			return [<span key={desc[0]}>{Object.values(desc)[0]}</span>];
+			return [<span key={nanoid()}>{Object.values(desc)[0]}</span>];
 		}
 
 		// If everything fails just return empty element
+
 		return [<span key={nanoid()}></span>];
 	};
 

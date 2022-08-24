@@ -19,7 +19,7 @@ class ParsedServer {
 		this.ip = 'No ip data';
 		this.foundAt = 'No time data';
 		this.description = [
-			<span key={'no-descr-1'}>
+			<span key='no-data'>
 				<i>No description data</i>
 			</span>,
 		];
