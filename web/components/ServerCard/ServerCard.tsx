@@ -42,7 +42,7 @@ const ServerCard = ({
 		const initalState = sessionStorage.getItem(id);
 		initalState && setShowPlayers(initalState === 'true');
 		setRendered(true);
-	}, []);
+	}, [id]);
 
 	return (
 		<ul className='p-5 bg-neutral-800 mb-4 break-words rounded-lg leading-7'>

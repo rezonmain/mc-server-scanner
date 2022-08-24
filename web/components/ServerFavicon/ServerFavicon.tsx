@@ -23,7 +23,7 @@ const ServerFavicon = ({
 		// Get show state if exists in sessionstorage
 		const initialState = sessionStorage.getItem(id);
 		initialState && setShow(initialState === 'true');
-	});
+	}, [id]);
 
 	if (!hasCustomFavicon) {
 		return (
