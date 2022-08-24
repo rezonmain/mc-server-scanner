@@ -13,12 +13,12 @@ const ServerCard = ({
 	mojangName,
 	skin,
 }: ParsedPlayer) => {
-	const [showServers, setShowServers] = useState(true);
+	const [showServers, setShowServers] = useState(false);
 	const isAuthorized = !!mojangName;
 
 	return (
 		<ul className='p-5 ring-1 ring-neutral-500 bg-neutral-800 mb-4 break-words rounded-lg leading-7 flex flex-col gap-2 lg:flex-row lg:items-center lg:justify-around'>
-			<div id='skin-viewer'>
+			<div id='skin-viewer' className='lg:self-start'>
 				<Viewer skin={skin} />
 			</div>
 			<div>
