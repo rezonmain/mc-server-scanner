@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { memo, Suspense, useEffect, useRef } from 'react';
 import { IdleAnimation, SkinViewer } from 'skinview3d';
 import ParsedPlayer from '../../lib/classes/ParsedPlayer';
 
@@ -7,9 +7,9 @@ const Viewer = ({ skin }: { skin: string | undefined }) => {
 	useEffect(() => {
 		(async () => {
 			// If skin is undefined use default steve skin
-			skin = skin ?? ParsedPlayer.STEVE;
+			const playerSkin = skin ?? ParsedPlayer.STEVE;
 			// Convert base64 back to blob and get URL to pass to skinviewer
-			const blob = await (await fetch(skin as string)).blob();
+			const blob = await (await fetch(playerSkin)).blob();
 			const url = URL.createObjectURL(blob);
 			// Create the skin viewer
 			const skinViewer = new SkinViewer({
@@ -19,12 +19,8 @@ const Viewer = ({ skin }: { skin: string | undefined }) => {
 				skin: url,
 				animation: new IdleAnimation(),
 			});
-			// Rotate player a little bit to show perspective
-			skinViewer.autoRotate = true;
-			skinViewer.autoRotateSpeed = 10;
-			window.setTimeout(() => (skinViewer.autoRotate = false), 10);
 		})();
-	}, []);
+	}, [skin]);
 	return (
 		<div id='canvas-container' className='w-fit mx-auto'>
 			<canvas ref={ref} id='skin-viewer'></canvas>
@@ -32,4 +28,4 @@ const Viewer = ({ skin }: { skin: string | undefined }) => {
 	);
 };
 
-export default Viewer;
+export default memo(Viewer);
