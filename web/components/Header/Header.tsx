@@ -19,7 +19,7 @@ const Header = () => {
 		e && e.preventDefault();
 		if (searchText.trim().length <= 0) return;
 		const ip = searchText.match(IP_REGEX);
-		const uuid = searchText.match(UUID_REGEX);
+		const uuid = searchText.trim().match(UUID_REGEX);
 		if (uuid) {
 			router.push({ pathname: '/player', query: { uuid } });
 			return;

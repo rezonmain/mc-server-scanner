@@ -1,13 +1,26 @@
 import { useRouter } from 'next/router';
 import { BiArrowBack } from 'react-icons/bi';
 import { z } from 'zod';
+import { UUID_DASHED_REGEX } from '../../utils/regex';
 import { trpc } from '../../utils/trpc';
 import PlayerCard from '../PlayerCard/PlayerCard';
 import Waiting from '../Waiting/Waiting';
 
 const PlayerPage = ({ query }: { query: { uuid?: string } }) => {
 	const uuidSchema = z.string();
-	const uuid = uuidSchema.parse(query.uuid);
+	let uuid = uuidSchema.parse(query.uuid);
+	if (uuid[8] !== '-') {
+		uuid =
+			uuid.slice(0, 8) +
+			'-' +
+			uuid.slice(8, 12) +
+			'-' +
+			uuid.slice(12, 16) +
+			'-' +
+			uuid.slice(16, 20) +
+			'-' +
+			uuid.slice(20, uuid.length);
+	}
 	const { data, isLoading } = trpc.useQuery(['player', { uuid }]);
 	const router = useRouter();
 	return (

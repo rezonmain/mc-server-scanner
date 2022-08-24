@@ -20,7 +20,6 @@ const SearchPage = ({ query }: { query: SearchQuery }) => {
 	const searchSchema = z.object({
 		ip: z.string().nullish(),
 		keyword: z.string().trim().nullish(),
-		uuid: z.string().nullish(),
 	});
 	const res = searchSchema.parse(query);
 
