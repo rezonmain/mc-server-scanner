@@ -1,8 +1,9 @@
-import { memo, Suspense, useEffect, useRef } from 'react';
+import { memo, useEffect, useRef } from 'react';
 import { IdleAnimation, SkinViewer } from 'skinview3d';
 import ParsedPlayer from '../../lib/classes/ParsedPlayer';
 
 const Viewer = ({ skin }: { skin: string | undefined }) => {
+	console.log('rendered');
 	const ref = useRef<HTMLCanvasElement>(null);
 	useEffect(() => {
 		(async () => {

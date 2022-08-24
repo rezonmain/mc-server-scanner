@@ -9,16 +9,9 @@ const PlayerList = ({ players }: { players: ParsedServer['players'] }) => {
 	const list = {
 		visible: {
 			opacity: 1,
-			transition: {
-				when: 'beforeChildren',
-				staggerChildren: 0.075,
-			},
 		},
 		hidden: {
 			opacity: 0,
-			transition: {
-				when: 'afterChildren',
-			},
 		},
 	};
 

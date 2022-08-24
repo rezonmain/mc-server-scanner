@@ -3,10 +3,10 @@ import { useState } from 'react';
 import React from 'react';
 import ParsedPlayer from '../../lib/classes/ParsedPlayer';
 import ServerList from '../ServerList/ServerList';
-import { AnimatePresence, motion } from 'framer-motion';
+import { motion } from 'framer-motion';
 import Viewer from '../Viewer/Viewer';
 
-const ServerCard = ({
+const PlayerCard = ({
 	name,
 	uuid,
 	servers,
@@ -14,6 +14,7 @@ const ServerCard = ({
 	skin,
 }: ParsedPlayer) => {
 	const [showServers, setShowServers] = useState(false);
+	const [animating, setAnimating] = useState(false);
 	const isAuthorized = !!mojangName;
 
 	return (
@@ -46,11 +47,13 @@ const ServerCard = ({
 				)}
 				<li>
 					<div
-						onClick={() => setShowServers((prev) => !prev)}
-						className='cursor-pointer flex flex-row items-center gap-2'
+						onClick={() => !animating && setShowServers((prev) => !prev)}
+						className='cursor-pointer flex flex-row items-center gap-2 w-fit select-none'
 					>
 						<span>{showServers ? 'Hide' : 'Show'} servers</span>
 						<motion.div
+							onAnimationStart={() => setAnimating(true)}
+							onAnimationComplete={() => setAnimating(false)}
 							id='dropdown-button'
 							animate={{ rotate: showServers ? '-180deg' : '0deg' }}
 							className='active:bg-neutral-600 hover:bg-neutral-600 w-fit h-fit p-[0.1rem] rounded-full transition-colors'
@@ -60,14 +63,10 @@ const ServerCard = ({
 					</div>
 				</li>
 
-				<li>
-					<AnimatePresence>
-						{showServers ? <ServerList servers={servers} /> : null}
-					</AnimatePresence>
-				</li>
+				<li>{showServers ? <ServerList servers={servers} /> : null}</li>
 			</div>
 		</ul>
 	);
 };
 
-export default React.memo(ServerCard);
+export default PlayerCard;

@@ -9,6 +9,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import React from 'react';
 
 const ServerCard = ({
+	id,
 	favicon,
 	hasCustomFavicon,
 	ip,
@@ -20,10 +21,22 @@ const ServerCard = ({
 }: ParsedServer) => {
 	const [rendered, setRendered] = useState(false);
 	const [showPlayers, setShowPlayers] = useState(false);
+	const [animating, setAnimating] = useState(false);
 	const router = useRouter();
 	const handleCopyClick = () => navigator.clipboard.writeText(ip);
 
+	const onShow = (showPlayers: boolean) => {
+		// Remember the showplayers state
+		showPlayers = !showPlayers;
+		sessionStorage.setItem(id, showPlayers.toString());
+		setShowPlayers((prev) => !prev);
+	};
+
+	// On first render
 	useEffect(() => {
+		// Get the showPlayers state if exits
+		const initalState = sessionStorage.getItem(id);
+		initalState && setShowPlayers(initalState === 'true');
 		setRendered(true);
 	}, []);
 
@@ -66,7 +79,7 @@ const ServerCard = ({
 			</li>
 			<li>
 				<div
-					onClick={() => setShowPlayers((prev) => !prev)}
+					onClick={() => !animating && onShow(showPlayers)}
 					className={`flex flex-row gap-1 items-center w-fit select-none ${
 						players.sample && players.sample?.length > 0 ? 'cursor-pointer' : ''
 					}`}
@@ -75,6 +88,8 @@ const ServerCard = ({
 					{players.online} / {players.max}
 					{players.sample && players.sample?.length > 0 ? (
 						<motion.div
+							onAnimationStart={() => setAnimating(true)}
+							onAnimationComplete={() => setAnimating(false)}
 							id='dropdown-button'
 							animate={{ rotate: showPlayers ? '-180deg' : '0deg' }}
 							className='active:bg-neutral-600 hover:bg-neutral-600 w-fit h-fit p-[0.1rem] rounded-full transition-colors'
@@ -84,11 +99,7 @@ const ServerCard = ({
 					) : null}
 				</div>
 			</li>
-			<li>
-				<AnimatePresence>
-					{showPlayers ? <PlayerList players={players} /> : null}
-				</AnimatePresence>
-			</li>
+			<li>{showPlayers ? <PlayerList players={players} /> : null}</li>
 		</ul>
 	);
 };
