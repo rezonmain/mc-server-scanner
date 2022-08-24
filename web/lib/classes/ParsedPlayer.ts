@@ -3,6 +3,7 @@ class ParsedPlayer {
 	uuid;
 	servers: string[];
 	mojangName: string | undefined;
+	mojangUUID: string | undefined;
 	skin: string | undefined;
 	constructor() {
 		this.name = '';

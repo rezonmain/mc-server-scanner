@@ -1,7 +1,6 @@
 import { useRouter } from 'next/router';
 import { BiArrowBack } from 'react-icons/bi';
 import { z } from 'zod';
-import { UUID_DASHED_REGEX } from '../../utils/regex';
 import { trpc } from '../../utils/trpc';
 import PlayerCard from '../PlayerCard/PlayerCard';
 import Waiting from '../Waiting/Waiting';
@@ -21,7 +20,13 @@ const PlayerPage = ({ query }: { query: { uuid?: string } }) => {
 			'-' +
 			uuid.slice(20, uuid.length);
 	}
-	const { data, isLoading } = trpc.useQuery(['player', { uuid }]);
+	const { data, isLoading, isFetched } = trpc.useQuery(['player', { uuid }]);
+	let inDatabase = true;
+	let notFound = false;
+	if (data?.player.name === undefined) {
+		inDatabase = false;
+	}
+
 	const router = useRouter();
 	return (
 		<div className='p-4 md:max-w-[750px] xl:max-w-[990px] mx-auto'>
@@ -31,6 +36,12 @@ const PlayerPage = ({ query }: { query: { uuid?: string } }) => {
 			>
 				<BiArrowBack size={28} />
 			</div>
+			{isFetched && !inDatabase && (
+				<span className='block mb-4'>
+					Player not found in scanned entries. <br></br>Showing results from
+					Mojang.
+				</span>
+			)}
 			{isLoading ? (
 				<Waiting amount={1} />
 			) : (

@@ -1,4 +1,4 @@
-import { memo, useEffect, useRef, useState } from 'react';
+import { memo, useEffect, useRef } from 'react';
 import { IdleAnimation, SkinViewer } from 'skinview3d';
 import ParsedPlayer from '../../lib/classes/ParsedPlayer';
 

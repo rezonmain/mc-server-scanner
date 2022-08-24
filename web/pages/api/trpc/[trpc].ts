@@ -179,7 +179,8 @@ export const appRouter = trpc
 					},
 				},
 			]);
-			let mojangName, skin: string | undefined;
+
+			let mojangName, mojangUUID, skin: string | undefined;
 			try {
 				// Fetch player data from mojang
 				const mojangRes = await fetch(mojangURL);
@@ -188,6 +189,7 @@ export const appRouter = trpc
 				const res = parseMojangRes(mojangJson);
 				// Set mojang name
 				mojangName = res.mojangName;
+				mojangUUID = res.mojangUUID;
 				// Fetch skin blob and convert to base64 to send to client
 				const skinUrl = res.url;
 				const skinImageRes = await fetch(skinUrl);
@@ -199,13 +201,15 @@ export const appRouter = trpc
 			} catch {
 				// If no response from mojang set mojangName and skin to undefined
 				mojangName = undefined;
+				mojangUUID = undefined;
 				skin = undefined;
 			}
 			return {
 				player: {
-					uuid: player[0]._id as string,
-					name: player[0].name as string,
-					servers: player[0].servers as string[],
+					uuid: player.length ? (player[0]._id as string) : undefined,
+					name: player.length ? (player[0].name as string) : undefined,
+					servers: player.length ? (player[0].servers as string[]) : undefined,
+					mojangUUID,
 					mojangName,
 					skin,
 				} as ParsedPlayer,

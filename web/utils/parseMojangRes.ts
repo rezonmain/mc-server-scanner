@@ -13,6 +13,7 @@ type TexturesRes = {
 
 const parseMojangRes = (response: MojangRes) => {
 	const mojangName = response.name;
+	const mojangUUID = response.id;
 	const textureEncoded = response.properties.find(
 		(props) => props.name === 'textures'
 	)?.value;
@@ -23,7 +24,7 @@ const parseMojangRes = (response: MojangRes) => {
 	const modelType = texture.textures.SKIN.metadata
 		? texture.textures.SKIN.metadata.model
 		: 'classic';
-	return { mojangName, url, modelType };
+	return { mojangName, url, mojangUUID };
 };
 
 export default parseMojangRes;
