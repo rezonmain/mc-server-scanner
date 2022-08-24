@@ -11,7 +11,7 @@ type TexturesRes = {
 	textures: { SKIN: { url: string; metadata: { model: string } } };
 };
 
-const parseMojangResponse = (response: MojangRes) => {
+const parseMojangRes = (response: MojangRes) => {
 	const mojangName = response.name;
 	const textureEncoded = response.properties.find(
 		(props) => props.name === 'textures'
@@ -26,4 +26,4 @@ const parseMojangResponse = (response: MojangRes) => {
 	return { mojangName, url, modelType };
 };
 
-export default parseMojangResponse;
+export default parseMojangRes;

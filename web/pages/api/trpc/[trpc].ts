@@ -5,7 +5,7 @@ import DB from '../../../db/Db';
 import FoundServerModel from '../../../db/models/FoundServerModel';
 import ParsedPlayer from '../../../lib/classes/ParsedPlayer';
 import { RawServer } from '../../../lib/types';
-import getSkingUrl from '../../../utils/getSkinUrl';
+import parseMojangRes from '../../../utils/parseMojangRes';
 import { IP_REGEX } from '../../../utils/regex';
 
 /* 
@@ -179,30 +179,36 @@ export const appRouter = trpc
 					},
 				},
 			]);
-			let mojangName, url, modelType: string | undefined;
+			let mojangName, skin: string | undefined;
 			try {
+				// Fetch player data from mojang
 				const mojangRes = await fetch(mojangURL);
 				const mojangJson = await mojangRes.json();
-				const res = getSkingUrl(mojangJson);
-				url = res.url;
-				modelType = res.modelType;
+				// Extract skin url and
+				const res = parseMojangRes(mojangJson);
+				// Set mojang name
 				mojangName = res.mojangName;
+				// Fetch skin blob and convert to base64 to send to client
+				const skinUrl = res.url;
+				const skinImageRes = await fetch(skinUrl);
+				const blob = await skinImageRes.arrayBuffer();
+				// Get skin as base64 of blob
+				skin = `data:${skinImageRes.headers.get(
+					'content-type'
+				)};base64,${Buffer.from(blob).toString('base64')}`;
 			} catch {
-				url = undefined;
-				modelType = undefined;
+				// If no response from mojang set mojangName and skin to undefined
 				mojangName = undefined;
+				skin = undefined;
 			}
-			console.log(url);
 
-			// get player skin link
 			return {
 				player: {
 					uuid: player[0]._id as string,
 					name: player[0].name as string,
 					servers: player[0].servers as string[],
 					mojangName,
-					skinURL: url,
-					modelType: modelType,
+					skin,
 				} as ParsedPlayer,
 			};
 		},
