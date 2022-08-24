@@ -1,18 +1,23 @@
-import { Canvas } from '@react-three/fiber';
-import { Suspense } from 'react';
-import ModelWidget from '../ModelWidget/ModelWidget';
+import { useEffect, useRef } from 'react';
+import { SkinViewer } from 'skinview3d';
 
 const Viewer = ({ type, skin }: { type: 'classic' | 'slim'; skin: string }) => {
+	const ref = useRef<HTMLCanvasElement>(null);
+	useEffect(() => {
+		const img = new Image(64, 64);
+		img.src = skin;
+		let sv = new SkinViewer({
+			canvas: ref.current as HTMLCanvasElement,
+			width: 300,
+			height: 400,
+			skin,
+		});
+
+		sv.background = 0x5a76f3;
+	});
 	return (
 		<div id='canvas-container' className='w-full h-full'>
-			<Canvas camera={{ fov: 75, near: 0.1, far: 1000, position: [0, 0, 2] }}>
-				<ambientLight intensity={1} />
-				<spotLight position={[10, 10, 10]} angle={0.1} penumbra={1} />
-				<pointLight position={[0, 0, 0]} />
-				<Suspense fallback={null}>
-					<ModelWidget type={type} />
-				</Suspense>
-			</Canvas>
+			<canvas ref={ref} id='skin-viewer'></canvas>
 		</div>
 	);
 };

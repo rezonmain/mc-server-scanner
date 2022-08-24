@@ -19,6 +19,9 @@ const ServerCard = ({
 	return (
 		<ul className='p-5 bg-neutral-800 mb-4 break-words rounded-lg leading-7'>
 			<li>
+				<img src={skinURL}></img>
+			</li>
+			<li>
 				<span className='text-neutral-400'>Name: </span>
 				<span>{name}</span>
 			</li>

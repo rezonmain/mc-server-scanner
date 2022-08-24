@@ -50,7 +50,6 @@ const Header = () => {
 						<form onSubmit={(e) => onSubmit(e)}>
 							<input
 								ref={inputRef}
-								autoCapitalize='off'
 								value={searchText}
 								onChange={(e) => setSearchText(e.target.value)}
 								onFocus={() => setInputFocus(true)}

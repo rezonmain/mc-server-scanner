@@ -192,6 +192,7 @@ export const appRouter = trpc
 				modelType = undefined;
 				mojangName = undefined;
 			}
+			console.log(url);
 
 			// get player skin link
 			return {
