@@ -22,7 +22,7 @@ const ServerCard = ({
 				<span className='text-neutral-400'>Name: </span>
 				<span>{name}</span>
 			</li>
-			{isAuthorized && (
+			{isAuthorized && name !== mojangName && (
 				<li>
 					<span className='text-neutral-400'>Mojang name: </span>
 					<span>{mojangName}</span>
