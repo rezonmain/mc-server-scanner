@@ -201,7 +201,6 @@ export const appRouter = trpc
 				mojangName = undefined;
 				skin = undefined;
 			}
-
 			return {
 				player: {
 					uuid: player[0]._id as string,
