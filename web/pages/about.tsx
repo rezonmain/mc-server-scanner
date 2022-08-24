@@ -33,7 +33,7 @@ const About: NextPage = () => {
 					</li>
 					<Answer>
 						Even if the server shows online players, that information is
-						controlled by the server admin, this website tries to filters for
+						controlled by the server admin, this website tries to filter for
 						potentially fake players so only shows real players on the player
 						list.
 					</Answer>
@@ -54,7 +54,7 @@ const About: NextPage = () => {
 						</Question>
 						<Answer>
 							Total is every entry in the scanned server database, the scanner
-							scans the entire internet multiple times, this can result in
+							covers the entire internet multiple times, this can result in
 							scanning the same server several times, this is intended. The
 							unique count is every unique server IP.
 						</Answer>
@@ -66,8 +66,8 @@ const About: NextPage = () => {
 						</Question>
 						<Answer>
 							It can mean either of 2 things, the server responded with a fake
-							UUID, or the server is cracked and allows offline accounts to
-							connect to it.
+							player UUID, or the server is cracked and allows offline accounts
+							to connect to it.
 						</Answer>
 					</li>
 				</ol>
