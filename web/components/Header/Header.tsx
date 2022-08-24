@@ -4,7 +4,7 @@ import { FormEvent, RefObject, useRef, useState } from 'react';
 import { BsGithub } from 'react-icons/bs';
 import { FiSearch } from 'react-icons/fi';
 import useShyHeader from '../../lib/hooks/useShyHeader';
-import { IP_REGEX } from '../../utils/regex';
+import { IP_REGEX, UUID_REGEX } from '../../utils/regex';
 import CubeWidget from '../Cube/CubeWidget';
 
 const Header = () => {
@@ -19,9 +19,14 @@ const Header = () => {
 		e && e.preventDefault();
 		if (searchText.trim().length <= 0) return;
 		const ip = searchText.match(IP_REGEX);
+		const uuid = searchText.match(UUID_REGEX);
+		if (uuid) {
+			router.push({ pathname: '/player', query: { uuid } });
+			return;
+		}
 		const query = {
 			ip: ip ? ip[0] : undefined,
-			keyword: ip ? undefined : searchText.trim(),
+			keyword: ip ? undefined : uuid ? undefined : searchText.trim(),
 		};
 		if (!ip) delete query.ip;
 		if (!query.keyword) delete query.keyword;

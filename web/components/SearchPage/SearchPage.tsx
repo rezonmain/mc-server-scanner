@@ -7,6 +7,7 @@ import Crash from '../Crash/Crash';
 export type SearchQuery = {
 	ip?: string | undefined | null;
 	keyword?: string | undefined | null;
+	uuid?: string | undefined | null;
 };
 
 const SearchPage = ({ query }: { query: SearchQuery }) => {
@@ -19,6 +20,7 @@ const SearchPage = ({ query }: { query: SearchQuery }) => {
 	const searchSchema = z.object({
 		ip: z.string().nullish(),
 		keyword: z.string().trim().nullish(),
+		uuid: z.string().nullish(),
 	});
 	const res = searchSchema.parse(query);
 
