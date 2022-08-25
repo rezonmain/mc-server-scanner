@@ -58,7 +58,7 @@ const Header = () => {
 				<div id='link+search' className='flex flex-row gap-2 items-center'>
 					<Link href={'/'}>
 						<div id='home-link' className='cursor-pointer w-10 h-10'>
-							{/* {rendered && <CubeWidget />} */}
+							{rendered && <CubeWidget />}
 						</div>
 					</Link>
 
