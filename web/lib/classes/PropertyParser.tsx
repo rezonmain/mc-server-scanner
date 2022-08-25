@@ -1,6 +1,5 @@
 import { nanoid } from 'nanoid';
 import { CSSProperties } from 'react';
-import PlayerList from '../../components/PlayerList/PlayerList';
 import { FAV_REGEX } from '../../utils/regex';
 import { FormatString, MCColor, RawServer } from '../types';
 import ParsedServer from './ParsedServer';

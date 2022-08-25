@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { FormEvent, RefObject, useRef, useState } from 'react';
+import { FormEvent, RefObject, useEffect, useRef, useState } from 'react';
 import { BsGithub } from 'react-icons/bs';
 import { FiSearch } from 'react-icons/fi';
 import useShyHeader from '../../lib/hooks/useShyHeader';
@@ -10,9 +10,13 @@ import CubeWidget from '../Cube/CubeWidget';
 const Header = () => {
 	const [inputFocus, setInputFocus] = useState(false);
 	const [searchText, setSearchText] = useState<string>('');
+	const [rendered, setRendered] = useState(false);
 	const inputRef = useRef() as RefObject<HTMLInputElement>;
 	const headerRef = useRef() as RefObject<HTMLElement>;
 	const router = useRouter();
+	useEffect(() => {
+		setRendered(true);
+	}, []);
 	useShyHeader(headerRef);
 
 	const onSubmit = (e?: FormEvent<HTMLFormElement>) => {
@@ -54,7 +58,7 @@ const Header = () => {
 				<div id='link+search' className='flex flex-row gap-2 items-center'>
 					<Link href={'/'}>
 						<div id='home-link' className='cursor-pointer w-10 h-10'>
-							<CubeWidget />
+							{rendered && <CubeWidget />}
 						</div>
 					</Link>
 

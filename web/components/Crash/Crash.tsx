@@ -1,8 +1,6 @@
 import Link from 'next/link';
-import { useRouter } from 'next/router';
 
 const Crash = ({ message }: { message: string }) => {
-	const router = useRouter();
 	return (
 		<div className='w-full cursor-pointer flex items-center justify-center'>
 			<div className='w-full text-center flex flex-col gap-4'>
