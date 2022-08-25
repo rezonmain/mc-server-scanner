@@ -3,11 +3,12 @@ import * as trpcNext from '@trpc/server/adapters/next';
 import { z } from 'zod';
 import DB from '../../../db/Db';
 import FoundServerModel from '../../../db/models/FoundServerModel';
+import BlacklistModel, { Blacklist } from '../../../db/models/BlacklistModel';
 import ParsedPlayer from '../../../lib/classes/ParsedPlayer';
 import { RawServer } from '../../../lib/types';
-import filterBlackListed from '../../../utils/filterBlackListed';
 import parseMojangRes from '../../../utils/parseMojangRes';
 import { IP_REGEX } from '../../../utils/regex';
+import filterBlackListed from '../../../utils/filterBlackListed';
 
 /* 
 	Queries the most recent entries to the db,
@@ -29,6 +30,7 @@ export const appRouter = trpc
 
 			// Find all servers with foundAt less than cursor
 			// If no cursor was provided use a big ass number
+			const blacklist = await BlacklistModel.find<Blacklist>({});
 			const items = await FoundServerModel.find<RawServer>({
 				foundAt: { $lt: input.cursor ?? 0xffffffffffff },
 			})
@@ -42,7 +44,7 @@ export const appRouter = trpc
 				const lastTs = items[items.length - 1].foundAt;
 				nextCursor = lastTs;
 			}
-			filterBlackListed(items);
+			filterBlackListed(items, blacklist);
 			return {
 				items,
 				nextCursor,
@@ -58,7 +60,7 @@ export const appRouter = trpc
 		async resolve({ input }) {
 			const db = new DB();
 			await db.connect();
-
+			const blacklist = await BlacklistModel.find<Blacklist>({});
 			const items = await FoundServerModel.find<RawServer>({
 				foundAt: { $gt: input.cursor ?? 0x0 },
 			})
@@ -72,7 +74,7 @@ export const appRouter = trpc
 				const lastTs = items[items.length - 1].foundAt;
 				nextCursor = lastTs;
 			}
-			filterBlackListed(items);
+			filterBlackListed(items, blacklist);
 			return {
 				items,
 				nextCursor,
@@ -122,6 +124,7 @@ export const appRouter = trpc
 		async resolve({ input }) {
 			const db = new DB();
 			await db.connect();
+			const blacklist = await BlacklistModel.find<Blacklist>({});
 			const items = await FoundServerModel.find<RawServer>({
 				ip: { $regex: input.ip ? `^${input.ip}$` : '.*' },
 				foundAt: { $lt: input.cursor ?? 0xffffffffffff },
@@ -142,7 +145,7 @@ export const appRouter = trpc
 				const lastTs = items[items.length - 1].foundAt;
 				nextCursor = lastTs;
 			}
-			filterBlackListed(items);
+			filterBlackListed(items, blacklist);
 			return {
 				items,
 				nextCursor,
@@ -172,6 +175,7 @@ export const appRouter = trpc
 			const mojangURL = `https://sessionserver.mojang.com/session/minecraft/profile/${input.uuid}`;
 			const db = new DB();
 			await db.connect();
+			const blacklist = await BlacklistModel.find<Blacklist>({});
 			const player = await FoundServerModel.aggregate([
 				{ $unwind: '$players.sample' },
 				{ $match: { 'players.sample.id': input.uuid } },
@@ -209,7 +213,7 @@ export const appRouter = trpc
 				skin = undefined;
 			}
 			const filteredServers = player.length
-				? filterBlackListed(player[0].servers)
+				? filterBlackListed(player[0].servers as string[], blacklist)
 				: undefined;
 			return {
 				player: {
