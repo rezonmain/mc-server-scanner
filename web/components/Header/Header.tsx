@@ -17,22 +17,35 @@ const Header = () => {
 
 	const onSubmit = (e?: FormEvent<HTMLFormElement>) => {
 		e && e.preventDefault();
+		// Don't do anything if user has not types anything
 		if (searchText.trim().length <= 0) return;
+		// Test if search text is an ip address
 		const ip = searchText.match(IP_REGEX);
+		// Test if search text is an uuid
 		const uuid = searchText.trim().match(UUID_REGEX);
+		// If query is uuid push it player page
 		if (uuid) {
 			router.push({ pathname: '/player', query: { uuid } });
+			setSearchText('');
 			return;
 		}
+		/* If query is ip set ip to matched ip, and set keyword to undefined
+		if query is not an ip, set ip to undefined and keyword as trimed search text*/
 		const query = {
 			ip: ip ? ip[0] : undefined,
-			keyword: ip ? undefined : uuid ? undefined : searchText.trim(),
+			keyword: ip ? undefined : searchText.trim(),
 		};
+		// If ip is undefined delete ip from query props as to not pass it as page query
 		if (!ip) delete query.ip;
+		// If keyword is undefines deleted it from query props
 		if (!query.keyword) delete query.keyword;
+		// Redundant test id query is and empty object don't do anything
 		if (Object.keys(query).length === 0) return;
+		// Push the query object to search page
 		router.push({ pathname: '/search', query });
+		// Unfocus input element
 		inputRef.current?.blur();
+		// Clear the input element
 		setSearchText('');
 	};
 	return (
