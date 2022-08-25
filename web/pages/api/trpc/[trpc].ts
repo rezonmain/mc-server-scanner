@@ -19,6 +19,16 @@ import filterBlackListed from '../../../utils/filterBlackListed';
 	 */
 export const appRouter = trpc
 	.router()
+	.middleware(async ({ path, type, next }) => {
+		const start = Date.now();
+		const result = await next();
+		const durationMs = Date.now() - start;
+		result.ok
+			? console.log('OK request timing:', { path, type, durationMs })
+			: console.log('Non-OK request timing', { path, type, durationMs });
+
+		return result;
+	})
 	.query('mostRecent', {
 		input: z.object({
 			limit: z.number().positive().default(5),
@@ -87,33 +97,9 @@ export const appRouter = trpc
 			await db.connect();
 			const totalCount = await FoundServerModel.countDocuments({});
 			const uniqueCount = (await FoundServerModel.distinct('ip')).length;
-
 			return { totalCount, uniqueCount };
 		},
 	})
-	// .query('findByIp', {
-	// 	input: z.object({
-	// 		ip: z.string().regex(IP_REGEX),
-	// 		limit: z.number().positive().default(5),
-	// 		cursor: z.number().nullish(),
-	// 	}),
-	// 	async resolve({ input }) {
-	// 		const db = new DB();
-	// 		await db.connect();
-	// 		const items = await FoundServerModel.find<RawServer>({ ip: input.ip })
-	// 			.limit(input.limit)
-	// 			.sort({ foundAt: -1 });
-	// 		let nextCursor: typeof input.cursor | undefined = undefined;
-	// 		if (items.length >= input.limit) {
-	// 			const lastTs = items[items.length - 1].foundAt;
-	// 			nextCursor = lastTs;
-	// 		}
-	// 		return {
-	// 			items,
-	// 			nextCursor,
-	// 		};
-	// 	},
-	// })
 	.query('search', {
 		input: z.object({
 			ip: z.string().regex(IP_REGEX).nullish(),
