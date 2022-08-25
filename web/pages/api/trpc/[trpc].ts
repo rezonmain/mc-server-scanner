@@ -5,6 +5,7 @@ import DB from '../../../db/Db';
 import FoundServerModel from '../../../db/models/FoundServerModel';
 import ParsedPlayer from '../../../lib/classes/ParsedPlayer';
 import { RawServer } from '../../../lib/types';
+import filterBlackListed from '../../../utils/filterBlackListed';
 import parseMojangRes from '../../../utils/parseMojangRes';
 import { IP_REGEX } from '../../../utils/regex';
 
@@ -41,6 +42,7 @@ export const appRouter = trpc
 				const lastTs = items[items.length - 1].foundAt;
 				nextCursor = lastTs;
 			}
+			filterBlackListed(items);
 			return {
 				items,
 				nextCursor,
@@ -70,6 +72,7 @@ export const appRouter = trpc
 				const lastTs = items[items.length - 1].foundAt;
 				nextCursor = lastTs;
 			}
+			filterBlackListed(items);
 			return {
 				items,
 				nextCursor,
@@ -86,29 +89,29 @@ export const appRouter = trpc
 			return { totalCount, uniqueCount };
 		},
 	})
-	.query('findByIp', {
-		input: z.object({
-			ip: z.string().regex(IP_REGEX),
-			limit: z.number().positive().default(5),
-			cursor: z.number().nullish(),
-		}),
-		async resolve({ input }) {
-			const db = new DB();
-			await db.connect();
-			const items = await FoundServerModel.find<RawServer>({ ip: input.ip })
-				.limit(input.limit)
-				.sort({ foundAt: -1 });
-			let nextCursor: typeof input.cursor | undefined = undefined;
-			if (items.length >= input.limit) {
-				const lastTs = items[items.length - 1].foundAt;
-				nextCursor = lastTs;
-			}
-			return {
-				items,
-				nextCursor,
-			};
-		},
-	})
+	// .query('findByIp', {
+	// 	input: z.object({
+	// 		ip: z.string().regex(IP_REGEX),
+	// 		limit: z.number().positive().default(5),
+	// 		cursor: z.number().nullish(),
+	// 	}),
+	// 	async resolve({ input }) {
+	// 		const db = new DB();
+	// 		await db.connect();
+	// 		const items = await FoundServerModel.find<RawServer>({ ip: input.ip })
+	// 			.limit(input.limit)
+	// 			.sort({ foundAt: -1 });
+	// 		let nextCursor: typeof input.cursor | undefined = undefined;
+	// 		if (items.length >= input.limit) {
+	// 			const lastTs = items[items.length - 1].foundAt;
+	// 			nextCursor = lastTs;
+	// 		}
+	// 		return {
+	// 			items,
+	// 			nextCursor,
+	// 		};
+	// 	},
+	// })
 	.query('search', {
 		input: z.object({
 			ip: z.string().regex(IP_REGEX).nullish(),
@@ -139,6 +142,7 @@ export const appRouter = trpc
 				const lastTs = items[items.length - 1].foundAt;
 				nextCursor = lastTs;
 			}
+			filterBlackListed(items);
 			return {
 				items,
 				nextCursor,
@@ -204,11 +208,14 @@ export const appRouter = trpc
 				mojangUUID = undefined;
 				skin = undefined;
 			}
+			const filteredServers = player.length
+				? filterBlackListed(player[0].servers)
+				: undefined;
 			return {
 				player: {
 					uuid: player.length ? (player[0]._id as string) : undefined,
 					name: player.length ? (player[0].name as string) : undefined,
-					servers: player.length ? (player[0].servers as string[]) : undefined,
+					servers: filteredServers,
 					mojangUUID,
 					mojangName,
 					skin,

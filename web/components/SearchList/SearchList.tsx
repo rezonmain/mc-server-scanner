@@ -1,10 +1,10 @@
 import InfiniteList from '../InfiniteList/InfiniteList';
 import { SearchQuery } from '../SearchPage/SearchPage';
 
-const SearchList = ({ query }: { query: SearchQuery }) => {
+const SearchList = ({ query }: { query: SearchQuery | undefined }) => {
 	const input = {
-		ip: query.ip,
-		keyword: query.keyword ?? '.*',
+		ip: query ? query.ip : undefined,
+		keyword: query ? query.keyword ?? '.*' : undefined,
 	};
 
 	return (

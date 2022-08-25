@@ -7,6 +7,8 @@ import { useEffect, useState } from 'react';
 import PlayerList from '../PlayerList/PlayerList';
 import { motion, AnimatePresence } from 'framer-motion';
 import React from 'react';
+import { IP_REGEX } from '../../utils/regex';
+import { z } from 'zod';
 
 const ServerCard = ({
 	id,
@@ -25,6 +27,13 @@ const ServerCard = ({
 	/* A little id for the favicon derived from the component key (id)
 	used to remember the showFavicon state across page transitions */
 	const favId = 'fav' + id;
+
+	let validIP: boolean = true;
+	try {
+		z.string().regex(IP_REGEX).parse(ip);
+	} catch {
+		validIP = false;
+	}
 
 	const router = useRouter();
 	const handleCopyClick = () => navigator.clipboard.writeText(ip);
@@ -56,8 +65,12 @@ const ServerCard = ({
 			<li className='flex flex-row items-center gap-2'>
 				<span className='text-neutral-400'>IP: </span>
 				<span
-					onClick={() => router.push({ pathname: '/search', query: { ip } })}
-					className='underline cursor-pointer active:no-underline'
+					onClick={() =>
+						validIP && router.push({ pathname: '/search', query: { ip } })
+					}
+					className={`${
+						validIP ? 'underline' : 'no-underline'
+					} cursor-pointer active:no-underline`}
 				>
 					{ip}
 				</span>

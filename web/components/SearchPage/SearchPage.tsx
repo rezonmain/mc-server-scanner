@@ -3,6 +3,7 @@ import SearchList from '../SearchList/SearchList';
 import { BiArrowBack } from 'react-icons/bi';
 import { useRouter } from 'next/router';
 import Crash from '../Crash/Crash';
+import { IP_REGEX } from '../../utils/regex';
 
 export type SearchQuery = {
 	ip?: string | undefined | null;
@@ -12,16 +13,23 @@ export type SearchQuery = {
 
 const SearchPage = ({ query }: { query: SearchQuery }) => {
 	const router = useRouter();
+	let validIp = true;
 
 	if (Object.keys(query).length <= 0) {
 		return <Crash message='No search query was given' />;
 	}
 
 	const searchSchema = z.object({
-		ip: z.string().nullish(),
+		ip: z.string().regex(IP_REGEX).optional(),
 		keyword: z.string().trim().nullish(),
 	});
-	const res = searchSchema.parse(query);
+
+	let res;
+	try {
+		res = searchSchema.parse(query);
+	} catch {
+		validIp = false;
+	}
 
 	return (
 		<div className='p-4 md:max-w-[750px] xl:max-w-[990px] mx-auto'>
@@ -31,7 +39,11 @@ const SearchPage = ({ query }: { query: SearchQuery }) => {
 			>
 				<BiArrowBack size={28} />
 			</div>
-			<SearchList query={res} />
+			{validIp && query ? (
+				<SearchList query={res} />
+			) : (
+				<span>{query.ip} is not a valid IP address</span>
+			)}
 		</div>
 	);
 };
