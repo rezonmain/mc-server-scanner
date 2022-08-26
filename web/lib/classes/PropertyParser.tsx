@@ -72,7 +72,6 @@ class PropertyParser {
 			});
 			return elements;
 		}
-		console.log(this.server._id);
 		if (desc.extra) {
 			const elements = desc.extra.map((format, i) => {
 				if (typeof format === 'string') {
