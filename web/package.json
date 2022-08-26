@@ -9,6 +9,7 @@
 		"lint": "next lint"
 	},
 	"dependencies": {
+		"@hookform/resolvers": "^2.9.7",
 		"@react-three/drei": "^9.23.4",
 		"@react-three/fiber": "^8.4.1",
 		"@trpc/client": "^9.27.0",

@@ -230,18 +230,18 @@ export const appRouter = trpc
 			const item = await KeyModel.findOne<AuthKey>({ prefix });
 			// If Authkey exists, hash and compare it
 			const matches = item && (await bcrypt.compare(rawKey, item?.hashedKey));
-
+			if (!matches) {
+				throw new TRPCError({ code: 'UNAUTHORIZED' });
+			}
 			// If auth was succesful
 			if (matches) {
 				const bl = new BlacklistModel<Blacklist>({
 					ip: input.ip,
-					message: input.message,
+					message: input.message === '' ? 'Redcated' : input.message,
 					author: prefix,
 				});
 				const res = await bl.save();
 				return res;
-			} else {
-				throw new TRPCError({ code: 'UNAUTHORIZED' });
 			}
 		},
 	});

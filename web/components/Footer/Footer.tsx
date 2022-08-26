@@ -16,7 +16,10 @@ const Footer = () => {
 					>
 						Github
 					</a>{' '}
-					| <Link href='/blacklist'>Blacklist</Link>
+					|{' '}
+					<Link href='/blacklist'>
+						<a className='hover:underline active:underline'>Blacklist</a>
+					</Link>
 				</small>
 			</div>
 		</footer>
