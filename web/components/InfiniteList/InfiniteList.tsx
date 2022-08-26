@@ -40,7 +40,7 @@ const InfiniteList = ({
 	);
 
 	if (isLoading) {
-		return <Waiting key={1} amount={5} />;
+		return <Waiting key={1} amount={6} />;
 	}
 
 	if (isError) {
@@ -52,7 +52,7 @@ const InfiniteList = ({
 	}
 
 	return (
-		<section id='infinite-list' className='flex flex-col'>
+		<section id='infinite-list' className='flex flex-col gap-4'>
 			{queryKey === 'mostRecent' && newData && (
 				<NewEntriesButton
 					count={newData.count}
@@ -63,9 +63,9 @@ const InfiniteList = ({
 			<InfiniteScroll
 				loadMore={() => fetchNextPage()}
 				hasMore={hasNextPage}
-				loader={<Waiting key={2} amount={1} />}
+				loader={<Waiting key={2} amount={2} />}
 			>
-				<div>
+				<div className='flex flex-col gap-4 lg:grid lg:grid-cols-2 lg:gap-4'>
 					{data?.pages.map((group, i) => (
 						<React.Fragment key={i}>
 							{group.items.map((server, i) => {
@@ -75,9 +75,9 @@ const InfiniteList = ({
 							})}
 						</React.Fragment>
 					))}
-					{!isLoading && !hasNextPage && <div>Nothing more to show</div>}
 				</div>
 			</InfiniteScroll>
+			{!isLoading && !hasNextPage && <div>Nothing more to show</div>}
 		</section>
 	);
 };

@@ -3,7 +3,7 @@ import _ from 'lodash';
 const lines = 6;
 const Waiting = ({ amount }: { amount: number }) => {
 	return (
-		<div className='flex flex-col gap-[1.2rem]'>
+		<div className='flex flex-col gap-4 lg:grid lg:grid-cols-2 mt-4'>
 			{Array.from({ length: amount }).map((val, i) => (
 				<Skeleton key={`Skeleton${i}`} index={i} />
 			))}

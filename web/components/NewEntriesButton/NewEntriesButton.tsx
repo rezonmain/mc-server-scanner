@@ -11,7 +11,7 @@ const NewEntriesButton = ({
 		return (
 			<span
 				onClick={() => onClick()}
-				className='relative inline-flex justify-end items-center mb-4'
+				className='relative inline-flex justify-end items-center'
 			>
 				{isFetching && (
 					<svg

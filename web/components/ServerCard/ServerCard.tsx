@@ -54,7 +54,7 @@ const ServerCard = ({
 	}, [id]);
 
 	return (
-		<ul className='p-5 bg-neutral-800 mb-4 break-words rounded-lg leading-7'>
+		<ul className='p-5 bg-neutral-800 break-words rounded-lg leading-7'>
 			<li className='mb-2'>
 				<ServerFavicon
 					id={favId}
