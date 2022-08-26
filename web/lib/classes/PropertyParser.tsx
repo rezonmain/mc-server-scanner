@@ -72,9 +72,15 @@ class PropertyParser {
 			});
 			return elements;
 		}
-
+		console.log(this.server._id);
 		if (desc.extra) {
 			const elements = desc.extra.map((format, i) => {
+				if (typeof format === 'string') {
+					return <span key={'why-you-put-this-here' + i}></span>;
+				}
+				if (typeof format !== 'object') {
+					return <span key={'empty' + 1}></span>;
+				}
 				format.color = this.getMCColor(format.color);
 				return <this.FormattedWord key={format.text + i} {...format} />;
 			});
