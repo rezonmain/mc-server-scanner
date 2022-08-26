@@ -9,6 +9,9 @@ import { RawServer } from '../../../lib/types';
 import parseMojangRes from '../../../utils/parseMojangRes';
 import { IP_REGEX } from '../../../utils/regex';
 import filterBlackListed from '../../../utils/filterBlackListed';
+import KeyModel, { AuthKey } from '../../../db/models/KeyModel';
+import bcrypt from 'bcrypt';
+import { TRPCError } from '@trpc/server';
 
 /* 
 	Queries the most recent entries to the db,
@@ -212,6 +215,35 @@ export const appRouter = trpc
 				} as ParsedPlayer,
 			};
 		},
+	})
+	.mutation('blacklistAdd', {
+		input: z.object({
+			ip: z.string().regex(IP_REGEX),
+			key: z.string(),
+			message: z.string().default('Redacted'),
+		}),
+		async resolve({ input }) {
+			// Authorize:
+			const prefix = input.key.slice(0, 7);
+			const rawKey = input.key.slice(8, input.key.length);
+			// Get AuthKey using prefix
+			const item = await KeyModel.findOne<AuthKey>({ prefix });
+			// If Authkey exists, hash and compare it
+			const matches = item && (await bcrypt.compare(rawKey, item?.hashedKey));
+
+			// If auth was succesful
+			if (matches) {
+				const bl = new BlacklistModel<Blacklist>({
+					ip: input.ip,
+					message: input.message,
+					author: prefix,
+				});
+				const res = await bl.save();
+				return res;
+			} else {
+				throw new TRPCError({ code: 'UNAUTHORIZED' });
+			}
+		},
 	});
 
 // Export type definition of API
@@ -220,5 +252,4 @@ export type AppRouter = typeof appRouter;
 // Export API handler
 export default trpcNext.createNextApiHandler({
 	router: appRouter,
-	createContext: () => null,
 });

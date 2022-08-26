@@ -15,7 +15,8 @@ const Footer = () => {
 						href='https://github.com/rezonmain/mc-server-scanner'
 					>
 						Github
-					</a>
+					</a>{' '}
+					| <Link href='/blacklist'>Blacklist</Link>
 				</small>
 			</div>
 		</footer>
