@@ -24,7 +24,7 @@ def main():
 
 def scan(range):
   log.send(f'Scanning range: {Color.YELLOW}{range}{Color.END} for open {PORT} port @ {RATE} kp/s', __name__)
-  command = f'sudo masscan -p{PORT} {range} --rate {RATE} --wait {3} -oJ {SCANNED_FILE_NAME}'
+  command = f'sudo masscan -p{PORT} {range} --rate {RATE} --wait {0} -oJ {SCANNED_FILE_NAME}'
   os.system(command)
   # Sleep: make sure the file is written before getting ip's
   sleep(1)
@@ -35,12 +35,18 @@ def scan(range):
     log.send(f'{len(ips)} ip(s) found in range: {Color.GREEN}{range}{Color.END}', __name__)
   except json.JSONDecodeError:
     log.send(f'No servers found in range {Color.RED}{range}{Color.END}', __name__)
+    return
 
   count = 0
   total = len(ips)
+  todb = []
   for ip in ips:
     count += 1
-    check_SLP.send(ip, count, total)
+    server = check_SLP.send(ip, count, total)
+    if server:
+      todb.append(server)
+  log.send(f'Saving {len(todb)} entries to db')
+  write_to_db(todb)
 
 def should_retry_SLP(retries_so_far, exception):
   return retries_so_far < 3
@@ -51,30 +57,30 @@ def check_SLP(ip, count, total):
   try:
     status = StatusPing(ip)
     res = status.get_status()
-    log.send(f'[{count}/{total}] {Color.GREEN}Succesfully{Color.END} pinged {Color.YELLOW}{ip}{Color.END}, saving to db.', __name__)
-    write_to_db.send(ip, res)
+    log.send(f'[{count}/{total}] {Color.GREEN}Succesfully{Color.END} pinged {Color.YELLOW}{ip}{Color.END}, staged to saved to db.', __name__)
+    ts = int(time() * 1000)
+    entry = {
+    'ip': ip,
+    'foundAt': ts,
+    }
+    entry.update(res)
+    return entry
   except:
     log.send(f'[{count}/{total}] {Color.RED}{ip}{Color.END} is not a minecraft server I guess', __name__)
+    return False
 
 # Write found server to mongodb
 @dramatiq.actor
-def write_to_db(ip, slp):
-  ts = int(time() * 1000)
-  # Create dict from the server list ping response
-  entry = {
-    'ip': ip,
-    'foundAt': ts,
-  }
-  # Append the server list ping dict
-  entry.update(slp)
+def write_to_db(entries):
   try:
     # New database object (starts connection with db)
     db = DB()
     # Insert the entry to the db
-    res = db.insert_one(entry)
-    log.send(f'Added {Color.GREEN}{ip}{Color.END} to database. DB responded: {res}', __name__)
+    res = db.insert_many(entries)
+    log.send(f'Added {Color.GREEN}{len(entries)}{Color.END} to database. DB responded: {res}', __name__)
   except Exception as e:
-    log.send(f'{Color.RED}DB ERROR{Color.END}. Couldn\'t add {Color.RED}{ip}{Color.END} to database, Error: {e}')
+    log.send(f'{Color.RED}DB ERROR{Color.END}. Couldn\'t add {Color.RED}entries{Color.END} to database, Error: {e}')
+    raise Exception(f'Could not save to db, Error: {e}')
 
 if __name__ == '__main__':
   main()
