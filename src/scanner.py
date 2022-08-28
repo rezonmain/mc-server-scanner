@@ -23,7 +23,6 @@ def main():
     scheduler.start()
     while True:
       range = ip_range.get_random_range()
-      range = '34.135.0.0/16'
       scan(range)
       ip_range.set_as_scanned(range)
       sleep(1)
