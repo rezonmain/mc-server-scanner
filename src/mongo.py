@@ -5,7 +5,6 @@ import iprange
 class DB: 
   def __init__(self):
     self.URI = os.getenv('MONGO_URI')
-    print(self.URI)
     self.client = MongoClient(self.URI)
     self.db = self.client.scanner_db
     self.coll = self.db.servers
