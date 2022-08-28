@@ -39,13 +39,13 @@ def write_to_db():
     db = DB()
     entries = cache.getAll()
     if len(entries):
-      db.insert_many(entries)
+      res = db.insert_many(entries)
       # Remove saved items from redis store
       keys = []
       for entry in entries:
         keys.append(str(entry['ip']) + str(entry['foundAt']))
       cache.unstageMany(keys)
-      worker_log.send(f'Succesfully added {Color.GREEN}{len(entries)}{Color.END} entries to db.')
+      worker_log.send(f'Succesfully added {Color.GREEN}{len(entries)}{Color.END} entries, DB responded: {res}.')
     else:
       worker_log.send('No staged entries to add to db.')
   except Exception as e:
