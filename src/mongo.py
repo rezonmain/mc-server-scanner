@@ -1,12 +1,12 @@
-from os import getenv
+import os
 from pymongo import MongoClient
 import iprange
 
-URI = getenv('MONGO_URI')
-
 class DB: 
   def __init__(self):
-    self.client = MongoClient(URI)
+    self.URI = os.getenv('MONGO_URI')
+    print(self.URI)
+    self.client = MongoClient(self.URI)
     self.db = self.client.scanner_db
     self.coll = self.db.servers
 
@@ -30,7 +30,6 @@ class DB:
     ip = iprange.IpRange()
     serverList = ip._to_dict('found.json')
     res = self.insert_many(serverList)
-    print(res)
 
   def _close(self):
     self.client.close()

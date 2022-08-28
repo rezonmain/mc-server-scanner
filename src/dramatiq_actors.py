@@ -21,7 +21,6 @@ def slp(ip, count, total):
   try:
     status = StatusPing(ip)
     res = status.get_status()
-    print(res)
     # Generate entry object
     ts = int(time())
     entry = {

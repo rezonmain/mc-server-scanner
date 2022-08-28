@@ -3,6 +3,8 @@ services:
     image: redislabs/rejson
   worker:
     build: .
+    environment:
+      - MONGO_URI
     depends_on:
       - redis
     command:
