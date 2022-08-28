@@ -1,0 +1,18 @@
+version: '1.0'
+services:
+  redis:
+    image: redislabs/rejson
+  worker:
+    build: .
+    depends_on:
+      - redis
+    command:
+      dramatiq actors
+  scanner:
+    build: .
+    depends_on:
+      - redis
+      - worker
+    command:
+      python3 -m scanner
+

@@ -1,0 +1,10 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+
+src/ipranges.json
+src/res.json
+paused.conf
+.env
+.DS_Store
+web/
