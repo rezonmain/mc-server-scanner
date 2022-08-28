@@ -9,7 +9,7 @@ The scanner script chooses a random ip address range from this file and calls `m
 
 # Installation and configuring
 
-Install [docker compose.](https://docs.docker.com/compose/install/) 
+Install docker compose: [Ubuntu](https://docs.docker.com/engine/install/ubuntu/), [CentOs / OracleLinux](https://docs.docker.com/engine/install/centos/)
 
 Clone the repo
 
