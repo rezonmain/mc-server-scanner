@@ -3,3 +3,4 @@ dramatiq==1.13.0
 pymongo==4.2.0
 python-dotenv==0.20.0
 redis==4.3.4
+dnspython==2.2.1

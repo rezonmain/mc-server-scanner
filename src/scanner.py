@@ -14,15 +14,20 @@ FOUND_FILE_NAME = 'found.json'
 ip_range = IpRange()
 
 def main():
-  # Schdeule writing to db every minute
+  # Write missing files
+  if not os.path.exists('ipranges.json'): ip_range.generate_list()
+  if not os.path.exists(SCANNED_FILE_NAME): 
+      with open(SCANNED_FILE_NAME, 'w') as file: file.write('')
+
+  # Set up scheduler for writing to db every minute
   scheduler = BackgroundScheduler()
   scheduler.add_job(
-      actors.write_to_db.send,
-      CronTrigger.from_crontab("* * * * *"),
-  )
+    actors.write_to_db.send,
+    CronTrigger.from_crontab("* * * * *"))
+
+  # Main loop
   try:
     scheduler.start()
-    if not os.path.exists('ipranges.json'): ip_range.generate_list()
     while True:
       range = ip_range.get_random_range()
       scan(range)
@@ -36,7 +41,7 @@ def main():
 
 def scan(range):
   actors.log.send(f'Scanning range: {Color.YELLOW}{range}{Color.END} for open {PORT} port @ {RATE} kp/s', __name__)
-  command = f'sudo masscan -p{PORT} {range} --rate {RATE} --wait {3} -oJ {SCANNED_FILE_NAME}'
+  command = f'masscan -p{PORT} {range} --rate {RATE} --wait {3} -oJ {SCANNED_FILE_NAME}'
   os.system(command)
   # Sleep: make sure the file is written before getting ip's
   sleep(1)

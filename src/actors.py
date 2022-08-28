@@ -4,6 +4,9 @@ from statusping import StatusPing
 from mongo import DB
 import dramatiq
 import cache
+from dramatiq.brokers.redis import RedisBroker
+redis_broker = RedisBroker(host="redis")
+dramatiq.set_broker(redis_broker)
 
 @dramatiq.actor
 def log(str, src=__name__):

@@ -1,9 +1,7 @@
-from dotenv import load_dotenv
 from os import getenv
 from pymongo import MongoClient
 import iprange
 
-load_dotenv()
 URI = getenv('MONGO_URI')
 
 class DB: 
