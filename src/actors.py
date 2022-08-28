@@ -20,7 +20,7 @@ def slp(ip, count, total):
   try:
     status = StatusPing(ip)
     res = status.get_status()
-    log.send(f'[{count}/{total}] {Color.GREEN}Succesfully{Color.END} pinged {Color.YELLOW}{ip}{Color.END}, staged to saved to db.', __name__)
+    log.send(f'[{count}/{total}] {Color.GREEN}Succesfully{Color.END} pinged {Color.YELLOW}{ip}{Color.END}, staged to save to db.', __name__)
     # Generate entry object
     ts = int(time() * 1000)
     entry = {
@@ -38,6 +38,7 @@ def write_to_db():
   try:
     db = DB()
     entries = cache.getAll()
+    print(entries)
     if len(entries):
       db.insert_many(entries)
       log.send(f'Succesfully added {Color.GREEN}{len(entries)}{Color.END} entries to db.')
