@@ -1,5 +1,7 @@
 import json
 import dramatiq_actors
+import cache
+from mongo import DB
 from time import sleep
 from concolor import Color
 from iprange import IpRange
@@ -13,10 +15,27 @@ SCANNED_FILE_NAME = 'res.json'
 FOUND_FILE_NAME = 'found.json'
 ip_range = IpRange()
 
+def write_to_db():
+  try:
+    entries = cache.getAll()
+    if len(entries):
+      db = DB()
+      res = db.insert_many(entries)
+      # Remove saved items from redis store
+      keys = []
+      for entry in entries:
+        keys.append(str(entry['ip']) + str(entry['foundAt']))
+      cache.unstageMany(keys)
+      dramatiq_actors.worker_log.send(f'Succesfully added {Color.GREEN}{len(entries)}{Color.END} entries, DB responded: {res}.')
+    else:
+      dramatiq_actors.worker_log.send('No staged entries to add to db.')
+  except Exception as e:
+    raise Exception(f'An {Color.RED}error{Color.END} ocurred on trying to write entries to mongo database, Error: {e}')
+
   # Set up scheduler for writing to db every minute
 scheduler = BackgroundScheduler()
 scheduler.add_job(
-  dramatiq_actors.write_to_db.send,
+  write_to_db,
   CronTrigger.from_crontab("* * * * *"),
   max_instances=1)
 
