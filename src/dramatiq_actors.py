@@ -37,7 +37,7 @@ def slp(ip, count, total):
   except:
     worker_log.send(f'[{count}/{total}] {Color.RED}{ip}{Color.END} is not a minecraft server I guess', __name__)
 
-@dramatiq.actor
+@dramatiq.actor(max_retries=0)
 def write_to_db():
   try:
     entries = cache.getAll()
