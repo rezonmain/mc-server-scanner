@@ -32,3 +32,31 @@ class DB:
 
   def _close(self):
     self.client.close()
+  """
+  There was a bug in one version of the scanner that pushed the same entry 
+  multiple times to the database, this function deletes those duplicates entries
+  The duplicates are easy to find because they'll have the same ip and timestamp
+  """
+  def _prune_duplicates(self):
+    # Run the duplicate query here
+    agg_pipeline = [
+      {"$group": {"_id": "$foundAt", "count":{"$sum": 1},"ip": {"$first": "$ip"}, "ids": {"$addToSet": "$_id"}}}, 
+      {"$match": {"count": {"$gt": 1}}}
+      ]
+    duplicates = list(self.coll.aggregate(agg_pipeline))
+    to_delete = []
+    total_count = 0
+    for dups in duplicates:
+      total_count += dups['count']
+      amount_to_delete = dups['count'] - 1
+      for i in range(amount_to_delete):
+        to_delete.append({'_id': dups['ids'][i]})
+
+    print(f'total amount of duplicates: {total_count}')
+    print(f'Amount to delete: {len(to_delete)}')
+    ids = {'$or': [*to_delete]}
+    input('Press any key to see ids to delete')
+    print(ids)
+    input('press any key to dele')
+    res = self.coll.delete_many(ids)
+    print(res)
