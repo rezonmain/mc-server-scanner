@@ -6,6 +6,7 @@ const { Schema } = mongoose;
 const serverSchema = new Schema<RawServer>({
 	ip: String,
 	foundAt: Number,
+	foundBy: String,
 	description: Schema.Types.Mixed,
 	players: {
 		max: Number,
