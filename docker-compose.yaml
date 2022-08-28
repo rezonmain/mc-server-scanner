@@ -1,4 +1,5 @@
 services:
+  # Back end for dramatiq and found ip cache
   redis:
     image: redislabs/rejson
   worker:
@@ -8,8 +9,7 @@ services:
       - IDENT
     depends_on:
       - redis
-    command:
-      dramatiq dramatiq_actors:redis_broker
+    command: dramatiq dramatiq_actors:redis_broker
   scanner:
     build: .
     environment:
@@ -18,7 +18,4 @@ services:
     depends_on:
       - worker
       - scheduler
-    command:
-      python3 -m scanner
-
-
+    command: python3 -m scanner

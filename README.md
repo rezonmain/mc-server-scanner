@@ -9,13 +9,12 @@ The scanner script chooses a random ip address range from this file and calls `m
 
 # Installation and configuring
 
-Install docker compose: [Ubuntu](https://docs.docker.com/engine/install/ubuntu/), [CentOs / OracleLinux](https://docs.docker.com/engine/install/centos/)
+Install docker compose: [Ubuntu](https://docs.docker.com/engine/install/ubuntu/), [CentOs / Oracle linux](https://docs.docker.com/engine/install/centos/)
 
 Clone the repo
 
     git clone https://github.com/rezonmain/mc-server-scanner.git
     cd mc-server-scanner
-
 
 To enable saving found servers to a db, copy the `.env.example` file to `.env` in the root directory
 
@@ -25,19 +24,21 @@ Edit the `MONGO_URI` environment variable to your connection string. You can cre
 
 # Rate limiting masscan
 
-Running masscan on a home network unlimited will **melt** your router, in my case, I run it at 5,000 kp/s which scans a x.x.x.x/16 range (65,536 hosts) in ~10 seconds, and at 10,000 kp/s when I'm not using the network.
+Running masscan on a home network unlimited will **melt** your router, in my case, I run it at 35,000 kp/s which scans a x.x.x.x/16 range (65,536 hosts) in ~2 seconds, and at 100,000 kp/s when scanner is running on a vm.
 
 To edit the rate at which masscan runs, edit the RATE environment variable in `.env`
 
     MONGO_URI=MONGO_URI='mongodb+srv://<username>:<password>@<mongourl>/?retryWrites=true&w=majority'
     RATE=100000 <- set to your liking
+    IDENT=SERVER_NAME
 
 Run docker compose up
 
     sudo docker compose up
 
+# Todo
 
-# Todo 🎉🎉🎉🎉
+Goals completed 🎉🎉🎉🎉
 
 - [x] Containerize application
 - [x] Write found servers to db (Mongo)
