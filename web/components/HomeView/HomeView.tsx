@@ -1,5 +1,6 @@
 import _ from 'lodash';
-import { ChangeEvent } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
+import { render } from 'react-dom';
 import { showOpts } from '../HomeList/HomeList';
 import ServerCount from '../ServerCount/ServerCount';
 
@@ -10,13 +11,17 @@ const HomeView = ({
 	onChange: (e: ChangeEvent<HTMLSelectElement>) => void;
 	showing: typeof showOpts[number];
 }) => {
+	const [rendered, setRendered] = useState(false);
+	useEffect(() => {
+		setRendered(true);
+	}, []);
 	return (
 		<>
 			<section
 				id='home-view'
 				className='bg-neutral-800 flex flex-row justify-around p-2 rounded-lg md:max-w-[50%]'
 			>
-				<ServerCount />
+				{rendered && <ServerCount />}
 				<div id='showing-form'>
 					<form>
 						<label className='font-semibold'>
