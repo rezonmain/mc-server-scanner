@@ -35,7 +35,6 @@ def slp(ip, count, total):
 
 @dramatiq.actor
 def write_to_db():
-  log.send('Write to db debug')
   try:
     db = DB()
     entries = cache.getAll()
@@ -47,6 +46,8 @@ def write_to_db():
       for entry in entries:
         keys.append(str(entry['ip']) + str(entry['foundAt']))
       cache.unstageMany(keys)
+    else:
+      log.send('No staged entries to add to db.')
   except Exception as e:
     log.send(f'An {Color.RED}error{Color.END} ocurred on trying to write entries to mongo databse')
     raise Exception(f'An {Color.RED}error{Color.END} ocurred on trying to write entries to mongo database, Error{e}')

@@ -8,7 +8,7 @@ from apscheduler.schedulers.background import BackgroundScheduler
 from apscheduler.triggers.cron import CronTrigger
 
 PORT = '25565'
-RATE = '75000'
+RATE = os.getenv('RATE')
 SCANNED_FILE_NAME = 'res.json'
 FOUND_FILE_NAME = 'found.json'
 ip_range = IpRange()
@@ -41,7 +41,7 @@ def main():
 
 def scan(range):
   actors.log.send(f'Scanning range: {Color.YELLOW}{range}{Color.END} for open {PORT} port @ {RATE} kp/s', __name__)
-  command = f'masscan -p{PORT} {range} --rate {RATE} --wait {3} -oJ {SCANNED_FILE_NAME}'
+  command = f'masscan -p{PORT} {range} --rate {RATE} --wait {0} -oJ {SCANNED_FILE_NAME}'
   os.system(command)
   # Sleep: make sure the file is written before getting ip's
   sleep(1)

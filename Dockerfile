@@ -19,8 +19,6 @@ RUN set -ex; \
         cd .. &&\
         rm -rf masscan
 WORKDIR /src
-ARG MONGO
-ENV MONG_URI=${MONGO}
 COPY ./src/requirements.txt requirements.txt
 RUN pip3 install -r requirements.txt
 COPY ./src .
