@@ -6,7 +6,7 @@ services:
     depends_on:
       - redis
     command:
-      dramatiq actors
+      dramatiq dramatiq_actors
   scanner:
     build: .
     environment:

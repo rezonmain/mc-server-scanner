@@ -1,5 +1,5 @@
 import json
-import actors
+import dramatiq_actors
 from time import sleep
 from concolor import Color
 from iprange import IpRange
@@ -22,7 +22,7 @@ def main():
   # Set up scheduler for writing to db every minute
   scheduler = BackgroundScheduler()
   scheduler.add_job(
-    actors.write_to_db.send,
+    dramatiq_actors.write_to_db.send,
     CronTrigger.from_crontab("* * * * *"))
 
   # Main loop
@@ -33,14 +33,14 @@ def main():
       scan(range)
       ip_range.set_as_scanned(range)
       sleep(1)
-      actors.log.send(f'Range: {range} set as scanned', __name__)
+      dramatiq_actors.worker_log.send(f'Range: {range} set as scanned', __name__)
   except KeyboardInterrupt:
     scheduler.shutdown()
     print('Scheduler shutdown')
     return 0
 
 def scan(range):
-  actors.log.send(f'Scanning range: {Color.YELLOW}{range}{Color.END} for open {PORT} port @ {RATE} kp/s', __name__)
+  dramatiq_actors.worker_log.send(f'Scanning range: {Color.YELLOW}{range}{Color.END} for open {PORT} port @ {RATE} kp/s', __name__)
   command = f'masscan -p{PORT} {range} --rate {RATE} --wait {0} -oJ {SCANNED_FILE_NAME}'
   os.system(command)
   # Sleep: make sure the file is written before getting ip's
@@ -48,14 +48,14 @@ def scan(range):
   ips = []
   try:
     ips = ip_range.get_scanned_ips(SCANNED_FILE_NAME)
-    actors.log.send(f'{len(ips)} ip(s) found in range: {Color.GREEN}{range}{Color.END}', __name__)
+    dramatiq_actors.worker_log.send(f'{len(ips)} ip(s) found in range: {Color.GREEN}{range}{Color.END}', __name__)
   except json.JSONDecodeError:
-    actors.log.send(f'No servers found in range {Color.RED}{range}{Color.END}', __name__)
+    dramatiq_actors.worker_log.send(f'No servers found in range {Color.RED}{range}{Color.END}', __name__)
   total = len(ips)
   count = 0
   for ip in ips:
     count += 1
-    actors.slp.send(ip, count, total)
+    dramatiq_actors.slp.send(ip, count, total)
 
 if __name__ == '__main__':
   main()
