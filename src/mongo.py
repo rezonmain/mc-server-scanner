@@ -1,7 +1,7 @@
 from dotenv import load_dotenv
 from os import getenv
 from pymongo import MongoClient
-import ip_range
+import iprange
 
 load_dotenv()
 URI = getenv('MONGO_URI')
@@ -29,11 +29,10 @@ class DB:
     return res
 
   def _seed_db(self):
-    ip = ip_range.IpRange()
+    ip = iprange.IpRange()
     serverList = ip._to_dict('found.json')
     res = self.insert_many(serverList)
     print(res)
 
   def _close(self):
     self.client.close()
-

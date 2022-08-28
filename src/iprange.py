@@ -51,7 +51,6 @@ class IpRange:
     self._to_json(to_be_json)
     print(f'[{__name__}.py]: List written to {os.getcwd()}/{FILE_NAME}')
 
-
   def _generate_list_16(self):
     first_octals = list(range(0, 0xff))
     second_octals = list(range(0, 0xff))
