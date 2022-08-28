@@ -1,11 +1,12 @@
 import json
 import dramatiq_actors
+import cache
+from mongo import DB
 from time import sleep
 from concolor import Color
 from iprange import IpRange
 import os
-from apscheduler.schedulers.background import BackgroundScheduler
-from apscheduler.triggers.cron import CronTrigger
+from scheduler import scheduler
 
 PORT = '25565'
 RATE = os.getenv('RATE')
@@ -13,30 +14,22 @@ SCANNED_FILE_NAME = 'res.json'
 FOUND_FILE_NAME = 'found.json'
 ip_range = IpRange()
 
-  # Set up scheduler for writing to db every minute
-scheduler = BackgroundScheduler()
-scheduler.add_job(
-  dramatiq_actors.write_to_db.send,
-  CronTrigger.from_crontab("* * * * *"),
-  max_instances=1)
-
 def main():
   # Write missing files
   if not os.path.exists('ipranges.json'): ip_range.generate_list()
   if not os.path.exists(SCANNED_FILE_NAME): 
       with open(SCANNED_FILE_NAME, 'w') as file: file.write('')
-  # Main loop
-  scheduler.start()
   try:
+    scheduler.start()
     while True:
       range = ip_range.get_random_range()
+      range = '34.135.0.0/16'
       scan(range)
       ip_range.set_as_scanned(range)
       sleep(1)
       dramatiq_actors.worker_log.send(f'Range: {range} set as scanned', __name__)
   except KeyboardInterrupt:
     scheduler.shutdown()
-    print('Scheduler shutdown')
     return 0
 
 def scan(range):
