@@ -59,7 +59,7 @@ export type ParsedServer = {
 	id: string;
 	ip: string;
 	foundAt: string;
-	foundBy: string;
+	foundBy: string | undefined | null;
 	description: JSX.Element[];
 	rawDescription?: string;
 	players: {
