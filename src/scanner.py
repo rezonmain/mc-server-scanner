@@ -26,9 +26,9 @@ def write_to_db():
       for entry in entries:
         keys.append(str(entry['ip']) + str(entry['foundAt']))
       cache.unstageMany(keys)
-      dramatiq_actors.worker_log.send(f'Succesfully added {Color.GREEN}{len(entries)}{Color.END} entries, DB responded: {res}.')
+      print(f'Succesfully added {Color.GREEN}{len(entries)}{Color.END} entries, DB responded: {res}.')
     else:
-      dramatiq_actors.worker_log.send('No staged entries to add to db.')
+      print('No staged entries to add to db.')
   except Exception as e:
     raise Exception(f'An {Color.RED}error{Color.END} ocurred on trying to write entries to mongo database, Error: {e}')
 
