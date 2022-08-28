@@ -29,6 +29,7 @@ def slp(ip, count, total):
     }
     entry.update(res)
     # Stage entry to redis store
+    worker_log(f'CACHING????{entry}')
     cache.stage(entry)
   except:
     worker_log.send(f'[{count}/{total}] {Color.RED}{ip}{Color.END} is not a minecraft server I guess', __name__)
