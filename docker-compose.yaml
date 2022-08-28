@@ -6,14 +6,13 @@ services:
     depends_on:
       - redis
     command:
-      dramatiq dramatiq_actors
+      dramatiq dramatiq_actors:redis_broker
   scanner:
     build: .
     environment:
       - RATE
       - MONGO_URI
     depends_on:
-      - redis
       - worker
     command:
       python3 -m scanner

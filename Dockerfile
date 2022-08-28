@@ -1,4 +1,4 @@
-FROM python:3.8-alpine
+FROM python:3-alpine
 # install masscan
 RUN set -ex; \
     apk --update add --no-cache \
@@ -10,6 +10,7 @@ RUN set -ex; \
         libc-dev \
         linux-headers \
         make \
+        build-base \
         libpcap-dev && \
         cd /bin && \
         git clone https://github.com/robertdavidgraham/masscan && \
