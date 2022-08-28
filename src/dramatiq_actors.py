@@ -1,3 +1,4 @@
+import os
 from datetime import datetime
 from time import time
 from concolor import Color
@@ -8,6 +9,8 @@ import cache
 from dramatiq.brokers.redis import RedisBroker
 redis_broker = RedisBroker(host="redis")
 dramatiq.set_broker(redis_broker)
+
+IDENT = os.getenv('IDENT')
 
 @dramatiq.actor
 def worker_log(str, src=__name__):
@@ -26,6 +29,7 @@ def slp(ip, count, total):
     entry = {
     'ip': ip,
     'foundAt': ts,
+    'foundBy': IDENT
     }
     entry.update(res)
     cache.stage(entry)
@@ -36,9 +40,9 @@ def slp(ip, count, total):
 @dramatiq.actor
 def write_to_db():
   try:
-    db = DB()
     entries = cache.getAll()
     if len(entries):
+      db = DB()
       res = db.insert_many(entries)
       # Remove saved items from redis store
       keys = []

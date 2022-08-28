@@ -5,6 +5,7 @@ services:
     build: .
     environment:
       - MONGO_URI
+      - INDENT
     depends_on:
       - redis
     command:

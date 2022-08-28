@@ -13,21 +13,21 @@ SCANNED_FILE_NAME = 'res.json'
 FOUND_FILE_NAME = 'found.json'
 ip_range = IpRange()
 
+  # Set up scheduler for writing to db every minute
+scheduler = BackgroundScheduler()
+scheduler.add_job(
+  dramatiq_actors.write_to_db.send,
+  CronTrigger.from_crontab("* * * * *"),
+  max_instances=1)
+
 def main():
   # Write missing files
   if not os.path.exists('ipranges.json'): ip_range.generate_list()
   if not os.path.exists(SCANNED_FILE_NAME): 
       with open(SCANNED_FILE_NAME, 'w') as file: file.write('')
-
-  # Set up scheduler for writing to db every minute
-  scheduler = BackgroundScheduler()
-  scheduler.add_job(
-    dramatiq_actors.write_to_db.send,
-    CronTrigger.from_crontab("* * * * *"))
-
   # Main loop
+  scheduler.start()
   try:
-    scheduler.start()
     while True:
       range = ip_range.get_random_range()
       scan(range)
