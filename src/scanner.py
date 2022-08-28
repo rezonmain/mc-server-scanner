@@ -6,8 +6,7 @@ from time import sleep
 from concolor import Color
 from iprange import IpRange
 import os
-from apscheduler.schedulers.background import BackgroundScheduler
-from apscheduler.triggers.cron import CronTrigger
+from scheduler import scheduler
 
 PORT = '25565'
 RATE = os.getenv('RATE')
@@ -15,47 +14,22 @@ SCANNED_FILE_NAME = 'res.json'
 FOUND_FILE_NAME = 'found.json'
 ip_range = IpRange()
 
-def write_to_db():
-  try:
-    entries = cache.getAll()
-    if len(entries):
-      db = DB()
-      res = db.insert_many(entries)
-      # Remove saved items from redis store
-      keys = []
-      for entry in entries:
-        keys.append(str(entry['ip']) + str(entry['foundAt']))
-      cache.unstageMany(keys)
-      print(f'Succesfully added {Color.GREEN}{len(entries)}{Color.END} entries, DB responded: {res}.')
-    else:
-      print('No staged entries to add to db.')
-  except Exception as e:
-    raise Exception(f'An {Color.RED}error{Color.END} ocurred on trying to write entries to mongo database, Error: {e}')
-
-  # Set up scheduler for writing to db every minute
-scheduler = BackgroundScheduler()
-scheduler.add_job(
-  write_to_db,
-  CronTrigger.from_crontab("* * * * *"),
-  max_instances=1)
-
 def main():
   # Write missing files
   if not os.path.exists('ipranges.json'): ip_range.generate_list()
   if not os.path.exists(SCANNED_FILE_NAME): 
       with open(SCANNED_FILE_NAME, 'w') as file: file.write('')
-  # Main loop
-  scheduler.start()
   try:
+    scheduler.start()
     while True:
       range = ip_range.get_random_range()
+      range = '34.135.0.0/16'
       scan(range)
       ip_range.set_as_scanned(range)
       sleep(1)
       dramatiq_actors.worker_log.send(f'Range: {range} set as scanned', __name__)
   except KeyboardInterrupt:
     scheduler.shutdown()
-    print('Scheduler shutdown')
     return 0
 
 def scan(range):
