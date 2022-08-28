@@ -12,7 +12,6 @@ import filterBlackListed from '../../../utils/filterBlackListed';
 import KeyModel, { AuthKey } from '../../../db/models/KeyModel';
 import bcrypt from 'bcrypt';
 import { TRPCError } from '@trpc/server';
-
 /* 
 	Queries the most recent entries to the db,
 	this is done by sorting by timestamp (foundAt) in a descending manner,
@@ -40,7 +39,6 @@ export const appRouter = trpc
 		async resolve({ input }) {
 			const db = new DB();
 			await db.connect();
-
 			// Find all servers with foundAt less than cursor
 			// If no cursor was provided use a big ass number
 			const blacklist = await BlacklistModel.find<Blacklist>({});
@@ -71,8 +69,6 @@ export const appRouter = trpc
 			cursor: z.number().nullish(),
 		}),
 		async resolve({ input }) {
-			const db = new DB();
-			await db.connect();
 			const blacklist = await BlacklistModel.find<Blacklist>({});
 			const items = await FoundServerModel.find<RawServer>({
 				foundAt: { $gt: input.cursor ?? 0x0 },
@@ -96,9 +92,7 @@ export const appRouter = trpc
 	})
 	.query('count', {
 		async resolve() {
-			const db = new DB();
-			await db.connect();
-			const totalCount = await FoundServerModel.countDocuments({});
+			const totalCount = await FoundServerModel.estimatedDocumentCount();
 			const uniqueCount = (await FoundServerModel.distinct('ip')).length;
 			return { totalCount, uniqueCount };
 		},
@@ -111,8 +105,6 @@ export const appRouter = trpc
 			cursor: z.number().nullish(),
 		}),
 		async resolve({ input }) {
-			const db = new DB();
-			await db.connect();
 			const blacklist = await BlacklistModel.find<Blacklist>({});
 			const items = await FoundServerModel.find<RawServer>({
 				ip: { $regex: input.ip ? `^${input.ip}$` : '.*' },
@@ -146,8 +138,6 @@ export const appRouter = trpc
 			cursor: z.number().positive().default(0xfffffffffffff),
 		}),
 		async resolve({ input }) {
-			const db = new DB();
-			await db.connect();
 			const count = await FoundServerModel.countDocuments({
 				foundAt: { $gt: input.cursor },
 			});
@@ -162,8 +152,6 @@ export const appRouter = trpc
 		}),
 		async resolve({ input }) {
 			const mojangURL = `https://sessionserver.mojang.com/session/minecraft/profile/${input.uuid}`;
-			const db = new DB();
-			await db.connect();
 			const blacklist = await BlacklistModel.find<Blacklist>({});
 			const player = await FoundServerModel.aggregate([
 				{ $unwind: '$players.sample' },
