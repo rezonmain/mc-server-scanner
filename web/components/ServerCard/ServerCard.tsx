@@ -18,6 +18,7 @@ const ServerCard = ({
 	description,
 	version,
 	foundAt,
+	foundBy,
 	ping,
 	players,
 }: ParsedServer) => {
@@ -94,6 +95,13 @@ const ServerCard = ({
 				<span className='text-neutral-400'>Found at: </span>
 				{rendered && foundAt}
 			</li>
+			{foundBy && (
+				<>
+					<span className='text-neutral-400'>Found by: </span>
+					{foundBy}
+				</>
+			)}
+
 			<li>
 				<span className='text-neutral-400'>Ping: </span>
 				{ping}

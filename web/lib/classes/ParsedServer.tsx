@@ -2,6 +2,7 @@ class ParsedServer {
 	id: string;
 	ip: string;
 	foundAt: string;
+	foundBy: string | null | undefined;
 	description: JSX.Element[];
 	players: {
 		max: number;
@@ -18,6 +19,7 @@ class ParsedServer {
 		this.id = '';
 		this.ip = 'No ip data';
 		this.foundAt = 'No time data';
+		this.foundBy = undefined;
 		this.description = [
 			<span key='no-data'>
 				<i>No description data</i>

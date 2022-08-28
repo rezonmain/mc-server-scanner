@@ -37,6 +37,7 @@ export interface FormatString {
 export interface RawServer extends MongoDocument {
 	ip: string;
 	foundAt: number;
+	foundBy: string;
 	description:
 		| string
 		| { color?: string; text: string; extra?: FormatString[] };
@@ -58,6 +59,7 @@ export type ParsedServer = {
 	id: string;
 	ip: string;
 	foundAt: string;
+	foundBy: string | undefined | null;
 	description: JSX.Element[];
 	rawDescription?: string;
 	players: {
