@@ -22,7 +22,7 @@ def slp(ip, count, total):
     status = StatusPing(ip)
     res = status.get_status()
     # Generate entry object
-    ts = int(time())
+    ts = int(time() * 1000)
     entry = {
     'ip': ip,
     'foundAt': ts,
