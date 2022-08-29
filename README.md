@@ -39,7 +39,9 @@ Run docker compose up
 
 # Front end
 
-You can browse my scanned entries on [this](https://mc-server-scanner.vercel.app/) website. \ The source code for it can be found in the web/ directory.
+You can browse my scanned entries on [this](https://mc-server-scanner.vercel.app/) website.
+
+The source code for it can be found in the `web/` directory.
 
 # Todo
 
