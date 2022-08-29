@@ -1,4 +1,5 @@
 FROM python:3-alpine
+# install masscan
 RUN set -ex; \
     apk --update add --no-cache \
         ca-certificates \
@@ -14,7 +15,6 @@ RUN set -ex; \
         cd /bin && \
         git clone https://github.com/robertdavidgraham/masscan.git && \
         cd masscan && \ 
-        git reset --hard 83fbdf6 && \
         make -j4 && \
         make install && \
         cd .. &&\

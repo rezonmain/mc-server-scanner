@@ -3,6 +3,7 @@ from datetime import datetime
 from time import time
 from concolor import Color
 from statusping import StatusPing
+from mongo import DB
 import dramatiq
 import cache
 from dramatiq.brokers.redis import RedisBroker
@@ -35,3 +36,21 @@ def slp(ip, count, total):
     worker_log.send(f'[{count}/{total}] {Color.GREEN}Succesfully{Color.END} pinged {Color.YELLOW}{ip}{Color.END}, staged to save to db.', __name__)
   except:
     worker_log.send(f'[{count}/{total}] {Color.RED}{ip}{Color.END} is not a minecraft server I guess', __name__)
+
+@dramatiq.actor(max_retries=0)
+def write_to_db():
+  try:
+    entries = cache.getAll()
+    if len(entries):
+      db = DB()
+      res = db.insert_many(entries)
+      # Remove saved items from redis store
+      keys = []
+      for entry in entries:
+        keys.append(str(entry['ip']) + str(entry['foundAt']))
+      cache.unstageMany(keys)
+      worker_log.send(f'Succesfully added {Color.GREEN}{len(entries)}{Color.END} entries, DB responded: {res}.')
+    else:
+      worker_log.send('No staged entries to add to db.')
+  except Exception as e:
+    raise Exception(f'An {Color.RED}error{Color.END} ocurred on trying to write entries to mongo database, Error: {e}')
