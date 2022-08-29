@@ -69,6 +69,8 @@ export const appRouter = trpc
 			cursor: z.number().nullish(),
 		}),
 		async resolve({ input }) {
+			const db = new DB();
+			await db.connect();
 			const blacklist = await BlacklistModel.find<Blacklist>({});
 			const items = await FoundServerModel.find<RawServer>({
 				foundAt: { $gt: input.cursor ?? 0x0 },
@@ -92,6 +94,8 @@ export const appRouter = trpc
 	})
 	.query('count', {
 		async resolve() {
+			const db = new DB();
+			await db.connect();
 			const totalCount = await FoundServerModel.estimatedDocumentCount();
 			const uniqueCount = (await FoundServerModel.distinct('ip')).length;
 			return { totalCount, uniqueCount };
@@ -105,6 +109,8 @@ export const appRouter = trpc
 			cursor: z.number().nullish(),
 		}),
 		async resolve({ input }) {
+			const db = new DB();
+			await db.connect();
 			const blacklist = await BlacklistModel.find<Blacklist>({});
 			const items = await FoundServerModel.find<RawServer>({
 				ip: { $regex: input.ip ? `^${input.ip}$` : '.*' },
@@ -138,6 +144,8 @@ export const appRouter = trpc
 			cursor: z.number().positive().default(0xfffffffffffff),
 		}),
 		async resolve({ input }) {
+			const db = new DB();
+			await db.connect();
 			const count = await FoundServerModel.countDocuments({
 				foundAt: { $gt: input.cursor },
 			});
@@ -151,6 +159,8 @@ export const appRouter = trpc
 			uuid: z.string(),
 		}),
 		async resolve({ input }) {
+			const db = new DB();
+			await db.connect();
 			const mojangURL = `https://sessionserver.mojang.com/session/minecraft/profile/${input.uuid}`;
 			const blacklist = await BlacklistModel.find<Blacklist>({});
 			const player = await FoundServerModel.aggregate([
@@ -215,6 +225,8 @@ export const appRouter = trpc
 			const prefix = input.key.slice(0, 7);
 			const rawKey = input.key.slice(8, input.key.length);
 			// Get AuthKey using prefix
+			const db = new DB();
+			await db.connect();
 			const item = await KeyModel.findOne<AuthKey>({ prefix });
 			// If Authkey exists, hash and compare it
 			const matches = item && (await bcrypt.compare(rawKey, item?.hashedKey));
