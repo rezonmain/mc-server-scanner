@@ -57,6 +57,6 @@ class DB:
     ids = {'$or': [*to_delete]}
     input('Press any key to see ids to delete')
     print(ids)
-    input('press any key to dele')
+    input('Press any key to delete')
     res = self.coll.delete_many(ids)
     print(res)

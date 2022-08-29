@@ -24,8 +24,3 @@ def unstageOne(key):
 def unstageMany(keys):
   for key in keys:
     r.delete(key)
-
-  
-
-  
-

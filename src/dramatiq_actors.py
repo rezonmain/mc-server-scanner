@@ -35,12 +35,3 @@ def slp(ip, count, total):
     worker_log.send(f'[{count}/{total}] {Color.GREEN}Succesfully{Color.END} pinged {Color.YELLOW}{ip}{Color.END}, staged to save to db.', __name__)
   except:
     worker_log.send(f'[{count}/{total}] {Color.RED}{ip}{Color.END} is not a minecraft server I guess', __name__)
-
-
-  
-
-
-
-
-
-

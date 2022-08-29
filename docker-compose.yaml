@@ -17,5 +17,4 @@ services:
       - MONGO_URI
     depends_on:
       - worker
-      - scheduler
     command: python3 -m scanner
