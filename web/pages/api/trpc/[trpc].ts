@@ -33,7 +33,7 @@ export const appRouter = trpc
 	})
 	.query('mostRecent', {
 		input: z.object({
-			limit: z.number().positive().default(8),
+			limit: z.number().positive().default(6),
 			cursor: z.number().nullish(),
 		}),
 		async resolve({ input }) {
@@ -65,7 +65,7 @@ export const appRouter = trpc
 	// Show oldest entries first
 	.query('history', {
 		input: z.object({
-			limit: z.number().positive().default(8),
+			limit: z.number().positive().default(6),
 			cursor: z.number().nullish(),
 		}),
 		async resolve({ input }) {
@@ -105,7 +105,7 @@ export const appRouter = trpc
 		input: z.object({
 			ip: z.string().regex(IP_REGEX).nullish(),
 			keyword: z.string().nullish(),
-			limit: z.number().positive().default(8),
+			limit: z.number().positive().default(6),
 			cursor: z.number().nullish(),
 		}),
 		async resolve({ input }) {

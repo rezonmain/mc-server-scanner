@@ -20,7 +20,7 @@ const HomeList = () => {
 	return (
 		<>
 			<HomeView onChange={onChange} showing={showing} />
-			{rendered && <InfiniteList queryKey={showing}></InfiniteList>}
+			<InfiniteList queryKey={showing}></InfiniteList>
 		</>
 	);
 };
