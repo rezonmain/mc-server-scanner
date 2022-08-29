@@ -4,8 +4,9 @@ It uses [masscan](https://github.com/robertdavidgraham/masscan) and [dramatiq](h
 
 # How does it work
 
-`ip_range.py` provides a class with utility functions to generate a file of ip ranges with either an /8 or /16 CIDR range. \
-The scanner script chooses a random ip address range from this file and calls `masscan` with it, on scan end, it queues a server list ping that on success writes the response to a MongoDB database.
+`iprange.py` provides a class with utility functions to generate a file of ip ranges with either an /8 or /16 CIDR range. \
+The scanner script chooses a random ip address range from this file and calls `masscan` with it, on scan end, it queues a server list ping that on success caches the response to a redis backend, then a script periodically writes the bundled responses to a MongoDB database.
+
 
 # Installation and configuring
 
@@ -35,6 +36,10 @@ To edit the rate at which masscan runs, edit the RATE environment variable in `.
 Run docker compose up
 
     sudo docker compose up
+
+# Front end
+
+You can browse my scanned entries on [this](https://mc-server-scanner.vercel.app/) website. \ The source code for it can be found in the web/ directory.
 
 # Todo
 

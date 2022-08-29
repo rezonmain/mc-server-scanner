@@ -39,6 +39,7 @@ class DB:
   """
   def _prune_duplicates(self):
     # Run the duplicate query here
+    # FIX: this only checks for the same foundAt property, add a check for the ip to be the same too.
     agg_pipeline = [
       {"$group": {"_id": "$foundAt", "count":{"$sum": 1},"ip": {"$first": "$ip"}, "ids": {"$addToSet": "$_id"}}}, 
       {"$match": {"count": {"$gt": 1}}}
