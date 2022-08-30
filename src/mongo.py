@@ -1,3 +1,4 @@
+from pprint import pprint
 import os
 from pymongo import MongoClient
 import iprange
@@ -53,11 +54,13 @@ class DB:
       for i in range(amount_to_delete):
         to_delete.append({'_id': dups['ids'][i]})
 
+    
+    pprint(duplicates)
     print(f'total amount of duplicates: {total_count}')
     print(f'Amount to delete: {len(to_delete)}')
     ids = {'$or': [*to_delete]}
     input('Press any key to see ids to delete')
     print(ids)
     input('Press any key to delete')
-    res = self.coll.delete_many(ids)
-    print(res)
+    # res = self.coll.delete_many(ids)
+    # print(res)
