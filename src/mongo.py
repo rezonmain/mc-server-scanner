@@ -40,9 +40,8 @@ class DB:
   """
   def _prune_duplicates(self):
     # Run the duplicate query here
-    # FIX: this only checks for the same foundAt property, add a check for the ip to be the same too.
     agg_pipeline = [
-      {"$group": {"_id": "$foundAt", "count":{"$sum": 1},"ip": {"$first": "$ip"}, "ids": {"$addToSet": "$_id"}}}, 
+      {"$group": {"_id": {"foundAt":"$foundAt", "ip": "$ip"}, "count":{"$sum": 1},"ips": {"$addToSet": "$ip"}, "ids": {"$addToSet": "$_id"}}}, 
       {"$match": {"count": {"$gt": 1}}}
       ]
     duplicates = list(self.coll.aggregate(agg_pipeline))
@@ -60,7 +59,7 @@ class DB:
     print(f'Amount to delete: {len(to_delete)}')
     ids = {'$or': [*to_delete]}
     input('Press any key to see ids to delete')
-    print(ids)
+    pprint(ids)
     input('Press any key to delete')
-    # res = self.coll.delete_many(ids)
-    # print(res)
+    res = self.coll.delete_many(ids)
+    print(res)
