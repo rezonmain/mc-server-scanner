@@ -41,10 +41,10 @@ class DB:
   def _prune_duplicates(self):
     # Run the duplicate query here
     agg_pipeline = [
-      {"$group": {"_id": {"foundAt":"$foundAt", "ip": "$ip"}, "count":{"$sum": 1},"ips": {"$addToSet": "$ip"}, "ids": {"$addToSet": "$_id"}}}, 
+      {"$group": {"_id": {"foundAt":"$foundAt", "ip": "$ip"}, "count":{"$sum": 1}, "ids": {"$addToSet": "$_id"}}}, 
       {"$match": {"count": {"$gt": 1}}}
       ]
-    duplicates = list(self.coll.aggregate(agg_pipeline))
+    duplicates = list(self.coll.aggregate(agg_pipeline, allowDiskUse=True))
     to_delete = []
     total_count = 0
     for dups in duplicates:
