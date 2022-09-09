@@ -15,9 +15,10 @@ ip_range = IpRange()
 
 def main():
   # Write missing files
-  if not os.path.exists('ipranges.json'): ip_range.generate_list()
+  if not os.path.exists('ipranges.json'): 
+    ip_range.generate_list()
   if not os.path.exists(SCANNED_FILE_NAME): 
-      with open(SCANNED_FILE_NAME, 'w') as file: file.write('')
+    with open(SCANNED_FILE_NAME, 'w') as file: file.write('')
 
   # Set up scheduler for writing to db every minute
   scheduler = BackgroundScheduler()

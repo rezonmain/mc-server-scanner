@@ -29,10 +29,15 @@ def slp(ip, count, total):
     entry = {
     'ip': ip,
     'foundAt': ts,
-    'foundBy': IDENT
+    'foundBy': IDENT,
+    'description': res['description'],
+    'players': res['players'],
+    'version': res['version'],
+    'ping': res['ping'],
+    'favicon': res['favicon'],
     }
-    entry.update(res)
-    cache.stage(entry)
+    print(entry)
+    # cache.stage(entry)
     worker_log.send(f'[{count}/{total}] {Color.GREEN}Succesfully{Color.END} pinged {Color.YELLOW}{ip}{Color.END}, staged to save to db.', __name__)
   except:
     worker_log.send(f'[{count}/{total}] {Color.RED}{ip}{Color.END} is not a minecraft server I guess', __name__)

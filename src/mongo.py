@@ -42,7 +42,7 @@ class DB:
     # Run the duplicate query here
     agg_pipeline = [
       {"$group": {"_id": {"foundAt":"$foundAt", "ip": "$ip"}, "count":{"$sum": 1}, "ids": {"$addToSet": "$_id"}}}, 
-      {"$match": {"count": {"$gt": 1}}}
+      {"$match": {"count": {"$gt": 1}}}, 
       ]
     duplicates = list(self.coll.aggregate(agg_pipeline, allowDiskUse=True))
     to_delete = []
@@ -53,7 +53,6 @@ class DB:
       for i in range(amount_to_delete):
         to_delete.append({'_id': dups['ids'][i]})
 
-    
     pprint(duplicates)
     print(f'total amount of duplicates: {total_count}')
     print(f'Amount to delete: {len(to_delete)}')

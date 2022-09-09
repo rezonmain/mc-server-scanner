@@ -1,6 +1,7 @@
 import json
 import os
 import random
+import dramatiq_actors
 
 FILE_NAME = 'ipranges.json'
 
@@ -34,7 +35,9 @@ class IpRange:
       # Prevents an infinite loop if all ranges have been scanned
       c += 1 
       if c >= list_length:
-        raise Exception('You\'ve scanned the whole freaking internet') 
+        dramatiq_actors.worker_log.send("You've scanned the whole freaking internet 😱")
+        self.generate_list()
+        self.get_random_range()
     return _range
 
   def get_scanned_ips(self, filename) -> list:
@@ -49,7 +52,7 @@ class IpRange:
     for address in first_octals:
       to_be_json[f'{str(address)}.0.0.0/8'] = {'scanned': False}
     self._to_json(to_be_json)
-    print(f'[{__name__}.py]: List written to {os.getcwd()}/{FILE_NAME}')
+    dramatiq_actors.worker_log.send(f'[{__name__}.py]: List written to {os.getcwd()}/{FILE_NAME}')
 
   def _generate_list_16(self):
     first_octals = list(range(0, 0xff))
@@ -59,7 +62,7 @@ class IpRange:
       for second_octal in second_octals:
         to_be_json[f'{str(first_octal)}.{str(second_octal)}.0.0/16'] = {'scanned': False}
     self._to_json(to_be_json)
-    print(f'[{__name__}.py]: List written to {os.getcwd()}/{FILE_NAME}')
+    dramatiq_actors.worker_log.send(f'[{__name__}.py]: List written to {os.getcwd()}/{FILE_NAME}')
 
   def _to_json(self, dict, filename=FILE_NAME):
     with open(filename, 'w') as file:
