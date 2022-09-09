@@ -31,7 +31,7 @@ def main():
   # Prune duplicates every at 12am and 12pm
   scheduler.add_job(
     dramatiq_actors.prune_duplicates.send,
-    CronTrigger.from_crontab("*/12 * * *"),
+    CronTrigger.from_crontab("0 */12 * * *"),
     max_instances=1
     )
 
