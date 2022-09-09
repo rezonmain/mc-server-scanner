@@ -25,7 +25,15 @@ def main():
   scheduler.add_job(
   dramatiq_actors.write_to_db.send,
   CronTrigger.from_crontab("* * * * *"),
-  max_instances=1)
+  max_instances=1
+  )
+
+  # Prune duplicates every at 12am and 12pm
+  scheduler.add_job(
+    dramatiq_actors.prune_duplicates.send,
+    CronTrigger.from_crontab("*/12 * * *"),
+    max_instances=1
+    )
 
   try:
     scheduler.start()

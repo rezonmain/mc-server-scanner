@@ -1,7 +1,5 @@
-from pprint import pprint
 import os
 from pymongo import MongoClient
-import iprange
 
 class DB: 
   def __init__(self):
@@ -26,11 +24,6 @@ class DB:
     self._close()
     return res
 
-  def _seed_db(self):
-    ip = iprange.IpRange()
-    serverList = ip._to_dict('found.json')
-    res = self.insert_many(serverList)
-
   def _close(self):
     self.client.close()
   """
@@ -38,12 +31,10 @@ class DB:
   multiple times to the database, this function deletes those duplicates entries
   The duplicates are easy to find because they'll have the same ip and timestamp
   """
-  def _prune_duplicates(self):
-    # Run the duplicate query here
-    agg_pipeline = [
-      {"$group": {"_id": {"foundAt":"$foundAt", "ip": "$ip"}, "count":{"$sum": 1}, "ids": {"$addToSet": "$_id"}}}, 
-      {"$match": {"count": {"$gt": 1}}}, 
-      ]
+  def prune_duplicates(self, ts):
+    agg_pipeline = [{"$match": {"foundAt": {"$gt": ts}}}, 
+    {"$group": {"_id": {"foundAt":"$foundAt", "ip": "$ip"}, "count":{"$sum": 1}, "ids": {"$addToSet": "$_id"}}}, 
+    {"$match": {"count": {"$gt": 1}}}]
     duplicates = list(self.coll.aggregate(agg_pipeline, allowDiskUse=True))
     to_delete = []
     total_count = 0
@@ -53,12 +44,10 @@ class DB:
       for i in range(amount_to_delete):
         to_delete.append({'_id': dups['ids'][i]})
 
-    pprint(duplicates)
-    print(f'total amount of duplicates: {total_count}')
-    print(f'Amount to delete: {len(to_delete)}')
+    if (len(to_delete) <= 0):
+      return False
+
     ids = {'$or': [*to_delete]}
-    input('Press any key to see ids to delete')
-    pprint(ids)
-    input('Press any key to delete')
-    res = self.coll.delete_many(ids)
-    print(res)
+    res =  [self.coll.delete_many(ids), total_count]
+    self._close()
+    return res
