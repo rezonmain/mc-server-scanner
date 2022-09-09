@@ -33,7 +33,6 @@ def main():
       range = ip_range.get_random_range()
       scan(range)
       ip_range.set_as_scanned(range)
-      sleep(1)
       dramatiq_actors.worker_log.send(f'Range: {range} set as scanned', __name__)
   except KeyboardInterrupt:
     scheduler.shutdown()
@@ -45,7 +44,6 @@ def scan(range):
   command = f'masscan -p{PORT} {range} --rate {RATE} --wait {3} -oJ {SCANNED_FILE_NAME}'
   os.system(command)
   # Sleep: make sure the file is written before getting ip's
-  sleep(1)
   ips = []
   try:
     ips = ip_range.get_scanned_ips(SCANNED_FILE_NAME)
