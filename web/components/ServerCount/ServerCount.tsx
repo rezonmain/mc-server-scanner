@@ -6,7 +6,10 @@ const ServerCount = () => {
 	are in different locals, so all locale code should render only on client side 
 	to avoid the mention errors.
 	*/
-	const { isLoading, data } = trpc.useQuery(['count']);
+	const { isLoading, data } = trpc.useQuery(['count'], {
+		refetchOnMount: false,
+		refetchOnWindowFocus: false,
+	});
 	const [rendered, setRendered] = useState(false);
 	useEffect(() => {
 		setRendered(true);

@@ -4,7 +4,7 @@ import { SearchQuery } from '../SearchPage/SearchPage';
 const SearchList = ({ query }: { query: SearchQuery | undefined }) => {
 	const input = {
 		ip: query ? query.ip : undefined,
-		keyword: query ? query.keyword ?? '.*' : undefined,
+		keyword: query ? query.keyword : undefined,
 	};
 
 	return (

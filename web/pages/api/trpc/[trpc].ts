@@ -112,21 +112,35 @@ export const appRouter = trpc
 			const db = new DB();
 			await db.connect();
 			const blacklist = await BlacklistModel.find<Blacklist>({});
-			const items = await FoundServerModel.find<RawServer>({
-				ip: { $regex: input.ip ? `^${input.ip}$` : '.*' },
-				foundAt: { $lt: input.cursor ?? 0xffffffffffff },
-				$or: [
-					{ description: { $regex: input.keyword, $options: 'i' } },
-					{ 'description.text': { $regex: input.keyword, $options: 'i' } },
+			let items: RawServer[] = [];
+			if (!input.keyword) {
+				console.log('hey');
+				items = await FoundServerModel.find<RawServer>({
+					ip: input.ip,
+					foundAt: { $lt: input.cursor ?? 0xffffffffffff },
+				})
+					.sort({ foundAt: -1 })
+					.limit(input.limit);
+			} else {
+				console.log(input.keyword);
+				items = await FoundServerModel.aggregate<RawServer>([
 					{
-						'description.extra.text': { $regex: input.keyword, $options: 'i' },
+						$search: {
+							index: 'keyword_search',
+							text: {
+								query: input.keyword,
+								path: {
+									wildcard: '*',
+								},
+							},
+						},
 					},
-					{ 'description.translate': { $regex: input.keyword, $options: 'i' } },
-					{ 'players.sample.name': { $regex: input.keyword, $options: 'i' } },
-				],
-			})
-				.sort({ foundAt: -1 })
-				.limit(input.limit);
+					{ $match: { foundAt: { $lt: input.cursor ?? 0xffffffffffff } } },
+				])
+					.sort({ foundAt: -1 })
+					.limit(input.limit);
+			}
+
 			let nextCursor: typeof input.cursor | undefined = undefined;
 			if (items.length >= input.limit) {
 				const lastTs = items[items.length - 1].foundAt;
@@ -164,8 +178,8 @@ export const appRouter = trpc
 			const mojangURL = `https://sessionserver.mojang.com/session/minecraft/profile/${input.uuid}`;
 			const blacklist = await BlacklistModel.find<Blacklist>({});
 			const player = await FoundServerModel.aggregate([
-				{ $unwind: '$players.sample' },
 				{ $match: { 'players.sample.id': input.uuid } },
+				{ $unwind: '$players.sample' },
 				{
 					$group: {
 						_id: input.uuid,

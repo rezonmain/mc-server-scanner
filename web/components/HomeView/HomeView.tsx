@@ -1,6 +1,5 @@
 import _ from 'lodash';
 import { ChangeEvent, useEffect, useState } from 'react';
-import { render } from 'react-dom';
 import { showOpts } from '../HomeList/HomeList';
 import ServerCount from '../ServerCount/ServerCount';
 

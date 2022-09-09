@@ -36,7 +36,11 @@ const InfiniteList = ({
 		: undefined;
 	const { data: newData } = trpc.useQuery(
 		['countNewData', { cursor: mostRecentTs }],
-		{ refetchInterval: 1000 * 30 }
+		{
+			refetchInterval: 1000 * 30,
+			refetchOnWindowFocus: false,
+			refetchOnMount: false,
+		}
 	);
 
 	if (isLoading) {
