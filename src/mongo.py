@@ -7,7 +7,7 @@ class DB:
   def __init__(self):
     self.URI = os.getenv('MONGO_URI')
     self.client = MongoClient(self.URI)
-    self.db = self.client.scanner_db
+    self.db = self.client.scanned
     self.coll = self.db.servers
 
   def read_all(self):
