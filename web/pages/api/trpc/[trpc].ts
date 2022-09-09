@@ -166,8 +166,8 @@ export const appRouter = trpc
 			const mojangURL = `https://sessionserver.mojang.com/session/minecraft/profile/${input.uuid}`;
 			const blacklist = await BlacklistModel.find<Blacklist>({});
 			const player = await FoundServerModel.aggregate([
-				{ $match: { 'players.sample.id': input.uuid } },
 				{ $unwind: '$players.sample' },
+				{ $match: { 'players.sample.id': input.uuid } },
 				{
 					$group: {
 						_id: input.uuid,
