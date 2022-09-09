@@ -114,7 +114,6 @@ export const appRouter = trpc
 			const blacklist = await BlacklistModel.find<Blacklist>({});
 			let items: RawServer[] = [];
 			if (!input.keyword) {
-				console.log('hey');
 				items = await FoundServerModel.find<RawServer>({
 					ip: input.ip,
 					foundAt: { $lt: input.cursor ?? 0xffffffffffff },
