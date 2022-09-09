@@ -38,7 +38,6 @@ const InfiniteList = ({
 		['countNewData', { cursor: mostRecentTs }],
 		{
 			refetchInterval: 1000 * 30,
-			refetchOnWindowFocus: false,
 			refetchOnMount: false,
 		}
 	);
