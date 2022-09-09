@@ -1,3 +1,4 @@
+from pprint import pprint
 import os
 from pymongo import MongoClient
 import iprange
@@ -39,12 +40,11 @@ class DB:
   """
   def _prune_duplicates(self):
     # Run the duplicate query here
-    # FIX: this only checks for the same foundAt property, add a check for the ip to be the same too.
     agg_pipeline = [
-      {"$group": {"_id": "$foundAt", "count":{"$sum": 1},"ip": {"$first": "$ip"}, "ids": {"$addToSet": "$_id"}}}, 
+      {"$group": {"_id": {"foundAt":"$foundAt", "ip": "$ip"}, "count":{"$sum": 1}, "ids": {"$addToSet": "$_id"}}}, 
       {"$match": {"count": {"$gt": 1}}}
       ]
-    duplicates = list(self.coll.aggregate(agg_pipeline))
+    duplicates = list(self.coll.aggregate(agg_pipeline, allowDiskUse=True))
     to_delete = []
     total_count = 0
     for dups in duplicates:
@@ -53,11 +53,13 @@ class DB:
       for i in range(amount_to_delete):
         to_delete.append({'_id': dups['ids'][i]})
 
+    
+    pprint(duplicates)
     print(f'total amount of duplicates: {total_count}')
     print(f'Amount to delete: {len(to_delete)}')
     ids = {'$or': [*to_delete]}
     input('Press any key to see ids to delete')
-    print(ids)
+    pprint(ids)
     input('Press any key to delete')
     res = self.coll.delete_many(ids)
     print(res)
