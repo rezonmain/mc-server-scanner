@@ -121,21 +121,10 @@ export const appRouter = trpc
 					.sort({ foundAt: -1 })
 					.limit(input.limit);
 			} else {
-				console.log(input.keyword);
-				items = await FoundServerModel.aggregate<RawServer>([
-					{
-						$search: {
-							index: 'keyword_search',
-							text: {
-								query: input.keyword,
-								path: {
-									wildcard: '*',
-								},
-							},
-						},
-					},
-					{ $match: { foundAt: { $lt: input.cursor ?? 0xffffffffffff } } },
-				])
+				items = await FoundServerModel.find<RawServer>({
+					foundAt: { $lt: input.cursor ?? 0xffffffffffff },
+					$text: { $search: input.keyword },
+				})
 					.sort({ foundAt: -1 })
 					.limit(input.limit);
 			}
