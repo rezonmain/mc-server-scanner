@@ -30,12 +30,13 @@ def slp(ip, count, total):
     'ip': ip,
     'foundAt': ts,
     'foundBy': IDENT,
-    'description': res['description'],
-    'players': res['players'],
-    'version': res['version'],
-    'ping': res['ping'],
-    'favicon': res['favicon'],
     }
+    keys = ['description', 'players', 'version', 'ping', 'favicon']
+    # append res properties to entry if it has defined keys
+    for key in keys:
+      if key in res:
+        entry.update({key: res[key]})
+    
     cache.stage(entry)
     worker_log.send(f'[{count}/{total}] {Color.GREEN}Succesfully{Color.END} pinged {Color.YELLOW}{ip}{Color.END}, staged to save to db.', __name__)
   except:
